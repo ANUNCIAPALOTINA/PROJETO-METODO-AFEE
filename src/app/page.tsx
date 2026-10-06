@@ -1,62 +1,38 @@
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import { MetodoDiagrama } from "@/components/metodo-diagrama";
-import { rotuloBotaoCompra, vendas } from "@/content/vendas";
+import { BarraTopo } from "@/components/vendas/barra-topo";
+import { BotaoFixo } from "@/components/vendas/botao-fixo";
+import { ChamadaFinal } from "@/components/vendas/chamada-final";
+import { ConteudoPreco } from "@/components/vendas/conteudo-preco";
+import { FaixaImagem } from "@/components/vendas/faixa-imagem";
+import { Faq } from "@/components/vendas/faq";
+import { Garantia } from "@/components/vendas/garantia";
+import { Hero } from "@/components/vendas/hero";
+import { Historia } from "@/components/vendas/historia";
+import { Identificacao } from "@/components/vendas/identificacao";
+import { Metodo } from "@/components/vendas/metodo";
+import { ParaQuem } from "@/components/vendas/para-quem";
+import { Rodape } from "@/components/vendas/rodape";
+import { SemAcademia } from "@/components/vendas/sem-academia";
 
-// Página de teste: só prova que fontes, cores, foto, textos e preço funcionam.
-// A página de vendas de verdade é o Passo 12.
+// Página de vendas. Textos em src/content/vendas.ts; preço em src/config/produto.ts.
 export default function Home() {
-  const { hero, metodo } = vendas;
-
   return (
-    <main className="flex flex-1 flex-col">
-      <section className="relative flex min-h-[720px] items-end overflow-hidden bg-background md:items-center">
-        <div className="mx-auto grid w-full max-w-6xl md:grid-cols-2 md:gap-12 md:px-6">
-          {/* Celular: foto de fundo. Computador: coluna da direita, no tamanho natural */}
-          <div className="absolute inset-0 md:relative md:order-2 md:min-h-[min(100svh,900px)] md:self-stretch">
-            <Image
-              src="/fotos/hero-noite-900.webp"
-              alt="Garlet, em pé à noite, de baixo para cima, com faixas nos pulsos, em pose de braço dobrado"
-              fill
-              priority
-              sizes="(min-width: 768px) 50vw, 100vw"
-              className="object-cover object-top"
-            />
-            <div
-              aria-hidden
-              className="absolute inset-0 bg-linear-to-b from-transparent from-20% via-background/85 via-52% to-background md:bg-linear-to-t md:from-background md:via-transparent md:via-25% md:to-transparent"
-            />
-          </div>
-
-          <div className="relative z-10 mx-auto flex w-full max-w-xl flex-col gap-4 px-6 pb-8 md:order-1 md:mx-0 md:max-w-none md:justify-center md:px-0 md:py-16">
-            <p className="text-xs font-semibold tracking-[0.12em] text-primary uppercase">
-              {hero.etiqueta}
-            </p>
-            <h1 className="text-[40px] leading-[1.05] md:text-6xl">
-              {hero.titulo}
-            </h1>
-            <p className="text-[17px] text-foreground">{hero.subtitulo}</p>
-            <p className="text-sm text-muted-foreground">{hero.autor}</p>
-            <Button className="h-14 w-full text-[17px] font-semibold md:max-w-md">
-              {rotuloBotaoCompra}
-            </Button>
-            <p className="text-sm text-muted-foreground">{hero.microtexto}</p>
-          </div>
-        </div>
-      </section>
-
-      {/* Prévia temporária: no Passo 12 vai para a seção do método */}
-      <section className="bg-background px-6 py-12">
-        <div className="mx-auto max-w-xl">
-          <p className="mb-2 text-xs font-semibold tracking-[0.12em] text-primary uppercase">
-            {metodo.etiqueta}
-          </p>
-          <h2 className="mb-6 text-[30px] leading-[1.1] md:text-5xl">
-            {metodo.titulo}
-          </h2>
-          <MetodoDiagrama />
-        </div>
-      </section>
-    </main>
+    <>
+      <BarraTopo />
+      <main className="flex flex-1 flex-col">
+        <Hero />
+        <Identificacao />
+        <Historia />
+        <Metodo />
+        <SemAcademia />
+        <ConteudoPreco />
+        <ParaQuem />
+        <FaixaImagem />
+        <Garantia />
+        <Faq />
+        <ChamadaFinal />
+      </main>
+      <Rodape />
+      <BotaoFixo />
+    </>
   );
 }

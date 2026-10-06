@@ -23,6 +23,8 @@ const literata = Literata({
 });
 
 export const metadata: Metadata = {
+  // Bloqueia a indexação até o lançamento. Para liberar, remova a linha "robots".
+  robots: { index: false, follow: false },
   title: "Método AFEE · Calistenia com direção",
   description:
     "Um jeito simples de montar seu treino de calistenia com começo, meio e fim. Sem academia, sem aparelho. Por João “Garlet”.",
