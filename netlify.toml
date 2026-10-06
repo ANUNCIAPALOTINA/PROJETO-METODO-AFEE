@@ -1,7 +1,11 @@
-# Publicação na Netlify. O runtime do Next.js é detectado automaticamente.
+# Publicação na Netlify.
+# O plugin do Next.js precisa ser declarado: sem ele, a Netlify publica a pasta
+# .next como arquivos estáticos e o site responde 404 em todas as páginas.
 [build]
   command = "npm run build"
-  publish = ".next"
 
 [build.environment]
   NODE_VERSION = "22"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
