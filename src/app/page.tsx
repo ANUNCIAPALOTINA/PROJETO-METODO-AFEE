@@ -1,10 +1,13 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { MetodoDiagrama } from "@/components/metodo-diagrama";
+import { rotuloBotaoCompra, vendas } from "@/content/vendas";
 
-// Página de teste do Passo 9: só prova que fontes, cores e foto funcionam.
+// Página de teste: só prova que fontes, cores, foto, textos e preço funcionam.
 // A página de vendas de verdade é o Passo 12.
 export default function Home() {
+  const { hero, metodo } = vendas;
+
   return (
     <main className="flex flex-1 flex-col">
       <section className="relative flex min-h-[720px] items-end overflow-hidden bg-background md:items-center">
@@ -27,37 +30,29 @@ export default function Home() {
 
           <div className="relative z-10 mx-auto flex w-full max-w-xl flex-col gap-4 px-6 pb-8 md:order-1 md:mx-0 md:max-w-none md:justify-center md:px-0 md:py-16">
             <p className="text-xs font-semibold tracking-[0.12em] text-primary uppercase">
-              Calistenia · Método AFEE
+              {hero.etiqueta}
             </p>
             <h1 className="text-[40px] leading-[1.05] md:text-6xl">
-              Pare de treinar sem saber se está funcionando.
+              {hero.titulo}
             </h1>
-            <p className="text-[17px] text-foreground">
-              O Método AFEE é um jeito simples de montar seu treino de
-              calistenia com começo, meio e fim. Você sabe o que fazer em cada
-              fase e por quê. Sem academia, sem aparelho.
-            </p>
-            <p className="text-sm text-muted-foreground">
-              Por João “Garlet” · Ebook com acesso imediato
-            </p>
+            <p className="text-[17px] text-foreground">{hero.subtitulo}</p>
+            <p className="text-sm text-muted-foreground">{hero.autor}</p>
             <Button className="h-14 w-full text-[17px] font-semibold md:max-w-md">
-              Quero o Método AFEE · R$ 16,18
+              {rotuloBotaoCompra}
             </Button>
-            <p className="text-sm text-muted-foreground">
-              Pagamento único · Garantia de 7 dias · Acesso imediato
-            </p>
+            <p className="text-sm text-muted-foreground">{hero.microtexto}</p>
           </div>
         </div>
       </section>
 
-      {/* Prévia temporária do Passo 10: no Passo 12 vai para a seção do método */}
+      {/* Prévia temporária: no Passo 12 vai para a seção do método */}
       <section className="bg-background px-6 py-12">
         <div className="mx-auto max-w-xl">
           <p className="mb-2 text-xs font-semibold tracking-[0.12em] text-primary uppercase">
-            O método
+            {metodo.etiqueta}
           </p>
           <h2 className="mb-6 text-[30px] leading-[1.1] md:text-5xl">
-            Quatro fases. Uma lógica.
+            {metodo.titulo}
           </h2>
           <MetodoDiagrama />
         </div>
