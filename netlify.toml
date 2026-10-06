@@ -1,0 +1,7 @@
+# Publicação na Netlify. O runtime do Next.js é detectado automaticamente.
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "22"
