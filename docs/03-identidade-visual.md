@@ -30,6 +30,7 @@ Os contrastes abaixo foram **calculados** (padrão WCAG), não estimados.
 | Superfície (cartões) | `surface` | `#151517` |
 | Superfície elevada | `surface-2` | `#1E1E21` |
 | Borda | `line` | `#2A2A2E` |
+| Borda de campo de formulário | `input` | `#6B6B72` |
 | Texto principal | `text` | `#F5F3EF` |
 | Texto suave | `text-muted` | `#A7A39B` |
 | **Destaque** | `accent` | `#FF4D1F` |
@@ -44,9 +45,13 @@ Os contrastes abaixo foram **calculados** (padrão WCAG), não estimados.
 | Fundo (papel) | `paper` | `#FAF7F2` |
 | Superfície | `paper-2` | `#F1ECE3` |
 | Borda | `paper-line` | `#E2DBCE` |
+| Borda de campo de formulário | `paper-input` | `#857F72` |
 | Texto principal | `ink-text` | `#1A1816` |
 | Texto suave | `ink-muted` | `#5C574F` |
 | **Destaque (links e detalhes)** | `accent-deep` | `#C73A12` |
+| Destaque ao passar o mouse | `accent-deep-hover` | `#A82F0D` |
+| Sucesso | `ok-deep` | `#12703A` |
+| Erro | `error-deep` | `#B3261E` |
 
 O laranja vivo `#FF4D1F` **não é usado como texto sobre o papel claro**, porque não passa no contraste. No leitor entra a versão mais escura, `#C73A12`.
 
@@ -65,6 +70,11 @@ O laranja vivo `#FF4D1F` **não é usado como texto sobre o papel claro**, porqu
 | Texto suave `#5C574F` sobre `#FAF7F2` | 6,70 | Passa (AA) |
 | `#C73A12` sobre `#FAF7F2` | 4,86 | Passa (AA) |
 | Laranja vivo sobre `#FAF7F2` | 3,10 | **Reprovado** para texto |
+| Borda de campo `#6B6B72` sobre `#151517` | 3,45 | Passa (mínimo 3:1 para contorno de campo) |
+| Borda de campo `#857F72` sobre `#FAF7F2` | 3,72 | Passa (mínimo 3:1 para contorno de campo) |
+| Sucesso `#12703A` sobre `#FAF7F2` | 5,77 | Passa (AA) |
+| Erro `#B3261E` sobre `#FAF7F2` | 6,12 | Passa (AA) |
+| Papel `#FAF7F2` sobre hover `#A82F0D` | 6,39 | Passa (AA) |
 
 **Regra decorrente:** o texto dos botões laranja é **escuro** (`#0B0B0C`), nunca branco.
 
@@ -124,7 +134,7 @@ Todas gratuitas (Google Fonts), carregadas pelo Next.js junto ao site, sem pedid
 - Sem preenchimento, borda de 1 px `line`, texto `text`. Hover: borda `text-muted`.
 
 ### Campo de formulário
-- Fundo `surface`, borda de 1 px `line`, 56 px de altura, texto de 16 px.
+- Fundo `surface`, borda de 1 px `input` (não `line`: o contorno do campo precisa de 3:1), 56 px de altura, texto de 17 px.
 - Foco: borda de 2 px laranja. Erro: borda `error` e mensagem **embaixo**, em texto, nunca só pela cor.
 - Rótulo sempre visível acima do campo, nunca só como texto de exemplo.
 
