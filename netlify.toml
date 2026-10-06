@@ -3,6 +3,7 @@
 # .next como arquivos estáticos e o site responde 404 em todas as páginas.
 [build]
   command = "npm run build"
+  publish = ".next"
 
 [build.environment]
   NODE_VERSION = "22"
