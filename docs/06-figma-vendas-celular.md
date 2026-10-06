@@ -69,3 +69,9 @@ Arquivo: https://www.figma.com/design/nm9doWDDKQVdCoXqEa3cul (página **Vendas**
 | Checkout, obrigado, entrar | Código |
 | Leitor do ebook (tema claro) | Código |
 | Foto `obrigado-noite` (foto 7) | Código, em `/obrigado` |
+
+---
+
+## 5. Correção de termo (pós-Passo 12)
+
+A última fase do método chama-se **Exaustar** (como no ebook do autor), não "Exaurir". O erro era meu e foi corrigido no código e nos documentos. **O desenho do Figma ainda mostra "Exaurir"** no cartão da fase (página Vendas). Corrigir quando houver cota do Figma.

@@ -148,7 +148,7 @@ Todas gratuitas (Google Fonts), carregadas pelo Next.js junto ao site, sem pedid
 
 ## 6. Logo
 
-**Conceito:** o nome **AFEE** em Space Grotesk 700, com espaçamento curto entre letras. Embaixo, uma **barra fina em quatro degraus crescentes**, cada um correspondendo a uma fase (Aquecer, Forçar, Estimular, Exaurir). Lembra a subida do termômetro do método.
+**Conceito:** o nome **AFEE** em Space Grotesk 700, com espaçamento curto entre letras. Embaixo, uma **barra fina em quatro degraus crescentes**, cada um correspondendo a uma fase (Aquecer, Forçar, Estimular, Exaustar). Lembra a subida do termômetro do método.
 
 | Versão | Uso |
 |---|---|

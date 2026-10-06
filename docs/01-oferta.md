@@ -94,7 +94,7 @@ Todo o conteúdo factual vem do ebook `EBOOK_FINAL_PRONTO.pdf`. Onde algo ainda 
 | **A** | Aquecer | Esquente o corpo com movimentos dinâmicos, sem aquele alongamento que estica músculo frio. |
 | **F** | Forçar | Comece pelo movimento mais pesado para você, quando ainda tem energia. |
 | **E** | Estimular | A parte principal: 2 a 5 séries por exercício, parando 1 ou 2 repetições antes da falha. |
-| **E** | Exaurir | O fim do treino: exercício mais leve, séries curtas, descanso de 15 a 40 segundos, até a exaustão. |
+| **E** | Exaustar | O fim do treino: exercício mais leve, séries curtas, descanso de 15 a 40 segundos, até a exaustão. |
 
 **Bloco "Termômetro":**
 > Além das quatro fases, você aprende o **Termômetro**: uma forma simples de saber o quão quente ou frio seu corpo está e quando começar a próxima série, sem deixar o ritmo cair nem se esgotar cedo demais.
@@ -114,7 +114,7 @@ Lista (extraída direto do ebook):
 3. Por que começar pela calistenia e não pela academia
 4. Como dividir os treinos na semana (puxar e empurrar)
 5. Tempo de treino, pausas e descansos
-6. O método AFEE de fato: Aquecer, Forçar, Estimular, Exaurir
+6. O método AFEE de fato: Aquecer, Forçar, Estimular, Exaustar
 7. O Termômetro
 8. Alimentação, para quem tem metabolismo acelerado e para quem não tem
 9. Motivação e disciplina

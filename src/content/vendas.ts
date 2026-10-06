@@ -72,7 +72,7 @@ export const vendas = {
       },
       {
         letra: "E",
-        nome: "Exaurir",
+        nome: "Exaustar",
         descricao:
           "O fim do treino: exercício mais leve, séries curtas, descanso de 15 a 40 segundos, até a exaustão.",
       },
@@ -99,7 +99,7 @@ export const vendas = {
       "Por que começar pela calistenia e não pela academia",
       "Como dividir os treinos na semana (puxar e empurrar)",
       "Tempo de treino, pausas e descansos",
-      "O método AFEE de fato: Aquecer, Forçar, Estimular, Exaurir",
+      "O método AFEE de fato: Aquecer, Forçar, Estimular, Exaustar",
       "O Termômetro",
       "Alimentação, para quem tem metabolismo acelerado e para quem não tem",
       "Motivação e disciplina",

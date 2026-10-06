@@ -8,7 +8,7 @@ import { LogoAfee } from "@/components/logo-afee";
 
 /**
  * Diagrama do Método AFEE, adaptado do componente do 21st.dev.
- * Centro: logo. Em volta, no sentido horário: A, F, Estimular, Exaurir e o
+ * Centro: logo. Em volta, no sentido horário: A, F, Estimular, Exaustar e o
  * Termômetro (que fecha o ciclo voltando ao A).
  *
  * Mudanças em relação ao original:
@@ -63,7 +63,7 @@ const nos: No[] = [
   {
     id: "e2",
     rotulo: "E",
-    nome: "Exaurir",
+    nome: "Exaustar",
     x: 282,
     y: 345,
     path: "M 282 205 V 345",
@@ -82,7 +82,7 @@ const nos: No[] = [
 ];
 
 const DESCRICAO =
-  "Diagrama do Método AFEE, em ciclo: Aquecer, Forçar, Estimular e Exaurir, com o Termômetro fechando o ciclo.";
+  "Diagrama do Método AFEE, em ciclo: Aquecer, Forçar, Estimular e Exaustar, com o Termômetro fechando o ciclo.";
 
 function Linha({ no, id, parado }: { no: No; id: string; parado: boolean }) {
   return (

@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 
 /**
  * Logo AFEE: as quatro letras mais a barra de quatro degraus
- * (Aquecer, Forçar, Estimular, Exaurir). Tudo em `em`, então o tamanho
+ * (Aquecer, Forçar, Estimular, Exaustar). Tudo em `em`, então o tamanho
  * é controlado só pelo font-size de quem usa (ex.: className="text-3xl").
  */
 export function LogoAfee({ className }: { className?: string }) {
