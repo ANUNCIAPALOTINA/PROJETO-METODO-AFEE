@@ -35,6 +35,11 @@ export const relatos: readonly Relato[] = [
     texto:
       "O conteúdo é bom, foi direto ao ponto. Não tem milagre, mas é o melhor método que já vi até hoje.",
   },
+  {
+    nome: "Marco B.",
+    detalhe: "aluno",
+    texto: "Método único, ninguém ensina na internet.",
+  },
 ];
 
 export const textosRelatos = {
