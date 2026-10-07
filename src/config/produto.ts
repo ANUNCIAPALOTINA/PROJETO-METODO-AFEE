@@ -16,8 +16,7 @@ export const produto = {
   precoOriginalCentavos: 16180,
   moeda: "BRL",
   garantiaDias: 7,
-  /** PENDENTE: trocar pelo e-mail real de suporte antes de vender. */
-  suporteEmail: "suporte@exemplo.com",
+  suporteEmail: "bazar.pna@gmail.com",
 } as const;
 
 function validarCentavos(centavos: number): void {
