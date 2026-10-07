@@ -16,7 +16,14 @@ export type Relato = {
   foto?: { src: string; alt: string };
 };
 
-export const relatos: readonly Relato[] = [];
+export const relatos: readonly Relato[] = [
+  {
+    nome: "Lucas",
+    detalhe: "aluno",
+    texto:
+      "Comecei a treinar faz 3 meses, meu shape começou a ficar bom e saiu até uns movimentos novos.",
+  },
+];
 
 export const textosRelatos = {
   etiqueta: "Quem já aplicou",
