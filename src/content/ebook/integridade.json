@@ -1,0 +1,21 @@
+{
+  "fonte": "assets/ebook/EBOOK_AFEE_revisado.docx",
+  "capitulos": 12,
+  "paragrafos": 87,
+  "palavras": 5326,
+  "titulosDeSecaoDescartados": [
+    "Trajetória na calistenia",
+    "Mas, afinal, o que é e no que consiste treinar calistenia?",
+    "Por que treinar calistenia e não iniciar na academia?",
+    "DIVISÃO DO TREINO",
+    "TEMPO DE TREINO – PAUSAS E DESCANSOS",
+    "O MÉTODO AFEE DE FATO",
+    "Termômetro",
+    "Alimentação",
+    "Motivação e Disciplina",
+    "Rotina",
+    "Local de treino",
+    "Acúmulo de conhecimento"
+  ],
+  "sha256": "b593a85360b8c81d8100bf5988d12de7557dbec6f8b4beda8646d6575186ce49"
+}
