@@ -47,6 +47,7 @@ export const vendas = {
       "Recomecei do zero, dessa vez com lógica. Em 6 meses, nasceu o AFEE.",
     ],
     legendaEvolucao: "Minha evolução",
+    legendaAluno: "Resultado de um aluno",
   },
 
   metodo: {
