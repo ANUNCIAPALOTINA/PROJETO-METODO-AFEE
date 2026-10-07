@@ -23,6 +23,12 @@ export const relatos: readonly Relato[] = [
     texto:
       "Comecei a treinar faz 3 meses, meu shape começou a ficar bom e saiu até uns movimentos novos.",
   },
+  {
+    nome: "Bruno",
+    detalhe: "aluno",
+    texto:
+      "Garlet, eu nunca tinha pensado em treinar assim. Agora eu vou treinar sabendo como começa e termina.",
+  },
 ];
 
 export const textosRelatos = {
