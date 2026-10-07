@@ -11,6 +11,7 @@ import { Historia } from "@/components/vendas/historia";
 import { Identificacao } from "@/components/vendas/identificacao";
 import { Metodo } from "@/components/vendas/metodo";
 import { ParaQuem } from "@/components/vendas/para-quem";
+import { Relatos } from "@/components/vendas/relatos";
 import { Rodape } from "@/components/vendas/rodape";
 import { SemAcademia } from "@/components/vendas/sem-academia";
 
@@ -26,6 +27,7 @@ export default function Home() {
         <Historia />
         <Metodo />
         <SemAcademia />
+        <Relatos />
         <ConteudoPreco />
         <ParaQuem />
         <FaixaImagem />
