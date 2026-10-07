@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { Revelar } from "@/components/vendas/revelar";
 import { vendas } from "@/content/vendas";
 import { MetodoDiagrama } from "@/components/metodo-diagrama";
 import {
@@ -18,7 +19,7 @@ function Fase({
   descricao: string;
 }) {
   return (
-    <article className="flex items-start gap-4 border border-border bg-card p-4">
+    <article className="flex items-center gap-4 border border-border bg-card/70 p-3 backdrop-blur transition-colors duration-300 hover:border-primary">
       <div
         aria-hidden
         className="flex size-14 shrink-0 items-center justify-center border-2 border-primary font-heading text-[30px] leading-none font-bold text-primary"
@@ -27,7 +28,7 @@ function Fase({
       </div>
       <div className="flex flex-col gap-1">
         <h3 className="text-[22px] leading-[1.2]">{nome}</h3>
-        <p className="text-[17px] text-muted-foreground">{descricao}</p>
+        <p className="text-[15px] text-muted-foreground">{descricao}</p>
       </div>
     </article>
   );
@@ -46,28 +47,30 @@ export function Metodo() {
         <Paragrafo>{metodo.abertura}</Paragrafo>
       </div>
 
-      <div className="mt-8 md:mt-12">
+      <div className="mt-6 md:mt-8">
         <MetodoDiagrama />
       </div>
 
-      <div className="mt-12 grid items-start gap-8 md:mt-20 md:grid-cols-2 md:gap-16">
+      <div className="mt-8 grid items-start gap-6 md:mt-12 md:grid-cols-2 md:gap-12">
         <div className="relative aspect-square w-full overflow-hidden">
           <Image
             src="/fotos/metodo-parque-850.webp"
             alt="Garlet de lado, em um parque ao pôr do sol, com as mãos à frente"
             fill
             sizes="(min-width: 768px) 50vw, 100vw"
-            className="object-cover"
+            className="zoom-lento object-cover"
           />
         </div>
 
-        <div className="flex flex-col gap-4">
-          {metodo.fases.map((fase) => (
-            <Fase key={fase.nome} {...fase} />
+        <div className="flex flex-col gap-3">
+          {metodo.fases.map((fase, i) => (
+            <Revelar key={fase.nome} atraso={i * 0.12}>
+              <Fase {...fase} />
+            </Revelar>
           ))}
 
-          <aside className="flex items-start gap-4 border border-border bg-card p-4">
-            <div className="relative h-[140px] w-[100px] shrink-0 overflow-hidden md:h-[168px] md:w-[120px]">
+          <aside className="flex items-center gap-4 border border-primary/60 bg-card/70 p-3 backdrop-blur">
+            <div className="relative h-[96px] w-[72px] shrink-0 overflow-hidden">
               <Image
                 src="/fotos/termometro-paradamao-472.webp"
                 alt="Garlet em parada de mão no gramado"

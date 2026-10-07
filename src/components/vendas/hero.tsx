@@ -1,6 +1,8 @@
 import Image from "next/image";
 import { vendas } from "@/content/vendas";
 import { BotaoCompra } from "@/components/vendas/botao-compra";
+import { Revelar } from "@/components/vendas/revelar";
+import { SeloPromocao } from "@/components/vendas/selo-promocao";
 
 export function Hero() {
   const { hero } = vendas;
@@ -8,18 +10,18 @@ export function Hero() {
   return (
     <section
       aria-labelledby="titulo-hero"
-      className="relative flex min-h-[720px] items-end overflow-hidden bg-background md:items-center"
+      className="relative flex min-h-[640px] items-end overflow-hidden md:items-center"
     >
       <div className="mx-auto grid w-full max-w-6xl md:grid-cols-2 md:gap-12 md:px-6">
         {/* Celular: foto de fundo. Computador: coluna da direita, no tamanho natural */}
-        <div className="absolute inset-0 md:relative md:order-2 md:min-h-[min(100svh,900px)] md:self-stretch">
+        <div className="absolute inset-0 md:relative md:order-2 md:min-h-[min(92svh,820px)] md:self-stretch md:overflow-hidden mascara-hero">
           <Image
             src="/fotos/hero-noite-900.webp"
             alt="Garlet, em pé à noite, de baixo para cima, com faixas nos pulsos, em pose de braço dobrado"
             fill
             priority
             sizes="(min-width: 768px) 50vw, 100vw"
-            className="object-cover object-top"
+            className="zoom-lento object-cover object-top"
           />
           <div
             aria-hidden
@@ -27,7 +29,7 @@ export function Hero() {
           />
         </div>
 
-        <div className="relative z-10 mx-auto flex w-full max-w-xl flex-col gap-4 px-6 pb-8 md:order-1 md:mx-0 md:max-w-none md:justify-center md:px-0 md:py-16">
+        <Revelar className="relative z-10 mx-auto flex w-full max-w-xl flex-col gap-3 px-6 pb-8 md:order-1 md:mx-0 md:max-w-none md:justify-center md:px-0 md:py-12">
           <p className="text-xs font-semibold tracking-[0.12em] text-primary uppercase">
             {hero.etiqueta}
           </p>
@@ -41,9 +43,10 @@ export function Hero() {
             {hero.subtitulo}
           </p>
           <p className="text-sm text-muted-foreground">{hero.autor}</p>
+          <SeloPromocao />
           <BotaoCompra id="cta-hero" className="md:max-w-md" />
           <p className="text-sm text-muted-foreground">{hero.microtexto}</p>
-        </div>
+        </Revelar>
       </div>
     </section>
   );

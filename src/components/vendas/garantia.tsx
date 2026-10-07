@@ -7,7 +7,7 @@ export function Garantia() {
 
   return (
     <Secao labelledBy="titulo-garantia">
-      <div className="mx-auto flex max-w-2xl flex-col gap-6">
+      <div className="mx-auto flex max-w-2xl flex-col gap-4">
         <TituloSecao id="titulo-garantia">{garantia.titulo}</TituloSecao>
         <Paragrafo>{garantia.texto}</Paragrafo>
         <SeloGarantia className="max-w-md" />

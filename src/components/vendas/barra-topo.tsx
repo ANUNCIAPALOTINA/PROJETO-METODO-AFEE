@@ -4,7 +4,7 @@ import { site } from "@/config/site";
 
 export function BarraTopo() {
   return (
-    <header className="bg-background px-6 py-4">
+    <header className="relative z-20 px-6 py-4">
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between">
         <Link href={site.rotas.vendas} aria-label="Método AFEE, início">
           <LogoAfee className="text-2xl" />

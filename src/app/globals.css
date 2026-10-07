@@ -144,3 +144,68 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* ---------- Fundo vivo da página de vendas ---------- */
+@keyframes fundo-deriva-1 {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  33% { transform: translate3d(18vw, 12vh, 0) scale(1.15); }
+  66% { transform: translate3d(-6vw, 24vh, 0) scale(0.9); }
+}
+@keyframes fundo-deriva-2 {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(-22vw, -14vh, 0) scale(1.2); }
+}
+@keyframes fundo-deriva-3 {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1.1); }
+  40% { transform: translate3d(16vw, -20vh, 0) scale(0.95); }
+  80% { transform: translate3d(-10vw, -6vh, 0) scale(1.2); }
+}
+@keyframes fundo-flutuar {
+  0%, 100% { translate: 0 0; scale: 1; }
+  50% { translate: 0 -3vh; scale: 1.06; }
+}
+@keyframes fundo-grade {
+  to { background-position: 64px 64px, 64px 64px; }
+}
+@keyframes zoom-lento {
+  0%, 100% { scale: 1.02; }
+  50% { scale: 1.1; }
+}
+@keyframes brilho-botao {
+  0% { translate: -120% 0; }
+  60%, 100% { translate: 220% 0; }
+}
+.fundo-luz { will-change: transform; }
+.fundo-luz-1 { animation: fundo-deriva-1 22s ease-in-out infinite; }
+.fundo-luz-2 { animation: fundo-deriva-2 28s ease-in-out infinite; }
+.fundo-luz-3 { animation: fundo-deriva-3 25s ease-in-out infinite; }
+.fundo-flutuar { animation: fundo-flutuar 12s ease-in-out infinite; }
+.fundo-flutuar:nth-child(odd) { animation-duration: 15s; animation-delay: -4s; }
+.fundo-grade { animation: fundo-grade 6s linear infinite; }
+.zoom-lento { animation: zoom-lento 18s ease-in-out infinite; }
+@keyframes pulso-selo {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 77, 31, 0.45); }
+  50% { box-shadow: 0 0 0 8px rgba(255, 77, 31, 0); }
+}
+@keyframes brilho-borda {
+  0%, 100% { box-shadow: 0 0 24px -6px rgba(255, 77, 31, 0.35); }
+  50% { box-shadow: 0 0 48px -4px rgba(255, 77, 31, 0.6); }
+}
+.selo-promocao { animation: pulso-selo 2.4s ease-out infinite; }
+.caixa-preco { animation: brilho-borda 4s ease-in-out infinite; }
+.botao-brilho::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 40%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+  animation: brilho-botao 3.2s ease-in-out infinite;
+  pointer-events: none;
+}
+@media (min-width: 768px) {
+  /* Dissolve as bordas da foto do topo no fundo animado */
+  .mascara-hero {
+    -webkit-mask-image: radial-gradient(ellipse 60% 62% at 50% 42%, #000 55%, transparent 100%);
+    mask-image: radial-gradient(ellipse 60% 62% at 50% 42%, #000 55%, transparent 100%);
+  }
+}

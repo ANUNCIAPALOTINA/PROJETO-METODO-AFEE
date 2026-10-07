@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { Revelar } from "@/components/vendas/revelar";
 
 /** Seção da página de vendas: fundo, espaçamento e largura máxima padrão. */
 export function Secao({
@@ -19,19 +20,21 @@ export function Secao({
       id={id}
       aria-labelledby={labelledBy}
       className={cn(
-        "px-6 py-12 md:py-24",
-        fundo === "card" ? "bg-card" : "bg-background",
+        "relative px-6 py-10 md:py-16",
+        fundo === "card"
+          ? "border-y border-border/60 bg-card/55 backdrop-blur-md"
+          : "bg-transparent",
         className,
       )}
     >
-      <div className="mx-auto w-full max-w-6xl">{children}</div>
+      <Revelar className="mx-auto w-full max-w-6xl">{children}</Revelar>
     </section>
   );
 }
 
 export function Etiqueta({ children }: { children: React.ReactNode }) {
   return (
-    <p className="mb-3 text-xs font-semibold tracking-[0.12em] text-primary uppercase">
+    <p className="mb-2 text-xs font-semibold tracking-[0.12em] text-primary uppercase">
       {children}
     </p>
   );
