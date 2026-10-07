@@ -40,6 +40,11 @@ export const relatos: readonly Relato[] = [
     detalhe: "aluno",
     texto: "Método único, ninguém ensina na internet.",
   },
+  {
+    nome: "João",
+    detalhe: "aluno",
+    texto: "Bom, me ajudou a sair de casa treinar kkkkkk",
+  },
 ];
 
 export const textosRelatos = {
