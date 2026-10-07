@@ -7,8 +7,8 @@ import { site } from "@/config/site";
 export const metadata: Metadata = { title: "Obrigado · Método AFEE" };
 
 /**
- * Página só informativa. Ela NÃO cria acesso: o acesso é liberado pelo
- * webhook do Mercado Pago, depois que o pagamento é confirmado na API.
+ * Página só informativa. Ela NÃO cria acesso: o acesso é liberado no servidor
+ * (consulta de status ou webhook), depois que o pagamento é confirmado na API do MP.
  */
 export default function PaginaObrigado() {
   return (
@@ -16,9 +16,9 @@ export default function PaginaObrigado() {
       <LogoAfee className="text-4xl" />
       <h1 className="text-[30px] leading-[1.1] md:text-5xl">Obrigado pela compra!</h1>
       <p className="max-w-md text-[17px] text-muted-foreground">
-        Seu pagamento foi enviado. Assim que o Mercado Pago confirmar, o seu
-        acesso ao Método AFEE é liberado, em geral em poucos segundos. Entre
-        com o mesmo e-mail que você usou na compra.
+        Seu acesso ao Método AFEE é liberado assim que o Mercado Pago confirmar,
+        em geral em poucos segundos. Não enviamos e-mail automático: clique no
+        botão abaixo e entre com o e-mail da compra para receber seu link de acesso.
       </p>
       <BotaoAcessar />
       <p className="max-w-md text-sm text-muted-foreground">
