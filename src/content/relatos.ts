@@ -2,7 +2,8 @@
  * Relatos REAIS de alunos do Método AFEE. Nunca inventar relato, nome ou número.
  * Só entra aqui o que o aluno autorizou publicar, com o nome do jeito que ele
  * autorizou (nome completo, só o primeiro nome ou iniciais).
- * Enquanto a lista estiver vazia, a seção não aparece na página.
+ * Aparecem como cartões pequenos na beirada da página (relatos-popup.tsx).
+ * Enquanto a lista estiver vazia, nada aparece.
  */
 export type Relato = {
   /** Nome como o aluno autorizou: "Carlos", "Carlos S." etc. */
