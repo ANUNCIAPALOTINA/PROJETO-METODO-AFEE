@@ -7,14 +7,14 @@ export function Identificacao() {
 
   return (
     <Secao labelledBy="titulo-identificacao">
-      <div className="flex max-w-2xl flex-col gap-6">
+      <div className="flex max-w-2xl flex-col gap-4">
         <TituloSecao id="titulo-identificacao">
           {identificacao.titulo}
         </TituloSecao>
         {identificacao.paragrafos.map((texto) => (
           <Paragrafo key={texto}>{texto}</Paragrafo>
         ))}
-        <ul className="flex flex-col gap-4 text-[17px] text-foreground md:text-[19px]">
+        <ul className="flex flex-col gap-2 text-[17px] text-foreground md:text-[19px]">
           {identificacao.dores.map((dor) => (
             <ItemMarcador key={dor}>{dor}</ItemMarcador>
           ))}

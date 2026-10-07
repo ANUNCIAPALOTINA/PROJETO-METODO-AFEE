@@ -19,7 +19,10 @@ export function BotaoCompra({
       id={id}
       nativeButton={false}
       render={<Link href={site.rotas.checkout} />}
-      className={cn("h-14 w-full text-[17px] font-semibold", className)}
+      className={cn(
+        "botao-brilho relative h-14 w-full overflow-hidden text-[17px] font-semibold transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98]",
+        className,
+      )}
     >
       {rotulo}
     </Button>

@@ -7,17 +7,17 @@ export function SemAcademia() {
 
   return (
     <Secao fundo="card" labelledBy="titulo-sem-academia">
-      <div className="grid items-center gap-8 md:grid-cols-2 md:gap-16">
-        <div className="relative aspect-square w-full overflow-hidden">
+      <div className="grid items-center gap-6 md:grid-cols-2 md:gap-12">
+        <div className="relative aspect-[4/3] w-full overflow-hidden">
           <Image
             src="/fotos/sem-academia-mureta-1080.webp"
             alt="Garlet sentado na beirada de uma mureta de concreto, com as pernas estendidas, à beira de um lago"
             fill
             sizes="(min-width: 768px) 50vw, 100vw"
-            className="object-cover"
+            className="zoom-lento object-cover"
           />
         </div>
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-4">
           <TituloSecao id="titulo-sem-academia">
             {semAcademia.titulo}
           </TituloSecao>

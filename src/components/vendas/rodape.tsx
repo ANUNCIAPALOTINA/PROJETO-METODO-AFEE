@@ -14,7 +14,7 @@ const links = [
 export function Rodape() {
   return (
     // pb extra no celular: o botão fixo de compra não pode cobrir o aviso legal
-    <footer className="border-t border-border bg-background px-6 pt-12 pb-28 md:pb-12">
+    <footer className="border-t border-border bg-background/80 backdrop-blur px-6 pt-12 pb-28 md:pb-12">
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-6">
         <LogoAfee className="self-start text-2xl" />
         <nav aria-label="Links do rodapé">

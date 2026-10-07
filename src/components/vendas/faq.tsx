@@ -12,14 +12,14 @@ export function Faq() {
     <Secao fundo="card" labelledBy="titulo-faq">
       <div className="mx-auto max-w-3xl">
         <TituloSecao id="titulo-faq">{faq.titulo}</TituloSecao>
-        <div className="mt-8 flex flex-col md:mt-12">
+        <div className="mt-6 flex flex-col md:mt-8">
           {faq.itens.map((item, i) => (
             <details
               key={item.pergunta}
               open={i === 0}
               className="group border-b border-border"
             >
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-4 text-[17px] font-semibold text-foreground md:text-[19px] [&::-webkit-details-marker]:hidden">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-3 text-[17px] font-semibold text-foreground md:text-[19px] [&::-webkit-details-marker]:hidden">
                 <span>{item.pergunta}</span>
                 <span
                   aria-hidden
@@ -29,7 +29,7 @@ export function Faq() {
                   <span className="hidden group-open:inline">−</span>
                 </span>
               </summary>
-              <p className="pb-5 text-[17px] text-muted-foreground md:text-[19px]">
+              <p className="pb-4 text-[16px] text-muted-foreground md:text-[17px]">
                 {item.resposta}
               </p>
             </details>
