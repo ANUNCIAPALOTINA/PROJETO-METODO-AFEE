@@ -82,6 +82,25 @@ describe("criarPagamento", () => {
 });
 
 describe("consultarStatus", () => {
+  it("concede o acesso quando o pagamento está aprovado", async () => {
+    const conceder = vi.fn(async () => {});
+    const r = await consultarStatus("777", clienteFalso(pg({ status: "approved" })), conceder);
+    expect(await r.json()).toEqual({ situacao: "aprovado" });
+    expect(conceder).toHaveBeenCalledWith("a@b.com", "777");
+  });
+  it("não concede quando está pendente ou com valor errado", async () => {
+    const conceder = vi.fn(async () => {});
+    await consultarStatus("777", clienteFalso(pg()), conceder);
+    await consultarStatus("777", clienteFalso(pg({ status: "approved", valor: 1 })), conceder);
+    expect(conceder).not.toHaveBeenCalled();
+  });
+  it("mostra aprovado mesmo se gravar o acesso falhar", async () => {
+    const conceder = vi.fn(async () => {
+      throw new Error("db");
+    });
+    const r = await consultarStatus("777", clienteFalso(pg({ status: "approved" })), conceder);
+    expect(await r.json()).toEqual({ situacao: "aprovado" });
+  });
   it("devolve só a situação", async () => {
     const r = await consultarStatus("777", clienteFalso(pg({ status: "approved" })));
     expect(await r.json()).toEqual({ situacao: "aprovado" });

@@ -117,11 +117,13 @@ export async function criarPagamento(
 
 /**
  * GET /api/pagamentos/[id]/status. Consulta o MP e devolve só a situação.
- * Não concede nada: o acesso vem do webhook.
+ * Se o pagamento está aprovado, também concede o acesso (idempotente), como
+ * reforço do webhook: a decisão vem do pagamento buscado no MP, nunca do navegador.
  */
 export async function consultarStatus(
   id: string,
   cliente: ClienteMp | null = clienteOuNulo(),
+  conceder?: (email: string, paymentId: string) => Promise<void>,
 ): Promise<Response> {
   if (!/^\d{1,20}$/.test(id)) return json(404, { erro: "nao_encontrado" });
   if (!cliente) return json(503, { erro: "pagamentos_indisponiveis" });
@@ -137,9 +139,18 @@ export async function consultarStatus(
   }
 
   let situacao: SituacaoPagamento = situacaoDoPagamento(pagamento);
+  const decisao = decidirPagamento(pagamento);
   // Aprovado mas fora do que vendemos (valor/moeda): não anunciar sucesso.
-  if (situacao === "aprovado" && decidirPagamento(pagamento).acao !== "conceder") {
+  if (situacao === "aprovado" && decisao.acao !== "conceder") {
     situacao = "analise";
+  }
+  if (situacao === "aprovado" && conceder && pagamento.email) {
+    try {
+      await conceder(pagamento.email, pagamento.id);
+    } catch (erro) {
+      // O webhook ainda pode conceder; a tela segue mostrando o sucesso.
+      console.error("[pagamentos] falha ao conceder pelo status", pagamento.id, erro);
+    }
   }
   return json(200, { situacao });
 }

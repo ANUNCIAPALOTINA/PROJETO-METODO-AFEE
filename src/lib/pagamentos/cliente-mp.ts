@@ -1,4 +1,5 @@
 import { produto, precoParaGateway } from "@/config/produto";
+import { site } from "@/config/site";
 import { PIX_VALIDADE_HORAS, PREFIXO_REFERENCIA, URL_API_MP } from "./constantes";
 
 /** Pagamento já normalizado a partir da resposta da API do Mercado Pago. */
@@ -154,7 +155,13 @@ export function criarClienteMp(opcoes: OpcoesClienteMp): ClienteMp {
   }
 
   function corpoBase(pagador: Pagador): Json {
+    // Avisa o webhook por pagamento, sem depender do cadastro no painel do MP.
+    // O MP só aceita https, então fica de fora em ambiente local.
+    const notificacao = site.url.startsWith("https://")
+      ? { notification_url: `${site.url}/api/webhooks/mercadopago` }
+      : {};
     return {
+      ...notificacao,
       // O VALOR vem sempre do arquivo do produto, nunca do navegador.
       transaction_amount: precoParaGateway(produto.precoCentavos),
       description: produto.nome,
