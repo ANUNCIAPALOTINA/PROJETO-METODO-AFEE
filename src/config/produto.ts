@@ -12,6 +12,8 @@ export const produto = {
   },
   /** Em centavos, número inteiro, para nunca haver erro de arredondamento. */
   precoCentavos: 1618,
+  /** Preço "de", só para exibir riscado na promoção. Nunca é cobrado. */
+  precoOriginalCentavos: 16180,
   moeda: "BRL",
   garantiaDias: 7,
   /** PENDENTE: trocar pelo e-mail real de suporte antes de vender. */
@@ -44,3 +46,4 @@ export function precoParaGateway(centavos: number): number {
 }
 
 export const precoFormatado = formatarPreco(produto.precoCentavos);
+export const precoOriginalFormatado = formatarPreco(produto.precoOriginalCentavos);
