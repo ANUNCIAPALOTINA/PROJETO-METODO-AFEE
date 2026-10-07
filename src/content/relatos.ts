@@ -30,7 +30,7 @@ export const relatos: readonly Relato[] = [
       "Garlet, eu nunca tinha pensado em treinar assim. Agora eu vou treinar sabendo como começa e termina.",
   },
   {
-    nome: "Luis H.",
+    nome: "Luis Hoffman",
     detalhe: "aluno",
     texto:
       "O conteúdo é bom, foi direto ao ponto. Não tem milagre, mas é o melhor método que já vi até hoje.",
