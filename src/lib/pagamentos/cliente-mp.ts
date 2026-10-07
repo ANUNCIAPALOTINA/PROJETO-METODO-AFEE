@@ -62,6 +62,12 @@ function texto(valor: unknown): string | null {
   return typeof valor === "string" && valor !== "" ? valor : null;
 }
 
+/** E-mail em minúsculas, ou null se vier vazio ou mascarado pelo MP. */
+function emailValido(valor: unknown): string | null {
+  const email = texto(valor)?.trim().toLowerCase();
+  return email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? email : null;
+}
+
 function numero(valor: unknown): number | null {
   return typeof valor === "number" && Number.isFinite(valor) ? valor : null;
 }
@@ -77,6 +83,7 @@ export function normalizarPagamento(bruto: unknown): PagamentoMp {
   if (!id || !status) throw new ErroMp("Resposta do MP sem id ou status", null);
 
   const pagador = ehObjeto(bruto.payer) ? bruto.payer : {};
+  const metadata = ehObjeto(bruto.metadata) ? bruto.metadata : {};
   const interacao = ehObjeto(bruto.point_of_interaction)
     ? bruto.point_of_interaction
     : {};
@@ -93,7 +100,7 @@ export function normalizarPagamento(bruto: unknown): PagamentoMp {
     valor: numero(bruto.transaction_amount) ?? Number.NaN,
     moeda: texto(bruto.currency_id) ?? "",
     referenciaExterna: texto(bruto.external_reference),
-    email: texto(pagador.email)?.toLowerCase() ?? null,
+    email: emailValido(metadata.email_comprador) ?? emailValido(pagador.email),
     valorReembolsado: numero(bruto.transaction_amount_refunded) ?? 0,
     pix: qrCode && qrCodeBase64 ? { qrCode, qrCodeBase64 } : null,
   };
@@ -166,6 +173,9 @@ export function criarClienteMp(opcoes: OpcoesClienteMp): ClienteMp {
       transaction_amount: precoParaGateway(produto.precoCentavos),
       description: produto.nome,
       external_reference: `${PREFIXO_REFERENCIA}${crypto.randomUUID()}`,
+      // No Pix, o MP devolve o e-mail do pagador mascarado ("xxxxxxxxxxx").
+      // O metadata volta intacto, então é dele que o acesso tira o e-mail.
+      metadata: { email_comprador: pagador.email },
       payer: {
         email: pagador.email,
         first_name: pagador.primeiroNome,

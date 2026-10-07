@@ -126,4 +126,18 @@ describe("dataExpiracaoPix", () => {
     const { dataExpiracaoPix } = await import("./cliente-mp");
     expect(dataExpiracaoPix(new Date("2026-10-06T15:00:00Z"))).toBe("2026-10-07T12:00:00.000-03:00");
   });
+  it("usa o e-mail do metadata quando o MP mascara o do pagador", () => {
+    const p = normalizarPagamento({
+      id: 1,
+      status: "approved",
+      payer: { email: "xxxxxxxxxxx" },
+      metadata: { email_comprador: "Ana@B.com" },
+    });
+    expect(p.email).toBe("ana@b.com");
+  });
+
+  it("ignora e-mail mascarado sem metadata", () => {
+    const p = normalizarPagamento({ id: 1, status: "approved", payer: { email: "xxxxxxxxxxx" } });
+    expect(p.email).toBeNull();
+  });
 });
