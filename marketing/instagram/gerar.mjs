@@ -48,7 +48,7 @@ body{background:#0B0B0C;color:#F5F3EF;font-family:Inter,sans-serif;overflow:hidd
 .grade::before{content:"";position:absolute;inset:0;pointer-events:none;
   background-image:linear-gradient(rgba(245,243,239,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(245,243,239,.07) 1px,transparent 1px);
   background-size:64px 64px;-webkit-mask-image:linear-gradient(180deg,#000 0%,transparent 75%)}
-.etiqueta{font:600 26px Inter;letter-spacing:.12em;text-transform:uppercase;color:#FF4D1F;position:relative}
+.etiqueta{font:600 32px Inter;letter-spacing:.12em;text-transform:uppercase;color:#FF4D1F;position:relative}
 h1{font-family:"Space Grotesk";font-weight:700;letter-spacing:-.02em;line-height:1.05;position:relative}
 .corpo{font:400 38px/1.45 Inter;color:#A7A39B;position:relative;max-width:860px}
 .logo{display:inline-flex;flex-direction:column;gap:.107em}
@@ -56,8 +56,8 @@ h1{font-family:"Space Grotesk";font-weight:700;letter-spacing:-.02em;line-height
 .degraus{display:flex;align-items:flex-end;gap:.071em;width:100%}
 .degraus i{flex:1;background:#FF4D1F;display:block}
 .rodape{position:absolute;left:88px;right:88px;bottom:72px;display:flex;justify-content:space-between;align-items:flex-end;z-index:3}
-.contador{font:600 24px Inter;letter-spacing:.12em;color:#A7A39B}
-.arraste{font:600 24px Inter;letter-spacing:.12em;color:#F5F3EF;text-transform:uppercase}
+.contador{font:600 30px Inter;letter-spacing:.12em;color:#A7A39B}
+.arraste{font:600 30px Inter;letter-spacing:.12em;color:#F5F3EF;text-transform:uppercase}
 .foto{position:absolute;inset:0;background-size:cover;background-position:center;z-index:0}
 .foto::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,11,12,.15) 0%,rgba(11,11,12,.6) 48%,#0B0B0C 80%)}
 .sobre{position:relative;z-index:2;margin-top:auto;margin-bottom:120px}
@@ -67,14 +67,14 @@ h1{font-family:"Space Grotesk";font-weight:700;letter-spacing:-.02em;line-height
 .passos i{width:56px;background:#2A2A2E;display:block}
 .passos i.on{background:#FF4D1F}
 .linha{display:flex;gap:32px;padding:26px 0;border-bottom:1px solid #2A2A2E;font:500 38px Inter}
-.linha span:first-child{width:220px;color:#FF4D1F;font-weight:600}
+.linha span:first-child{flex:0 0 260px;color:#FF4D1F;font-weight:600}
 .aspas{font:700 220px/0.6 "Space Grotesk";color:#FF4D1F;height:110px}
 .preco{font:700 150px "Space Grotesk";letter-spacing:-.03em;color:#F5F3EF;line-height:1}
-.de{font:500 40px Inter;color:#A7A39B;text-decoration:line-through}
+.de{font:500 46px Inter;color:#A7A39B;text-decoration:line-through}
 .botao{display:inline-block;background:#FF4D1F;color:#0B0B0C;font:700 40px "Space Grotesk";padding:28px 44px;border-radius:2px}
 .itens{font:500 34px/1.9 Inter;color:#F5F3EF}
 .itens b{color:#FF4D1F}
-.aviso{font:400 22px Inter;color:#A7A39B}
+.aviso{font:400 30px Inter;color:#A7A39B}
 `;
 
 function rodape(i, total, formato, tipo) {
