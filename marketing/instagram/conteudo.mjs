@@ -130,3 +130,104 @@ export const semana01 = [
       `Método AFEE, o ebook completo.\n\n12 capítulos: divisão da semana, tempo de treino, as quatro fases, o Termômetro, alimentação, motivação e rotina.\n\nPreço de lançamento: ${p.preco} (de ${p.precoDe}). Pix ou cartão, acesso na hora.\n\nLink na bio. Ou comente MÉTODO que eu te mando.\n\n${HASHTAGS}`,
   },
 ];
+
+// Semana 02 · Tempo e ritmo (caps. 4 e 5 do ebook). Fonte dos fatos: ebook-app chapters.json.
+export const semana02 = [
+  {
+    id: "01-treino-curto-ou-longo",
+    dia: "Segunda",
+    formato: "carrossel",
+    objetivo: "Educativo, gera salvamentos (alcance)",
+    slides: [
+      { tipo: "capa", foto: "metodo-parque-850.webp", etiqueta: "Capítulo 5, um pedaço", titulo: "Treino curto ou treino longo?" },
+      { tipo: "texto", etiqueta: "A regra", titulo: "Quanto maior o tempo de treino, mais foco na resistência." },
+      { tipo: "texto", etiqueta: "O outro lado", titulo: "Quanto menor o tempo de treino, mais foco na força." },
+      { tipo: "texto", etiqueta: "Na prática", titulo: "Dá pra treinar de 45 minutos até 2 horas.", corpo: "Modele intensidade e descanso pelo tempo que você tem e pelo resultado que busca em cada treino." },
+      { tipo: "cta", titulo: "Treino com começo, meio e fim." },
+    ],
+    legenda: (p) =>
+      `Não existe tempo certo de treino. Existe o tempo certo pro que você quer naquele dia.\n\nTreino longo puxa resistência. Treino curto puxa força. Escolha antes de começar.\n\nSalva pra lembrar.\n\n${CTA_LEGENDA(p.preco, p.precoDe)}\n\n${HASHTAGS}`,
+  },
+  {
+    id: "02-quanto-descansar",
+    dia: "Terça",
+    formato: "carrossel",
+    objetivo: "Educativo, responde dúvida comum (alcance)",
+    slides: [
+      { tipo: "capa", foto: "sem-academia-mureta-1080.webp", etiqueta: "Dúvida comum", titulo: "Quanto descansar entre as séries?" },
+      {
+        tipo: "lista",
+        etiqueta: "O que eu uso",
+        titulo: "Descanso no treino",
+        itens: [
+          ["Entre séries", "De 90 a 120 segundos"],
+          ["Trocou de exercício", "Até 5 minutos"],
+        ],
+      },
+      { tipo: "texto", etiqueta: "Cuidado", titulo: "Não estique o descanso além disso.", corpo: "O corpo esfria: você perde força e ritmo, e ainda pode sentir dores." },
+      { tipo: "texto", etiqueta: "O ponto", titulo: "Descanso também faz parte do treino.", corpo: "No método AFEE ele é contado, não chutado." },
+      { tipo: "cta", titulo: "O ritmo certo está no ebook." },
+    ],
+    legenda: (p) =>
+      `De 90 a 120 segundos entre séries. Até 5 minutos quando troca de exercício.\n\nMais que isso, o corpo esfria e o treino perde força.\n\nVocê cronometra o seu descanso? Me conta nos comentários.\n\n${CTA_LEGENDA(p.preco, p.precoDe)}\n\n${HASHTAGS}`,
+  },
+  {
+    id: "03-estipule-o-tempo",
+    dia: "Quarta",
+    formato: "carrossel",
+    objetivo: "Mostrar a lógica do método (consideração)",
+    slides: [
+      { tipo: "capa", foto: "historia-barra-812.webp", etiqueta: "Como eu monto", titulo: "Estipule um tempo e encaixe os exercícios nele" },
+      { tipo: "texto", etiqueta: "Passo 1", titulo: "Defina quanto tempo vai treinar.", corpo: "Exemplo: 1h15." },
+      { tipo: "texto", etiqueta: "Passo 2", titulo: "Encaixe os exercícios dentro desse tempo.", corpo: "Respeitando o descanso entre as séries." },
+      { tipo: "texto", etiqueta: "Passo 3", titulo: "No fim do tempo, a última fase: Exaustar.", corpo: "Você chega cansado, mas ainda com energia para fechar o treino." },
+      { tipo: "cta", titulo: "Aquecer. Forçar. Estimular. Exaustar." },
+    ],
+    legenda: (p) =>
+      `Um treino sem hora pra acabar vira treino sem direção.\n\nEu defino o tempo antes, encaixo os exercícios e guardo o final pra última fase do AFEE.\n\n${CTA_LEGENDA(p.preco, p.precoDe)}\n\n${HASHTAGS}`,
+  },
+  {
+    id: "04-relato-bruno",
+    dia: "Quinta",
+    formato: "imagem",
+    objetivo: "Prova social (conversão)",
+    slides: [{ tipo: "relato", nome: "Bruno", texto: "Garlet, eu nunca tinha pensado em treinar assim. Agora eu vou treinar sabendo como começa e termina." }],
+    legenda: (p) =>
+      `Saber como o treino começa e termina muda tudo. Valeu, Bruno.\n\nResultado individual, varia de pessoa para pessoa.\n\n${CTA_LEGENDA(p.preco, p.precoDe)}\n\n${HASHTAGS}`,
+  },
+  {
+    id: "05-puxar-e-empurrar",
+    dia: "Sexta",
+    formato: "carrossel",
+    objetivo: "Educativo com teste prático (engajamento)",
+    slides: [
+      { tipo: "capa", foto: "final-cta-1080.webp", etiqueta: "Faça o teste", titulo: "Por que eu separo puxar e empurrar" },
+      { tipo: "texto", etiqueta: "O teste", titulo: "Faça várias séries de barra. Depois, uma série de flexão.", corpo: "A flexão não vai ser difícil." },
+      { tipo: "texto", etiqueta: "O motivo", titulo: "Alternando os dois, você demora muito pra chegar na exaustão.", corpo: "O treino fica longo e perde efeito." },
+      { tipo: "texto", etiqueta: "A exceção", titulo: "Puxar e empurrar juntos só num treino específico.", corpo: "Uma série de cada, sem pausa, num dia separado. Intenso. Deixe para quando estiver habituado." },
+      { tipo: "cta", titulo: "A divisão completa está no capítulo 4." },
+    ],
+    legenda: (p) =>
+      `Testa e me conta: depois de várias séries de barra, a flexão ficou fácil?\n\nÉ por isso que no treino comum eu não misturo puxar e empurrar.\n\n${CTA_LEGENDA(p.preco, p.precoDe)}\n\n${HASHTAGS}`,
+  },
+  {
+    id: "06-um-movimento-por-vez",
+    dia: "Sábado",
+    formato: "imagem",
+    objetivo: "Motivação (alcance)",
+    slides: [{ tipo: "capa", foto: "obrigado-noite-900.webp", etiqueta: "Um de cada vez", titulo: "Desbloqueie um movimento. Faça bem feito. Depois o próximo." }],
+    legenda: (p) =>
+      `Não queira aprender tudo de uma vez.\n\nEscolha um movimento-alvo, treine as progressões dele e só depois parta pro próximo.\n\nQual é o seu movimento-alvo agora? Comenta aí.\n\n${CTA_LEGENDA(p.preco, p.precoDe)}\n\n${HASHTAGS}`,
+  },
+  {
+    id: "07-oferta",
+    dia: "Domingo",
+    formato: "imagem",
+    objetivo: "Oferta direta (conversão)",
+    slides: [{ tipo: "cta", titulo: "Método AFEE", oferta: true }],
+    legenda: (p) =>
+      `Tempo de treino, descanso, divisão da semana e as quatro fases. Tudo organizado num ebook só.\n\nPreço de lançamento: ${p.preco} (de ${p.precoDe}). Pix ou cartão, acesso na hora.\n\nLink na bio. Ou comente MÉTODO que eu te mando.\n\n${HASHTAGS}`,
+  },
+];
+
+export const semanas = { "01": semana01, "02": semana02 };

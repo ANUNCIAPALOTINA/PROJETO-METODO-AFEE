@@ -6,8 +6,8 @@ Gera os carrosséis e imagens do Instagram (1080x1350 PNG) e as legendas.
 - Artes: `gerar.mjs` (HTML + Playwright). Preço lido de `src/config/produto.ts`.
 
 ```bash
-NODE_PATH=$(npm root -g) node marketing/instagram/gerar.mjs            # saída em marketing/instagram/saida/ (ignorada no git)
-NODE_PATH=$(npm root -g) node marketing/instagram/gerar.mjs <pasta>    # outra pasta
+NODE_PATH=$(npm root -g) node marketing/instagram/gerar.mjs 02         # semana 02 em marketing/instagram/saida/semana-02 (ignorada no git)
+NODE_PATH=$(npm root -g) node marketing/instagram/gerar.mjs 02 <pasta> # semana 02 em outra pasta
 ```
 
 Precisa do Playwright com Chromium instalado e internet para as fontes (Google Fonts).
