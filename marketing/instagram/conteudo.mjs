@@ -5,6 +5,7 @@
  * Preço vem de src/config/produto.ts (lido pelo gerar.mjs), nunca escrito aqui.
  *
  * Tipos de slide: capa, texto, lista, fase, relato, cta.
+ * Capa: `posicao` (CSS background-position) ajusta o enquadramento da foto; padrão "center".
  */
 
 const HASHTAGS =
@@ -20,7 +21,7 @@ export const semana01 = [
     formato: "carrossel",
     objetivo: "Dor + identificação (alcance)",
     slides: [
-      { tipo: "capa", foto: "hero-noite-900.webp", etiqueta: "Pra quem já treina", titulo: "Você treina. Mas sente que está girando em círculos?" },
+      { tipo: "capa", foto: "hero-noite-900.webp", posicao: "center 4%", etiqueta: "Pra quem já treina", titulo: "Você treina. Mas sente que está girando em círculos?" },
       { tipo: "texto", etiqueta: "Sinal 1", titulo: "Você não sabe se o seu treino está funcionando de verdade." },
       { tipo: "texto", etiqueta: "Sinal 2", titulo: "Você não sabe como dividir a semana nem quanto descansar." },
       { tipo: "texto", etiqueta: "Sinal 3", titulo: "Você acha que calistenia é complicada demais ou “não é para mim”." },

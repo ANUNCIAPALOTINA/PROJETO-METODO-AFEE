@@ -90,7 +90,7 @@ function rodape(i, total, formato, tipo) {
 function corpoSlide(s) {
   switch (s.tipo) {
     case "capa":
-      return `<div class="foto" style="background-image:url('${foto(s.foto)}')"></div>
+      return `<div class="foto" style="background-image:url('${foto(s.foto)}');background-position:${s.posicao ?? "center"}"></div>
         <div class="sobre">
           <div class="etiqueta">${esc(s.etiqueta)}</div>
           <h1 style="font-size:96px;margin-top:28px">${esc(s.titulo)}</h1>
