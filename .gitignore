@@ -45,3 +45,4 @@ next-env.d.ts
 
 # variáveis de ambiente: nunca commitar segredos; só o modelo
 !.env.example
+marketing/instagram/saida/
