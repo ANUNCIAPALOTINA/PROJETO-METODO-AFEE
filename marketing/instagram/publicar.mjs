@@ -50,6 +50,14 @@ async function descobrirConta() {
     console.log(`Conta do token: @${eu.username} (ID ${eu.user_id ?? eu.id})`);
     return eu.user_id ?? eu.id;
   }
+  try {
+    const { data: t } = await graph("debug_token", { campos: { input_token: TOKEN } });
+    const validade = t.expires_at ? new Date(t.expires_at * 1000).toISOString().slice(0, 10) : "não expira";
+    console.log(`Token: app ${t.app_id} (${t.application ?? "?"}), tipo ${t.type}, válido ${t.is_valid}, expira ${validade}.`);
+    console.log(`Permissões do token: ${(t.scopes ?? []).join(", ") || "nenhuma"}`);
+  } catch (e) {
+    console.log(`(Não deu para inspecionar o token: ${e.message})`);
+  }
   const { data = [] } = await graph("me/accounts", { campos: { fields: "name,instagram_business_account{id,username}" } });
   const contas = data.filter((p) => p.instagram_business_account).map((p) => ({ pagina: p.name, ...p.instagram_business_account }));
   for (const c of contas) console.log(`Página "${c.pagina}" → Instagram @${c.username} (ID ${c.id})`);
