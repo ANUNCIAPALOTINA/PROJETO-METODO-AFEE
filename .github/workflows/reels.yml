@@ -1,0 +1,59 @@
+# Gera Reels (vídeo vertical com voz de IA grátis + música livre CC0) a partir dos carrosséis
+# e grava o MP4 no próprio branch em public/instagram/semana-XX/<post>/reel.mp4.
+# Manual: aba Actions → "Reels" → Run workflow → informe os posts (ex.: 01/02-quatro-fases).
+name: Reels
+
+on:
+  workflow_dispatch:
+    inputs:
+      posts:
+        description: "Posts separados por espaço, ex.: 01/02-quatro-fases 01/03-dividir-a-semana"
+        required: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: reels-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  reels:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Instalar ferramentas (ffmpeg, Playwright, edge-tts)
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          npm i --no-save playwright@1 && npx playwright install --with-deps chromium
+          pipx install edge-tts || pip install edge-tts
+      - name: Baixar música livre (FreePD, CC0)
+        run: |
+          mkdir -p marketing/instagram/musica
+          if ! ls marketing/instagram/musica/*.mp3 >/dev/null 2>&1; then
+            url=$(curl -sL https://freepd.com/upbeat.php | grep -oE '(https://freepd.com/)?music/[^"]+\.mp3' | head -1)
+            case "$url" in http*) ;; *) url="https://freepd.com/$url";; esac
+            echo "Música: $url"
+            curl -sL "$url" -o "marketing/instagram/musica/trilha.mp3"
+            echo "Fonte: $url (FreePD, Creative Commons 0)" > marketing/instagram/musica/FONTE.txt
+          fi
+      - name: Gerar Reels
+        env:
+          POSTS: ${{ inputs.posts }}
+        run: |
+          for chave in $POSTS; do
+            semana="${chave%%/*}"
+            [ -d "marketing/instagram/saida/reel/semana-$semana" ] || node marketing/instagram/gerar.mjs "$semana" --reel
+            node marketing/instagram/reel.mjs "$chave" --voz --musica marketing/instagram/musica/trilha.mp3
+          done
+      - name: Gravar no branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/instagram marketing/instagram/musica
+          git commit -m "chore(marketing): Reels gerados (${{ inputs.posts }})" || echo "nada novo"
+          git push

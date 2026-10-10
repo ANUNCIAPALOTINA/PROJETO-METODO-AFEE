@@ -2,6 +2,7 @@
  * Gera as artes do Instagram (1080x1350, PNG) a partir de conteudo.mjs.
  * Uso: node marketing/instagram/gerar.mjs [semana] [pasta-de-saida] [--publico]
  * Ex.: gerar.mjs 02 → marketing/instagram/saida/semana-02 (padrão: semana 01)
+ * --reel: grava só os PNG sem "Arraste →" e sem numeração, em saida/reel/semana-XX (usados pelo reel.mjs).
  * --publico: também grava JPEG em public/instagram/semana-XX/<post>/NN.jpg, que o site
  * serve em https://metodo-afee.netlify.app/instagram/... (a API do Instagram só aceita JPEG por URL).
  * Precisa do Playwright (Chromium). Fontes vêm do Google Fonts.
@@ -25,9 +26,10 @@ const AQUI = dirname(fileURLToPath(import.meta.url));
 const RAIZ = resolve(AQUI, "../..");
 const ARGS = process.argv.slice(2).filter((a) => !a.startsWith("--"));
 const PUBLICO = process.argv.includes("--publico");
+const REEL = process.argv.includes("--reel");
 const SEMANA = ARGS[0] ?? "01";
 if (!semanas[SEMANA]) throw new Error(`Semana ${SEMANA} não existe em conteudo.mjs`);
-const SAIDA = resolve(ARGS[1] ?? join(AQUI, `saida/semana-${SEMANA}`));
+const SAIDA = resolve(ARGS[1] ?? join(AQUI, REEL ? `saida/reel/semana-${SEMANA}` : `saida/semana-${SEMANA}`));
 const FOTOS = join(RAIZ, "public/fotos");
 const PUBLICA = join(RAIZ, `public/instagram/semana-${SEMANA}`);
 
@@ -141,7 +143,7 @@ function corpoSlide(s) {
 
 const html = (s, i, total, formato) => `<!doctype html><html lang="pt-BR"><head><meta charset="utf-8">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
-<style>${CSS}</style></head><body><div class="slide grade">${corpoSlide(s)}${rodape(i, total, formato, s.tipo)}</div></body></html>`;
+<style>${CSS}</style></head><body><div class="slide grade">${corpoSlide(s)}${rodape(i, total, REEL ? "reel" : formato, s.tipo)}</div></body></html>`;
 
 const navegador = await chromium.launch();
 const pagina = await navegador.newPage({ viewport: { width: 1080, height: 1350 } });
