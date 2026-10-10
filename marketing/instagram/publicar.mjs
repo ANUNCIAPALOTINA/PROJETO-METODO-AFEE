@@ -4,7 +4,7 @@
  *   node marketing/instagram/publicar.mjs verificar            → só lê: conta, permissões e limite de posts
  *   node marketing/instagram/publicar.mjs publicar             → publica o post de hoje (agenda.json)
  *   node marketing/instagram/publicar.mjs publicar 01/07-oferta → publica esse post
- * Variáveis: INSTAGRAM_ACCESS_TOKEN, INSTAGRAM_BUSINESS_ACCOUNT_ID,
+ * Variáveis: INSTAGRAM_ACCESS_TOKEN, INSTAGRAM_BUSINESS_ACCOUNT_ID (opcional; a conta é descoberta pelo token),
  *   SITE_URL (padrão https://metodo-afee.netlify.app), onde ficam os JPEG de public/instagram/.
  */
 import { readFileSync } from "node:fs";
@@ -14,14 +14,18 @@ import { semanas } from "./conteudo.mjs";
 import { precos } from "./precos.mjs";
 
 const AQUI = dirname(fileURLToPath(import.meta.url));
-const TOKEN = process.env.INSTAGRAM_ACCESS_TOKEN;
-const CONTA = process.env.INSTAGRAM_BUSINESS_ACCOUNT_ID;
+// Segredos colados à mão costumam vir com espaço, quebra de linha ou aspas.
+const limpar = (v) => (v || "").trim().replace(/^["']|["']$/g, "").trim();
+const TOKEN = limpar(process.env.INSTAGRAM_ACCESS_TOKEN);
+const CONTA_INFORMADA = limpar(process.env.INSTAGRAM_BUSINESS_ACCOUNT_ID);
 const SITE = (process.env.SITE_URL || "https://metodo-afee.netlify.app").replace(/\/$/, "");
 const [modo = "verificar", escolhido] = process.argv.slice(2);
 
-if (!TOKEN || !CONTA) falhar("Faltam os segredos INSTAGRAM_ACCESS_TOKEN e/ou INSTAGRAM_BUSINESS_ACCOUNT_ID no GitHub.");
-// Token do "Login do Instagram" começa com IGAA e usa graph.instagram.com; o do Facebook usa graph.facebook.com.
-const API = TOKEN.startsWith("IG") ? "https://graph.instagram.com/v21.0" : "https://graph.facebook.com/v21.0";
+if (!TOKEN) falhar("Falta o segredo INSTAGRAM_ACCESS_TOKEN no GitHub.");
+// Token do "Login do Instagram" começa com IG e usa graph.instagram.com; o do Facebook (EAA...) usa graph.facebook.com.
+const TOKEN_INSTAGRAM = TOKEN.startsWith("IG");
+const API = TOKEN_INSTAGRAM ? "https://graph.instagram.com/v21.0" : "https://graph.facebook.com/v21.0";
+let CONTA;
 
 function falhar(msg) {
   console.error(`ERRO: ${msg}`);
@@ -38,10 +42,33 @@ async function graph(caminho, { metodo = "GET", campos = {} } = {}) {
   return json;
 }
 
+// O ID da conta sai do próprio token; o segredo INSTAGRAM_BUSINESS_ACCOUNT_ID só desempata.
+async function descobrirConta() {
+  console.log(`Token do tipo ${TOKEN_INSTAGRAM ? "Instagram (IG...)" : `Facebook (${TOKEN.slice(0, 3)}...)`}, ${TOKEN.length} caracteres, API ${new URL(API).host}.`);
+  if (TOKEN_INSTAGRAM) {
+    const eu = await graph("me", { campos: { fields: "user_id,username" } });
+    console.log(`Conta do token: @${eu.username} (ID ${eu.user_id ?? eu.id})`);
+    return eu.user_id ?? eu.id;
+  }
+  const { data = [] } = await graph("me/accounts", { campos: { fields: "name,instagram_business_account{id,username}" } });
+  const contas = data.filter((p) => p.instagram_business_account).map((p) => ({ pagina: p.name, ...p.instagram_business_account }));
+  for (const c of contas) console.log(`Página "${c.pagina}" → Instagram @${c.username} (ID ${c.id})`);
+  if (!contas.length) {
+    falhar(
+      `O token não enxerga nenhuma conta do Instagram ligada a uma Página do Facebook (${data.length} página(s) encontrada(s)). ` +
+        "Ligue o Instagram profissional a uma Página do Facebook e gere o token com pages_show_list, instagram_basic e instagram_content_publish.",
+    );
+  }
+  const escolhida =
+    contas.find((c) => c.id === CONTA_INFORMADA) ?? contas.find((c) => /afee/i.test(c.username)) ?? (contas.length === 1 ? contas[0] : null);
+  if (!escolhida) falhar("Mais de uma conta do Instagram no token; coloque o ID certo (lista acima) no segredo INSTAGRAM_BUSINESS_ACCOUNT_ID.");
+  return escolhida.id;
+}
+
 async function verificar() {
-  const conta = await graph(CONTA, { campos: { fields: "username,name" } });
-  console.log(`Conta: @${conta.username} (${conta.name ?? "sem nome"})`);
-  if (!TOKEN.startsWith("IG")) {
+  const conta = await graph(CONTA, { campos: { fields: "username" } });
+  console.log(`Conta usada: @${conta.username}`);
+  if (!TOKEN_INSTAGRAM) {
     try {
       const { data } = await graph("me/permissions");
       const dadas = data.filter((p) => p.status === "granted").map((p) => p.permission);
@@ -123,6 +150,7 @@ async function publicar() {
 }
 
 try {
+  CONTA = await descobrirConta();
   if (modo === "verificar") await verificar();
   else if (modo === "publicar") await publicar();
   else falhar(`Modo desconhecido: ${modo}. Use verificar ou publicar.`);
