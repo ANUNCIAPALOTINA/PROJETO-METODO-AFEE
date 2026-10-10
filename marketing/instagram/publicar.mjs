@@ -50,13 +50,21 @@ async function descobrirConta() {
     console.log(`Conta do token: @${eu.username} (ID ${eu.user_id ?? eu.id})`);
     return eu.user_id ?? eu.id;
   }
+  let tipo;
   try {
     const { data: t } = await graph("debug_token", { campos: { input_token: TOKEN } });
+    tipo = t.type;
     const validade = t.expires_at ? new Date(t.expires_at * 1000).toISOString().slice(0, 10) : "não expira";
     console.log(`Token: app ${t.app_id} (${t.application ?? "?"}), tipo ${t.type}, válido ${t.is_valid}, expira ${validade}.`);
     console.log(`Permissões do token: ${(t.scopes ?? []).join(", ") || "nenhuma"}`);
   } catch (e) {
     console.log(`(Não deu para inspecionar o token: ${e.message})`);
+  }
+  if (tipo === "APP") {
+    falhar(
+      "O token salvo é um token de APP (identifica só o aplicativo, não a sua conta) e não pode postar. " +
+        "Gere um token de usuário em App Dashboard > Instagram > Configuração da API com login do Instagram > Gerar token.",
+    );
   }
   const { data = [] } = await graph("me/accounts", { campos: { fields: "name,instagram_business_account{id,username}" } });
   const contas = data.filter((p) => p.instagram_business_account).map((p) => ({ pagina: p.name, ...p.instagram_business_account }));
