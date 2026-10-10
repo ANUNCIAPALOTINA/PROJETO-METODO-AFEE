@@ -230,4 +230,195 @@ export const semana02 = [
   },
 ];
 
-export const semanas = { "01": semana01, "02": semana02 };
+// Semana 03 · Sair de casa (caps. 9 e 10 do ebook: motivação, disciplina e rotina).
+export const semana03 = [
+  {
+    id: "01-saia-de-casa",
+    dia: "Segunda",
+    formato: "carrossel",
+    objetivo: "Identificação, motivação (alcance)",
+    slides: [
+      { tipo: "capa", foto: "hero-noite-900.webp", posicao: "center 4%", etiqueta: "Capítulo 9, um pedaço", titulo: "Sem vontade de treinar hoje?" },
+      { tipo: "texto", etiqueta: "A verdade", titulo: "Motivação você não vai ter todos os dias.", corpo: "Motivo + ação. Foque no que faz você se mexer, não no que você sente." },
+      { tipo: "texto", etiqueta: "O truque", titulo: "Minta pra si mesmo: você só vai até o lugar.", corpo: "Chegando lá, aí sim decide se treina ou não." },
+      { tipo: "texto", etiqueta: "O que acontece", titulo: "Você já saiu, já chegou. Vai voltar pra casa?", corpo: "Não. Mesmo cansado, você treina." },
+      { tipo: "cta", titulo: "O problema é o conforto, não o cansaço." },
+    ],
+    legenda: (p) =>
+      `O difícil não é o treino. É sair de casa.\n\nMinha regra: eu só prometo ir até o lugar. Chegando lá, decido. Quase sempre eu treino.\n\nManda pra quem precisa ler isso hoje.\n\n${CTA_LEGENDA(p.preco, p.precoDe)}\n\n${HASHTAGS}`,
+  },
+  {
+    id: "02-seja-sincero",
+    dia: "Terça",
+    formato: "carrossel",
+    objetivo: "Reflexão, gera comentários (engajamento)",
+    slides: [
+      { tipo: "capa", foto: "historia-barra-812.webp", etiqueta: "Pergunta séria", titulo: "Por que você quer treinar de verdade?" },
+      { tipo: "texto", etiqueta: "O clichê", titulo: "“É pela saúde.”", corpo: "Todo mundo fala isso. Quem para em poucos meses também falava." },
+      { tipo: "texto", etiqueta: "Seja sincero", titulo: "Mostrar que é capaz? Impressionar alguém? Fazer os movimentos mais legais?", corpo: "Tudo bem. Ninguém precisa saber, só você." },
+      { tipo: "texto", etiqueta: "O ponto", titulo: "O motivo real é o que te tira de casa nos dias ruins." },
+      { tipo: "cta", titulo: "Treino com direção começa no motivo." },
+    ],
+    legenda: (p) =>
+      `Se o seu motivo é "só pela saúde", você provavelmente vai parar.\n\nAche o motivo real, aquele que você não fala pra ninguém. É ele que te leva pro treino no frio, no calor e no cansaço.\n\n${CTA_LEGENDA(p.preco, p.precoDe)}\n\n${HASHTAGS}`,
+  },
+  {
+    id: "03-rotina-pronta",
+    dia: "Quarta",
+    formato: "carrossel",
+    objetivo: "Educativo prático, gera salvamentos (alcance)",
+    slides: [
+      { tipo: "capa", foto: "metodo-parque-850.webp", etiqueta: "Capítulo 10, um pedaço", titulo: "Deixe tudo pronto antes da hora do treino" },
+      {
+        tipo: "lista",
+        etiqueta: "Como eu faço",
+        titulo: "Meu dia de treino",
+        itens: [
+          ["Manhã", "Pão, pasta de amendoim e café"],
+          ["Meio-dia", "Almoço bom e mochila arrumada"],
+          ["Tarde", "Hipercalórico"],
+          ["17h às 19h", "Só trocar de roupa e sair"],
+        ],
+      },
+      { tipo: "texto", etiqueta: "A lógica", titulo: "Uma ação leva à outra.", corpo: "Fiz tudo isso pra chegar em casa e não treinar? Não faz sentido." },
+      { tipo: "cta", titulo: "Rotina é um passo a passo, não força de vontade." },
+    ],
+    legenda: (p) =>
+      `Roupa separada, fone carregado, mochila pronta. Na hora do treino eu só me troco e saio.\n\nQuando cada hábito do dia está feito, treinar vira só o próximo passo.\n\nSalva e monta o seu.\n\n${CTA_LEGENDA(p.preco, p.precoDe)}\n\n${HASHTAGS}`,
+  },
+  {
+    id: "04-relato-joao",
+    dia: "Quinta",
+    formato: "imagem",
+    objetivo: "Prova social (conversão)",
+    slides: [{ tipo: "relato", nome: "João", texto: "Bom, me ajudou a sair de casa treinar kkkkkk" }],
+    legenda: (p) =>
+      `Sair de casa é metade do treino. Valeu, João.\n\nResultado individual, varia de pessoa para pessoa.\n\n${CTA_LEGENDA(p.preco, p.precoDe)}\n\n${HASHTAGS}`,
+  },
+  {
+    id: "05-sozinho-ou-com-amigo",
+    dia: "Sexta",
+    formato: "carrossel",
+    objetivo: "Engajamento, marcar amigo (alcance)",
+    slides: [
+      { tipo: "capa", foto: "final-cta-1080.webp", etiqueta: "E você?", titulo: "Treinar sozinho ou com um amigo?" },
+      { tipo: "texto", etiqueta: "Sozinho", titulo: "Fone no ouvido e descarrega tudo.", corpo: "Com um treino bem definido, você rende muito bem sozinho." },
+      { tipo: "texto", etiqueta: "Com amigo", titulo: "Um puxa o outro nos dias ruins.", corpo: "Se ajudem nas séries finais, conversem e se divirtam. Treino não é pra ser chato." },
+      { tipo: "texto", etiqueta: "A dica", titulo: "Escolha a música do treino antes de sair de casa.", corpo: "Aquela que tocou na série mais difícil." },
+      { tipo: "cta", titulo: "Os dois funcionam com direção." },
+    ],
+    legenda: (p) =>
+      `Eu sempre gostei de treinar sozinho. Mas um parceiro que te tira de casa nos dias ruins vale muito.\n\nMarca aqui quem treina (ou deveria treinar) com você.\n\n${CTA_LEGENDA(p.preco, p.precoDe)}\n\n${HASHTAGS}`,
+  },
+  {
+    id: "06-dia-perdido",
+    dia: "Sábado",
+    formato: "imagem",
+    objetivo: "Motivação (alcance)",
+    slides: [{ tipo: "capa", foto: "obrigado-noite-900.webp", etiqueta: "Pensa nisso", titulo: "Fez todos os hábitos do dia. Por que não ir treinar?" }],
+    legenda: (p) =>
+      `Quando o dia todo foi organizado pro treino, ficar em casa vira o dia perdido.\n\nMolde o dia pra que treinar seja só mais uma parte dele.\n\n${CTA_LEGENDA(p.preco, p.precoDe)}\n\n${HASHTAGS}`,
+  },
+  {
+    id: "07-oferta",
+    dia: "Domingo",
+    formato: "imagem",
+    objetivo: "Oferta direta (conversão)",
+    slides: [{ tipo: "cta", titulo: "Método AFEE", oferta: true }],
+    legenda: (p) =>
+      `Motivação, disciplina e rotina têm capítulo próprio no ebook. Junto com a divisão da semana e as quatro fases do treino.\n\nPreço de lançamento: ${p.preco} (de ${p.precoDe}). Pix ou cartão, acesso na hora.\n\nLink na bio. Ou comente MÉTODO que eu te mando.\n\n${HASHTAGS}`,
+  },
+];
+
+// Semana 04 · Comece agora (caps. 3, 8, 11 e 12 do ebook).
+export const semana04 = [
+  {
+    id: "01-calistenia-ou-academia",
+    dia: "Segunda",
+    formato: "carrossel",
+    objetivo: "Polêmica leve, gera comentários (alcance)",
+    slides: [
+      { tipo: "capa", foto: "sem-academia-mureta-1080.webp", etiqueta: "Capítulo 3, um pedaço", titulo: "Por que eu começaria pela calistenia, não pela academia" },
+      { tipo: "texto", etiqueta: "Na calistenia", titulo: "Você já começa movendo o próprio peso.", corpo: "Um exercício trabalha vários músculos de uma vez." },
+      { tipo: "texto", etiqueta: "Na academia", titulo: "Normalmente começa com 5, 10, 15 kg num músculo só.", corpo: "Percebe como a progressão demora mais?" },
+      { tipo: "texto", etiqueta: "Sem briga", titulo: "Peso e aparelho podem vir depois.", corpo: "Com um ou dois anos de calistenia, eles somam. Tudo no seu tempo." },
+      { tipo: "cta", titulo: "Comece pelo próprio corpo." },
+    ],
+    legenda: (p) =>
+      `Academia não é inimiga. Mas pra começar, eu escolheria a calistenia.\n\nVocê move o seu próprio peso desde o primeiro dia e trabalha vários músculos juntos.\n\nConcorda? Comenta aí.\n\n${CTA_LEGENDA(p.preco, p.precoDe)}\n\n${HASHTAGS}`,
+  },
+  {
+    id: "02-comer-e-o-dificil",
+    dia: "Terça",
+    formato: "carrossel",
+    objetivo: "Educativo, gera salvamentos (alcance)",
+    slides: [
+      { tipo: "capa", foto: "hero-noite-900.webp", posicao: "center 4%", etiqueta: "Capítulo 8, um pedaço", titulo: "Treinar é fácil. Comer bem é difícil." },
+      { tipo: "texto", etiqueta: "Metabolismo acelerado", titulo: "Coma mais do que você gasta.", corpo: "Arroz, ovos, pasta de amendoim, batata-doce, pão. Frutas e salada também." },
+      { tipo: "texto", etiqueta: "A dica", titulo: "Saciado? Coma mais um pouco.", corpo: "E use refeição líquida: aveia, leite, frutas, farinha de arroz." },
+      { tipo: "texto", etiqueta: "Metabolismo lento", titulo: "Coma menos do que você gasta.", corpo: "E, se puder, procure um nutricionista." },
+      { tipo: "cta", titulo: "Sem dieta escrava. Comer bem vira normal." },
+    ],
+    legenda: (p) =>
+      `O que mais acelerou minha evolução não foi um exercício. Foi entender a alimentação.\n\nNão sou nutricionista: isso é o que funcionou pra mim. Se você está acima do peso, procure um profissional.\n\n${CTA_LEGENDA(p.preco, p.precoDe)}\n\n${HASHTAGS}`,
+  },
+  {
+    id: "03-qualquer-lugar",
+    dia: "Quarta",
+    formato: "carrossel",
+    objetivo: "Quebrar objeção de equipamento (consideração)",
+    slides: [
+      { tipo: "capa", foto: "metodo-parque-850.webp", etiqueta: "Capítulo 11", titulo: "O melhor lugar de treino é o que você gosta" },
+      { tipo: "texto", etiqueta: "Não precisa", titulo: "Não precisa ser um lugar feito pra treinar." },
+      { tipo: "texto", etiqueta: "Adapte", titulo: "Um murinho vira flexão. Uma barra de praça vira treino de costas.", corpo: "As possibilidades são infinitas." },
+      { tipo: "texto", etiqueta: "Bônus", titulo: "Cada lugar novo traz exercícios novos.", corpo: "O treino nunca fica repetitivo." },
+      { tipo: "cta", titulo: "Sem academia, sem aparelho." },
+    ],
+    legenda: (p) =>
+      `Praça, parque, murinho, quintal. Se você gosta do lugar, você volta pra ele.\n\nOnde você treina hoje? Comenta aí.\n\n${CTA_LEGENDA(p.preco, p.precoDe)}\n\n${HASHTAGS}`,
+  },
+  {
+    id: "04-relato-luis",
+    dia: "Quinta",
+    formato: "imagem",
+    objetivo: "Prova social honesta (conversão)",
+    slides: [{ tipo: "relato", nome: "Luis Hoffman", texto: "O conteúdo é bom, foi direto ao ponto. Não tem milagre, mas é o melhor método que já vi até hoje." }],
+    legenda: (p) =>
+      `"Não tem milagre." Concordo, Luis. Tem método.\n\nResultado individual, varia de pessoa para pessoa.\n\n${CTA_LEGENDA(p.preco, p.precoDe)}\n\n${HASHTAGS}`,
+  },
+  {
+    id: "05-pratica-vale-mais",
+    dia: "Sexta",
+    formato: "carrossel",
+    objetivo: "Reflexão, compartilhamento (alcance)",
+    slides: [
+      { tipo: "capa", foto: "historia-barra-812.webp", etiqueta: "Capítulo 12", titulo: "Você sabe tudo de treino. Mas treina?" },
+      { tipo: "texto", etiqueta: "O problema", titulo: "Muito vídeo, muita informação, nada de prática.", corpo: "O cérebro “engorda” de informação." },
+      { tipo: "texto", etiqueta: "Todo mundo conhece", titulo: "Aquele que sabe o certo e o errado de tudo.", corpo: "Mas não faz nada do que fala." },
+      { tipo: "texto", etiqueta: "A conclusão", titulo: "Não espere saber tudo pra começar.", corpo: "Fazer qualquer coisa é melhor que não fazer nada." },
+      { tipo: "cta", titulo: "Pare de assistir. Comece a treinar." },
+    ],
+    legenda: (p) =>
+      `Essa reflexão veio de um amigo que está aplicando o método AFEE: informação sem prática é só gordura no cérebro.\n\nManda pra quem vive vendo vídeo de treino e não sai do sofá.\n\n${CTA_LEGENDA(p.preco, p.precoDe)}\n\n${HASHTAGS}`,
+  },
+  {
+    id: "06-relato-marco",
+    dia: "Sábado",
+    formato: "imagem",
+    objetivo: "Prova social (conversão)",
+    slides: [{ tipo: "relato", nome: "Marco B.", texto: "Método único, ninguém ensina na internet." }],
+    legenda: (p) =>
+      `Valeu, Marco. Foi pra isso que eu escrevi o método.\n\nResultado individual, varia de pessoa para pessoa.\n\n${CTA_LEGENDA(p.preco, p.precoDe)}\n\n${HASHTAGS}`,
+  },
+  {
+    id: "07-oferta",
+    dia: "Domingo",
+    formato: "imagem",
+    objetivo: "Oferta direta (conversão)",
+    slides: [{ tipo: "cta", titulo: "Método AFEE", oferta: true }],
+    legenda: (p) =>
+      `Quatro semanas de conteúdo aqui no perfil. No ebook está tudo junto, em ordem, em 12 capítulos.\n\nPreço de lançamento: ${p.preco} (de ${p.precoDe}). Pix ou cartão, acesso na hora.\n\nLink na bio. Ou comente MÉTODO que eu te mando.\n\n${HASHTAGS}`,
+  },
+];
+
+export const semanas = { "01": semana01, "02": semana02, "03": semana03, "04": semana04 };

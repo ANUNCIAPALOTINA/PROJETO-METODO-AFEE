@@ -1,0 +1,76 @@
+# Gera Reels (vídeo vertical com voz de IA grátis + música livre CC0) a partir dos carrosséis
+# e grava o MP4 no próprio branch em public/instagram/semana-XX/<post>/reel.mp4.
+# Manual: aba Actions → "Reels" → Run workflow → informe os posts (ex.: 01/02-quatro-fases).
+name: Reels
+
+on:
+  # Também roda quando muda a lista de pedidos (funciona em qualquer branch).
+  push:
+    paths:
+      - marketing/instagram/reels-pedido.txt
+  workflow_dispatch:
+    inputs:
+      posts:
+        description: "Posts separados por espaço, ex.: 01/02-quatro-fases 01/03-dividir-a-semana"
+        required: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: reels-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  reels:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Instalar ferramentas (ffmpeg, Playwright, edge-tts)
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          npm i --no-save playwright@1 && npx playwright install --with-deps chromium
+          pipx install edge-tts || pip install edge-tts
+      - name: Trilha de fundo (original em musica/trilha.mp3; FreePD como reserva)
+        run: |
+          mkdir -p marketing/instagram/musica
+          f=marketing/instagram/musica/trilha.mp3
+          if ! ffprobe -v error "$f" >/dev/null 2>&1; then
+            for pagina in upbeat epic; do
+              html=$(curl -sL -A "Mozilla/5.0" "https://freepd.com/$pagina.php")
+              echo "$pagina: $(echo "$html" | wc -c) bytes; mp3: $(echo "$html" | grep -oiE '.{60}\.mp3.{10}' | head -3)"
+              rel=$(echo "$html" | grep -oiE "[^\"' =(]+\.mp3" | head -1)
+              [ -n "$rel" ] || continue
+              case "$rel" in http*) url="$rel";; /*) url="https://freepd.com$rel";; *) url="https://freepd.com/$rel";; esac
+              url="${url// /%20}"
+              echo "Música: $url"
+              curl -sL "$url" -o "$f"
+              if ffprobe -v error "$f" >/dev/null 2>&1; then
+                echo "Fonte: $url (FreePD, Creative Commons 0)" > marketing/instagram/musica/FONTE.txt; break
+              fi
+              rm -f "$f"
+            done
+          fi
+          ffprobe -v error "$f" >/dev/null 2>&1 && echo "MUSICA=--musica $f" >> "$GITHUB_ENV" || echo "Sem música (não achei uma trilha válida)."
+      - name: Gerar Reels
+        env:
+          POSTS: ${{ inputs.posts }}
+        run: |
+          [ -n "$POSTS" ] || POSTS=$(grep -v '^#' marketing/instagram/reels-pedido.txt | xargs)
+          for chave in $POSTS; do
+            echo "Reel: $chave"
+            semana="${chave%%/*}"
+            [ -d "marketing/instagram/saida/reel/semana-$semana" ] || node marketing/instagram/gerar.mjs "$semana" --reel
+            node marketing/instagram/reel.mjs "$chave" --voz $MUSICA
+          done
+      - name: Gravar no branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/instagram marketing/instagram/musica
+          git commit -m "chore(marketing): Reels gerados [skip ci]" || echo "nada novo"
+          git push

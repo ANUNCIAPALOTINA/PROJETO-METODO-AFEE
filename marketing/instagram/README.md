@@ -11,3 +11,9 @@ NODE_PATH=$(npm root -g) node marketing/instagram/gerar.mjs 02 <pasta> # semana 
 ```
 
 Precisa do Playwright com Chromium instalado e internet para as fontes (Google Fonts).
+
+## Reels (`reel.mjs`)
+
+Transforma um carrossel em Reel 1080x1920 (MP4, ~20 s) com ffmpeg: `node marketing/instagram/reel.mjs 01/02-quatro-fases`. Grava em `public/instagram/semana-XX/<post>/reel.mp4` (URL pública para a API publicar com `media_type=REELS`).
+
+Com voz e música: `gerar.mjs 01 --reel` e depois `reel.mjs 01/02-quatro-fases --voz --musica trilha.mp3` (precisa de `edge-tts` instalado). No GitHub: Actions → "Reels" → Run workflow, que grava os MP4 no branch.
