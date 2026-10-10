@@ -35,7 +35,7 @@ jobs:
           sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
           npm i --no-save playwright@1 && npx playwright install --with-deps chromium
           pipx install edge-tts || pip install edge-tts
-      - name: Baixar música livre (FreePD, CC0)
+      - name: Trilha de fundo (original em musica/trilha.mp3; FreePD como reserva)
         run: |
           mkdir -p marketing/instagram/musica
           f=marketing/instagram/musica/trilha.mp3
