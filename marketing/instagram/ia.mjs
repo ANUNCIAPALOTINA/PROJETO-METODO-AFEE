@@ -14,11 +14,14 @@ const semana = process.argv[2] ? process.argv[2].padStart(2, "0") : Object.keys(
 const posts = semanas[semana];
 if (!posts) throw new Error(`Semana ${semana} não existe em conteudo.mjs`);
 
-const GEMINI = process.env.GEMINI_API_KEY;
-const OPENAI = process.env.OPENAI_API_KEY;
+// Limpa a chave colada com espaço, aspas ou "GEMINI_API_KEY=" na frente.
+const limpar = (v) => (v || "").trim().replace(/^[A-Z_]+\s*=\s*/, "").replace(/^["']|["']$/g, "").trim();
+const GEMINI = limpar(process.env.GEMINI_API_KEY);
+const OPENAI = limpar(process.env.OPENAI_API_KEY);
 const GEMINI_MODELO = process.env.GEMINI_MODELO || "gemini-2.5-flash";
 const OPENAI_MODELO = process.env.OPENAI_MODELO || "gpt-4.1-mini";
 
+if (GEMINI) console.log(`Chave Gemini: ${GEMINI.length} caracteres, começa com "${GEMINI.slice(0, 3)}"${/\s/.test(GEMINI) ? ", TEM ESPAÇO NO MEIO" : ""}`);
 if (!GEMINI && !OPENAI) {
   console.log("Sem GEMINI_API_KEY e sem OPENAI_API_KEY: Gemini e ChatGPT não estão em uso.");
   process.exit(0);
