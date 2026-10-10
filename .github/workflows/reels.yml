@@ -4,6 +4,10 @@
 name: Reels
 
 on:
+  # Também roda quando muda a lista de pedidos (funciona em qualquer branch).
+  push:
+    paths:
+      - marketing/instagram/reels-pedido.txt
   workflow_dispatch:
     inputs:
       posts:
@@ -45,7 +49,9 @@ jobs:
         env:
           POSTS: ${{ inputs.posts }}
         run: |
+          [ -n "$POSTS" ] || POSTS=$(grep -v '^#' marketing/instagram/reels-pedido.txt | xargs)
           for chave in $POSTS; do
+            echo "Reel: $chave"
             semana="${chave%%/*}"
             [ -d "marketing/instagram/saida/reel/semana-$semana" ] || node marketing/instagram/gerar.mjs "$semana" --reel
             node marketing/instagram/reel.mjs "$chave" --voz --musica marketing/instagram/musica/trilha.mp3
@@ -55,5 +61,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add public/instagram marketing/instagram/musica
-          git commit -m "chore(marketing): Reels gerados (${{ inputs.posts }})" || echo "nada novo"
+          git commit -m "chore(marketing): Reels gerados [skip ci]" || echo "nada novo"
           git push
