@@ -41,7 +41,9 @@ jobs:
           f=marketing/instagram/musica/trilha.mp3
           if ! ffprobe -v error "$f" >/dev/null 2>&1; then
             for pagina in upbeat epic; do
-              rel=$(curl -sL "https://freepd.com/$pagina.php" | grep -oiE 'href="[^"]+\.mp3"' | head -1 | sed -E 's/^href="//; s/"$//')
+              html=$(curl -sL -A "Mozilla/5.0" "https://freepd.com/$pagina.php")
+              echo "$pagina: $(echo "$html" | wc -c) bytes; mp3: $(echo "$html" | grep -oiE '.{60}\.mp3.{10}' | head -3)"
+              rel=$(echo "$html" | grep -oiE "[^\"' =(]+\.mp3" | head -1)
               [ -n "$rel" ] || continue
               case "$rel" in http*) url="$rel";; /*) url="https://freepd.com$rel";; *) url="https://freepd.com/$rel";; esac
               url="${url// /%20}"
