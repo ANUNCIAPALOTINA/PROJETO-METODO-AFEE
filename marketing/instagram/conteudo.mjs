@@ -421,4 +421,109 @@ export const semana04 = [
   },
 ];
 
-export const semanas = { "01": semana01, "02": semana02, "03": semana03, "04": semana04 };
+export const semana05 = [
+  {
+    id: "01-cinco-mitos",
+    dia: "Sábado",
+    formato: "carrossel",
+    objetivo: "Quebra de mito, gera comentários e salvamentos (alcance)",
+    slides: [
+      { tipo: "capa", foto: "sem-academia-mureta-1080.webp", etiqueta: "Mito x verdade", titulo: "5 mentiras que te contaram sobre treinar sem academia" },
+      { tipo: "texto", etiqueta: "Mito 1", titulo: "“Calistenia não dá força.”", corpo: "Verdade: em vez de pôr peso, você deixa o movimento mais difícil." },
+      { tipo: "texto", etiqueta: "Mito 2", titulo: "“Tem que ir até a falha em toda série.”", corpo: "Verdade: no meio do treino, pare 1 ou 2 repetições antes. A falha fica pro final." },
+      { tipo: "texto", etiqueta: "Mito 3", titulo: "“Alonga antes, com o músculo frio.”", corpo: "Verdade: primeiro aqueça. Elástico frio esticado rasga." },
+      { tipo: "texto", etiqueta: "Mito 4", titulo: "“Precisa de equipamento.”", corpo: "Verdade: um murinho, um banco e uma barra de praça bastam." },
+      { tipo: "texto", etiqueta: "Mito 5", titulo: "“Treina tudo junto no mesmo dia.”", corpo: "Verdade: separe empurrar e puxar." },
+      { tipo: "cta", titulo: "Qual desses você acreditava? Comenta o número." },
+    ],
+    legenda: (p) =>
+      `Qual desses você acreditava? Comenta o número 👇\n\nTodos estão explicados no ebook, com o porquê de cada um.\n\n${CTA_LEGENDA(p.preco, p.precoDe)}\n\n${HASHTAGS}`,
+  },
+  {
+    id: "02-forcar-primeiro",
+    dia: "Domingo",
+    formato: "carrossel",
+    objetivo: "Ideia exclusiva do AFEE, gera salvamentos (consideração)",
+    slides: [
+      { tipo: "capa", foto: "historia-barra-812.webp", etiqueta: "O erro do iniciante", titulo: "Deixar a barra pro final é o motivo de você não evoluir nela" },
+      { tipo: "texto", etiqueta: "O problema", titulo: "Depois de 40 minutos de treino, não sobra força pro movimento difícil.", corpo: "Ele fica sempre por último. E nunca melhora." },
+      { tipo: "fase", letra: "F", nome: "Forçar", texto: "Aqueceu? Faça agora o movimento mais pesado pra você.", idx: 1 },
+      { tipo: "texto", etiqueta: "Depois", titulo: "Aí sim vem o resto do treino.", corpo: "Estimular e, no fim, Exaustar." },
+      { tipo: "cta", titulo: "O mais pesado vem primeiro." },
+    ],
+    legenda: (p) =>
+      `Você deixa o exercício mais difícil pro final do treino?\n\nNo Método AFEE ele vem logo depois do aquecimento. É o F de Forçar.\n\nManda pra quem só faz o fácil.\n\n${CTA_LEGENDA(p.preco, p.precoDe)}\n\n${HASHTAGS}`,
+  },
+  {
+    id: "03-quanto-custa",
+    dia: "Segunda",
+    formato: "carrossel",
+    objetivo: "Quebrar objeção de preço (conversão)",
+    slides: [
+      { tipo: "capa", foto: "metodo-parque-850.webp", etiqueta: "Fiz a conta", titulo: "Quanto custa começar a treinar?" },
+      { tipo: "texto", etiqueta: "Academia", titulo: "Mensalidade todo mês.", corpo: "Mais o deslocamento e o horário de funcionamento." },
+      { tipo: "texto", etiqueta: "App de treino", titulo: "Assinatura todo mês.", corpo: "E um treino genérico, igual pra todo mundo." },
+      { tipo: "texto", etiqueta: "Método AFEE", titulo: "Paga uma vez. Treina na praça ou em casa.", corpo: "Sem mensalidade e sem aparelho." },
+      { tipo: "texto", etiqueta: "Importante", titulo: "Não substitui um profissional se você tem lesão.", corpo: "Mas organiza o seu treino do começo ao fim." },
+      { tipo: "cta", titulo: "Método AFEE", oferta: true },
+    ],
+    legenda: (p) =>
+      `Academia e app cobram todo mês. O Método AFEE você paga uma vez: ${p.preco} (de ${p.precoDe}).\n\nTreino na praça, no parque ou em casa.\n\nLink na bio. Ou comente MÉTODO que eu te mando.\n\n${HASHTAGS}`,
+  },
+  {
+    id: "04-relato-lucas",
+    dia: "Terça",
+    formato: "imagem",
+    objetivo: "Prova social (conversão)",
+    slides: [{ tipo: "relato", nome: "Lucas", texto: "Comecei a treinar faz 3 meses, meu shape começou a ficar bom e saiu até uns movimentos novos." }],
+    legenda: (p) =>
+      `Movimento novo é o melhor sinal de que o treino tem direção. Valeu, Lucas.\n\nResultado individual, varia de pessoa para pessoa.\n\n${CTA_LEGENDA(p.preco, p.precoDe)}\n\n${HASHTAGS}`,
+  },
+  {
+    id: "05-um-treino-quatro-fases",
+    dia: "Quarta",
+    formato: "carrossel",
+    objetivo: "Treino pronto pra salvar (alcance)",
+    slides: [
+      { tipo: "capa", foto: "faixa-grama-1080.webp", etiqueta: "Salva pra amanhã", titulo: "Sem academia. Um treino. Quatro fases." },
+      { tipo: "fase", letra: "A", nome: "Aquecer", texto: "Movimentos dinâmicos até suar leve.", idx: 0 },
+      { tipo: "fase", letra: "F", nome: "Forçar", texto: "O movimento mais pesado pra você, logo no começo.", idx: 1 },
+      { tipo: "fase", letra: "E", nome: "Estimular", texto: "2 a 5 séries por exercício, parando 1 ou 2 repetições antes da falha.", idx: 2 },
+      { tipo: "fase", letra: "E", nome: "Exaustar", texto: "Um exercício mais leve, agora sim até a falha.", idx: 3 },
+      { tipo: "cta", titulo: "Começo, meio e fim." },
+    ],
+    legenda: (p) =>
+      `Salva esse post e faz amanhã, em qualquer lugar.\n\nO ebook mostra quais exercícios entram em cada fase e como avançar.\n\n${CTA_LEGENDA(p.preco, p.precoDe)}\n\n${HASHTAGS}`,
+  },
+  {
+    id: "06-termometro",
+    dia: "Quinta",
+    formato: "carrossel",
+    objetivo: "Curiosidade sobre o método (consideração)",
+    slides: [
+      { tipo: "capa", foto: "obrigado-noite-900.webp", etiqueta: "Do ebook", titulo: "Existe um termômetro que diz a hora da próxima série" },
+      { tipo: "texto", etiqueta: "O que é", titulo: "Ele mede o quão frio ou quente seu corpo está." },
+      { tipo: "texto", etiqueta: "Frio demais", titulo: "Descansou demais? O corpo esfriou.", corpo: "A próxima série rende menos." },
+      { tipo: "texto", etiqueta: "Quente demais", titulo: "Sem descanso nenhum? Você fadiga rápido.", corpo: "E o treino acaba antes da hora." },
+      { tipo: "cta", titulo: "Treino quente, sem fadiga." },
+    ],
+    legenda: (p) =>
+      `Quanto tempo você descansa entre as séries? Comenta aí.\n\nNo Método AFEE quem decide é o termômetro: nem frio, nem fadigado.\n\n${CTA_LEGENDA(p.preco, p.precoDe)}\n\n${HASHTAGS}`,
+  },
+  {
+    id: "07-dentro-do-ebook",
+    dia: "Sexta",
+    formato: "carrossel",
+    objetivo: "Quebrar a objeção 'barato deve ser raso' (conversão)",
+    slides: [
+      { tipo: "capa", foto: "final-cta-1080.webp", etiqueta: "Por dentro", titulo: "O que vem dentro do Método AFEE" },
+      { tipo: "lista", etiqueta: "12 capítulos, em ordem", titulo: "O que você aprende", itens: [["Método", "Aquecer, Forçar, Estimular, Exaustar"], ["Descanso", "O termômetro"], ["Semana", "Empurrar e puxar"], ["Lugar", "Praça, parque, casa"], ["Comida", "Do jeito simples"]] },
+      { tipo: "relato", nome: "Luis Hoffman", texto: "O conteúdo é bom, foi direto ao ponto. Não tem milagre, mas é o melhor método que já vi até hoje." },
+      { tipo: "cta", titulo: "Método AFEE", oferta: true },
+    ],
+    legenda: (p) =>
+      `“É barato, deve ser raso.” Olha o que vem dentro e decide.\n\nPreço de lançamento: ${p.preco} (de ${p.precoDe}). Pix ou cartão, acesso na hora.\n\nLink na bio. Ou comente MÉTODO que eu te mando.\n\n${HASHTAGS}`,
+  },
+];
+
+export const semanas = { "01": semana01, "02": semana02, "03": semana03, "04": semana04, "05": semana05 };

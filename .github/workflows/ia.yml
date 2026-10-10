@@ -1,0 +1,38 @@
+name: IA (Gemini e ChatGPT)
+
+# Toda segunda, pede ao Gemini e ao ChatGPT ganchos, legendas e roteiros
+# alternativos para a semana mais nova de posts. Sem as chaves, não faz nada.
+on:
+  schedule:
+    - cron: "0 12 * * 1"
+  workflow_dispatch:
+    inputs:
+      semana:
+        description: "Semana (ex.: 05). Vazio = a mais nova"
+        required: false
+
+permissions:
+  contents: write
+
+jobs:
+  sugestoes:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Gerar sugestões
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          SEMANA: ${{ github.event.inputs.semana }}
+        run: node marketing/instagram/ia.mjs $SEMANA
+      - name: Salvar no repositório
+        run: |
+          git config user.name "robo-afee"
+          git config user.email "robo-afee@users.noreply.github.com"
+          git add marketing/instagram/ia
+          git diff --cached --quiet && exit 0
+          git commit -m "chore(marketing): sugestões de IA [skip ci]"
+          git push
