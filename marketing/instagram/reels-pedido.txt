@@ -1,14 +1,5 @@
-# voz +45% (10/10)
 # Posts que viram Reel (semana/post). Mudar este arquivo gera os Reels no GitHub.
-01/02-quatro-fases
-01/03-dividir-a-semana
-01/06-minha-historia
-02/01-treino-curto-ou-longo
-02/02-quanto-descansar
-02/05-puxar-e-empurrar
-03/01-saia-de-casa
-03/03-rotina-pronta
-03/05-sozinho-ou-com-amigo
-04/01-calistenia-ou-academia
-04/02-comer-e-o-dificil
-04/05-pratica-vale-mais
+# Os Reels das semanas 01-04 já estão prontos em public/instagram. Aqui ficam só os novos.
+05/01-cinco-mitos
+05/05-um-treino-quatro-fases
+05/02-forcar-primeiro
