@@ -1,0 +1,43 @@
+# Robô do Instagram. Manual: aba Actions → "Instagram" → Run workflow.
+# Automático (todo dia 19h de Brasília) só quando a variável do repositório
+# ROBO_INSTAGRAM estiver como "ligado" (Settings → Secrets and variables → Actions → Variables).
+name: Instagram
+
+on:
+  schedule:
+    - cron: "0 22 * * *"
+  workflow_dispatch:
+    inputs:
+      modo:
+        description: "verificar (só lê) ou publicar"
+        type: choice
+        options: [verificar, publicar]
+        default: verificar
+      post:
+        description: "Opcional: post a publicar, ex. 01/01-girando-em-circulos (vazio = o de hoje na agenda)"
+        required: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: instagram
+  cancel-in-progress: false
+
+jobs:
+  instagram:
+    if: github.event_name == 'workflow_dispatch' || vars.ROBO_INSTAGRAM == 'ligado'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Rodar o robô
+        env:
+          INSTAGRAM_ACCESS_TOKEN: ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
+          INSTAGRAM_BUSINESS_ACCOUNT_ID: ${{ secrets.INSTAGRAM_BUSINESS_ACCOUNT_ID }}
+          MODO: ${{ inputs.modo || 'publicar' }}
+          POST: ${{ inputs.post }}
+        run: node marketing/instagram/publicar.mjs "$MODO" $POST

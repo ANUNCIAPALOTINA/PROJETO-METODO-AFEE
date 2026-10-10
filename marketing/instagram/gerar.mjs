@@ -1,14 +1,17 @@
 /**
  * Gera as artes do Instagram (1080x1350, PNG) a partir de conteudo.mjs.
- * Uso: node marketing/instagram/gerar.mjs [pasta-de-saida]
- * Padrão de saída: marketing/instagram/saida/semana-01
+ * Uso: node marketing/instagram/gerar.mjs [semana] [pasta-de-saida] [--publico]
+ * Ex.: gerar.mjs 02 → marketing/instagram/saida/semana-02 (padrão: semana 01)
+ * --publico: também grava JPEG em public/instagram/semana-XX/<post>/NN.jpg, que o site
+ * serve em https://metodo-afee.netlify.app/instagram/... (a API do Instagram só aceita JPEG por URL).
  * Precisa do Playwright (Chromium). Fontes vêm do Google Fonts.
  */
 import { readFileSync, mkdirSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
-import { semana01 } from "./conteudo.mjs";
+import { semanas } from "./conteudo.mjs";
+import { precos } from "./precos.mjs";
 
 const require = createRequire(import.meta.url);
 let chromium;
@@ -20,14 +23,14 @@ try {
 
 const AQUI = dirname(fileURLToPath(import.meta.url));
 const RAIZ = resolve(AQUI, "../..");
-const SAIDA = resolve(process.argv[2] ?? join(AQUI, "saida/semana-01"));
+const ARGS = process.argv.slice(2).filter((a) => !a.startsWith("--"));
+const PUBLICO = process.argv.includes("--publico");
+const SEMANA = ARGS[0] ?? "01";
+if (!semanas[SEMANA]) throw new Error(`Semana ${SEMANA} não existe em conteudo.mjs`);
+const SAIDA = resolve(ARGS[1] ?? join(AQUI, `saida/semana-${SEMANA}`));
 const FOTOS = join(RAIZ, "public/fotos");
+const PUBLICA = join(RAIZ, `public/instagram/semana-${SEMANA}`);
 
-// Preço lido da fonte única do site.
-const produtoTs = readFileSync(join(RAIZ, "src/config/produto.ts"), "utf8");
-const centavos = (chave) => Number(produtoTs.match(new RegExp(`${chave}:\\s*(\\d+)`))[1]);
-const brl = (c) => new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(c / 100);
-const precos = { preco: brl(centavos("precoCentavos")), precoDe: brl(centavos("precoOriginalCentavos")) };
 
 const esc = (s = "") => s.replace(/&/g, "&amp;").replace(/</g, "&lt;");
 // Data URI: a página é aberta com setContent (about:blank), que não carrega file://.
@@ -142,15 +145,20 @@ const html = (s, i, total, formato) => `<!doctype html><html lang="pt-BR"><head>
 
 const navegador = await chromium.launch();
 const pagina = await navegador.newPage({ viewport: { width: 1080, height: 1350 } });
-const legendas = [`# Legendas · Semana 01\n\nPreço lido de src/config/produto.ts: ${precos.preco} (de ${precos.precoDe}).\n`];
+const legendas = [`# Legendas · Semana ${SEMANA}\n\nPreço lido de src/config/produto.ts: ${precos.preco} (de ${precos.precoDe}).\n`];
 
-for (const post of semana01) {
+for (const post of semanas[SEMANA]) {
   const pasta = join(SAIDA, post.id);
   mkdirSync(pasta, { recursive: true });
   for (const [i, s] of post.slides.entries()) {
     await pagina.setContent(html(s, i, post.slides.length, post.formato), { waitUntil: "networkidle" });
     await pagina.evaluate(() => document.fonts.ready);
-    await pagina.screenshot({ path: join(pasta, `${String(i + 1).padStart(2, "0")}.png`) });
+    const nome = String(i + 1).padStart(2, "0");
+    await pagina.screenshot({ path: join(pasta, `${nome}.png`) });
+    if (PUBLICO) {
+      mkdirSync(join(PUBLICA, post.id), { recursive: true });
+      await pagina.screenshot({ path: join(PUBLICA, post.id, `${nome}.jpg`), type: "jpeg", quality: 90 });
+    }
   }
   const legenda = post.legenda(precos);
   writeFileSync(join(pasta, "legenda.txt"), legenda);
