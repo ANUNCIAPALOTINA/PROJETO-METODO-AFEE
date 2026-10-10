@@ -47,16 +47,16 @@ function fala(s) {
 
 const ffprobeDur = (f) => Number(execFileSync("ffprobe", ["-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", f]).toString());
 const TMP = mkdtempSync(join(tmpdir(), "reel-"));
-const BASE = 3.2;
-const FADE = 0.4;
+const BASE = 2.4;
+const FADE = 0.3;
 const FPS = 30;
 const vozes = [];
 const dur = post.slides.map((s, i) => {
   if (!VOZ) return BASE;
   const arq = join(TMP, `${i}.mp3`);
-  execFileSync("edge-tts", ["--voice", VOZ_NOME, "--rate=+8%", "--text", fala(s), "--write-media", arq], { stdio: "ignore" });
+  execFileSync("edge-tts", ["--voice", VOZ_NOME, "--rate=+25%", "--text", fala(s), "--write-media", arq], { stdio: "ignore" });
   vozes.push(arq);
-  return Math.max(BASE, ffprobeDur(arq) + 0.9);
+  return Math.max(BASE, ffprobeDur(arq) + 0.35);
 });
 const inicio = dur.map((_, i) => dur.slice(0, i).reduce((a, b) => a + b, 0) - i * FADE);
 const total = inicio.at(-1) + dur.at(-1);
@@ -82,7 +82,7 @@ const extras = [];
 const mix = [];
 vozes.forEach((v, i) => {
   extras.push("-i", v);
-  filtros.push(`[${n}:a]adelay=${Math.round((inicio[i] + 0.35) * 1000)}:all=1[a${i}]`);
+  filtros.push(`[${n}:a]adelay=${Math.round((inicio[i] + 0.15) * 1000)}:all=1[a${i}]`);
   mix.push(`[a${i}]`);
   n++;
 });

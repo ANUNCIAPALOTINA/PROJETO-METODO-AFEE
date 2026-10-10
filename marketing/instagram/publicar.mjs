@@ -4,6 +4,8 @@
  *   node marketing/instagram/publicar.mjs verificar            → só lê: conta, permissões e limite de posts
  *   node marketing/instagram/publicar.mjs publicar             → publica o post de hoje (agenda.json)
  *   node marketing/instagram/publicar.mjs publicar 01/07-oferta → publica esse post
+ *   node marketing/instagram/publicar.mjs publicar reel:01/02-quatro-fases → publica o Reel desse carrossel
+ * Na agenda, o dia pode ter um item ou uma lista; "reel:" publica public/instagram/semana-XX/<post>/reel.mp4.
  * Variáveis: INSTAGRAM_ACCESS_TOKEN, INSTAGRAM_BUSINESS_ACCOUNT_ID (opcional; a conta é descoberta pelo token),
  *   SITE_URL (padrão https://metodo-afee.netlify.app), onde ficam os JPEG de public/instagram/.
  */
@@ -103,19 +105,19 @@ async function verificar() {
   }
 }
 
-function postDeHoje() {
-  if (escolhido) return escolhido;
+function itensDeHoje() {
+  if (escolhido) return [escolhido];
   const hoje = new Intl.DateTimeFormat("en-CA", { timeZone: "America/Sao_Paulo" }).format(new Date());
   const agenda = JSON.parse(readFileSync(join(AQUI, "agenda.json"), "utf8"));
   if (!agenda[hoje]) {
     console.log(`Nada agendado para ${hoje}.`);
     process.exit(0);
   }
-  return agenda[hoje];
+  return [].concat(agenda[hoje]);
 }
 
-async function esperarPronto(id) {
-  for (let i = 0; i < 30; i++) {
+async function esperarPronto(id, tentativas = 30) {
+  for (let i = 0; i < tentativas; i++) {
     const { status_code } = await graph(id, { campos: { fields: "status_code" } });
     if (status_code === "FINISHED") return;
     if (status_code === "ERROR" || status_code === "EXPIRED") throw new Error(`Container ${id}: ${status_code}`);
@@ -125,10 +127,21 @@ async function esperarPronto(id) {
 }
 
 async function publicar() {
-  const chave = postDeHoje();
+  for (const item of itensDeHoje()) await publicarItem(item);
+}
+
+async function jaPublicado(legenda) {
+  const { data: recentes = [] } = await graph(`${CONTA}/media`, { campos: { fields: "caption", limit: "25" } });
+  return recentes.some((m) => m.caption?.slice(0, 80) === legenda.slice(0, 80));
+}
+
+async function publicarItem(item) {
+  const reel = item.startsWith("reel:");
+  const chave = item.replace(/^reel:/, "");
   const [semana, id] = chave.split("/");
   const post = semanas[semana]?.find((p) => p.id === id);
   if (!post) falhar(`Post ${chave} não existe em conteudo.mjs.`);
+  if (reel) return publicarReel(chave, semana, id, post);
   const legenda = post.legenda(precos);
   const imagens = post.slides.map((_, i) => `${SITE}/instagram/semana-${semana}/${id}/${String(i + 1).padStart(2, "0")}.jpg`);
 
@@ -138,8 +151,7 @@ async function publicar() {
   }
 
   // Não publica duas vezes: compara com o começo da legenda dos últimos posts.
-  const { data: recentes = [] } = await graph(`${CONTA}/media`, { campos: { fields: "caption", limit: "15" } });
-  if (recentes.some((m) => m.caption?.slice(0, 80) === legenda.slice(0, 80))) {
+  if (await jaPublicado(legenda)) {
     console.log(`Post ${chave} já está no Instagram. Nada a fazer.`);
     return;
   }
@@ -163,6 +175,26 @@ async function publicar() {
   const { id: midia } = await graph(`${CONTA}/media_publish`, { metodo: "POST", campos: { creation_id: container } });
   const { permalink } = await graph(midia, { campos: { fields: "permalink" } });
   console.log(`Publicado ${chave}: ${permalink}`);
+}
+
+// Reel: o vídeo do carrossel (gerado pelo reel.mjs) com legenda própria, para não repetir a do carrossel.
+async function publicarReel(chave, semana, id, post) {
+  const video = `${SITE}/instagram/semana-${semana}/${id}/reel.mp4`;
+  const r = await fetch(video, { method: "HEAD" });
+  if (!r.ok) falhar(`Vídeo fora do ar: ${video} (${r.status}). O site já foi publicado com o reel.mp4?`);
+  const legenda = `Em vídeo, pra assistir e salvar. ${post.legenda(precos)}`;
+  if (await jaPublicado(legenda)) {
+    console.log(`Reel ${chave} já está no Instagram. Nada a fazer.`);
+    return;
+  }
+  const { id: container } = await graph(`${CONTA}/media`, {
+    metodo: "POST",
+    campos: { media_type: "REELS", video_url: video, caption: legenda, share_to_feed: "true" },
+  });
+  await esperarPronto(container, 60);
+  const { id: midia } = await graph(`${CONTA}/media_publish`, { metodo: "POST", campos: { creation_id: container } });
+  const { permalink } = await graph(midia, { campos: { fields: "permalink" } });
+  console.log(`Publicado reel:${chave}: ${permalink}`);
 }
 
 try {
