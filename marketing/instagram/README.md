@@ -11,3 +11,7 @@ NODE_PATH=$(npm root -g) node marketing/instagram/gerar.mjs 02 <pasta> # semana 
 ```
 
 Precisa do Playwright com Chromium instalado e internet para as fontes (Google Fonts).
+
+## Reels (`reel.mjs`)
+
+Transforma um carrossel em Reel 1080x1920 (MP4, ~20 s) com ffmpeg: `node marketing/instagram/reel.mjs 01/02-quatro-fases`. Grava em `public/instagram/semana-XX/<post>/reel.mp4` (URL pública para a API publicar com `media_type=REELS`).
