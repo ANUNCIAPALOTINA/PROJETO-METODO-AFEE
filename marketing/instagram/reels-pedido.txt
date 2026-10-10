@@ -1,3 +1,4 @@
+# voz +45% (10/10)
 # Posts que viram Reel (semana/post). Mudar este arquivo gera os Reels no GitHub.
 01/02-quatro-fases
 01/03-dividir-a-semana
