@@ -38,13 +38,22 @@ jobs:
       - name: Baixar música livre (FreePD, CC0)
         run: |
           mkdir -p marketing/instagram/musica
-          if ! ls marketing/instagram/musica/*.mp3 >/dev/null 2>&1; then
-            url=$(curl -sL https://freepd.com/upbeat.php | grep -oE '(https://freepd.com/)?music/[^"]+\.mp3' | head -1)
-            case "$url" in http*) ;; *) url="https://freepd.com/$url";; esac
-            echo "Música: $url"
-            curl -sL "$url" -o "marketing/instagram/musica/trilha.mp3"
-            echo "Fonte: $url (FreePD, Creative Commons 0)" > marketing/instagram/musica/FONTE.txt
+          f=marketing/instagram/musica/trilha.mp3
+          if ! ffprobe -v error "$f" >/dev/null 2>&1; then
+            for pagina in upbeat epic; do
+              rel=$(curl -sL "https://freepd.com/$pagina.php" | grep -oiE 'href="[^"]+\.mp3"' | head -1 | sed -E 's/^href="//; s/"$//')
+              [ -n "$rel" ] || continue
+              case "$rel" in http*) url="$rel";; /*) url="https://freepd.com$rel";; *) url="https://freepd.com/$rel";; esac
+              url="${url// /%20}"
+              echo "Música: $url"
+              curl -sL "$url" -o "$f"
+              if ffprobe -v error "$f" >/dev/null 2>&1; then
+                echo "Fonte: $url (FreePD, Creative Commons 0)" > marketing/instagram/musica/FONTE.txt; break
+              fi
+              rm -f "$f"
+            done
           fi
+          ffprobe -v error "$f" >/dev/null 2>&1 && echo "MUSICA=--musica $f" >> "$GITHUB_ENV" || echo "Sem música (não achei uma trilha válida)."
       - name: Gerar Reels
         env:
           POSTS: ${{ inputs.posts }}
@@ -54,7 +63,7 @@ jobs:
             echo "Reel: $chave"
             semana="${chave%%/*}"
             [ -d "marketing/instagram/saida/reel/semana-$semana" ] || node marketing/instagram/gerar.mjs "$semana" --reel
-            node marketing/instagram/reel.mjs "$chave" --voz --musica marketing/instagram/musica/trilha.mp3
+            node marketing/instagram/reel.mjs "$chave" --voz $MUSICA
           done
       - name: Gravar no branch
         run: |
