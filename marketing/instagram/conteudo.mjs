@@ -12,7 +12,7 @@ const HASHTAGS =
   "#calistenia #calisteniabrasil #treinoemcasa #treinosemacademia #barrafixa #flexao #treinodecalistenia #metodoafee";
 
 const CTA_LEGENDA = (preco, precoDe) =>
-  `O Método AFEE está com preço de lançamento: ${preco} (de ${precoDe}). Link na bio.\nOu comente MÉTODO que eu te mando o link.`;
+  `O Método AFEE está com preço de lançamento: ${preco} (de ${precoDe}). Link na bio.`;
 
 export const semana01 = [
   {
@@ -127,7 +127,7 @@ export const semana01 = [
     objetivo: "Oferta direta (conversão)",
     slides: [{ tipo: "cta", titulo: "Método AFEE", oferta: true }],
     legenda: (p) =>
-      `Método AFEE, o ebook completo.\n\n12 capítulos: divisão da semana, tempo de treino, as quatro fases, o Termômetro, alimentação, motivação e rotina.\n\nPreço de lançamento: ${p.preco} (de ${p.precoDe}). Pix ou cartão, acesso na hora.\n\nLink na bio. Ou comente MÉTODO que eu te mando.\n\n${HASHTAGS}`,
+      `Método AFEE, o ebook completo.\n\n12 capítulos: divisão da semana, tempo de treino, as quatro fases, o Termômetro, alimentação, motivação e rotina.\n\nPreço de lançamento: ${p.preco} (de ${p.precoDe}). Pix ou cartão, acesso na hora.\n\nLink na bio.\n\n${HASHTAGS}`,
   },
 ];
 
@@ -226,7 +226,7 @@ export const semana02 = [
     objetivo: "Oferta direta (conversão)",
     slides: [{ tipo: "cta", titulo: "Método AFEE", oferta: true }],
     legenda: (p) =>
-      `Tempo de treino, descanso, divisão da semana e as quatro fases. Tudo organizado num ebook só.\n\nPreço de lançamento: ${p.preco} (de ${p.precoDe}). Pix ou cartão, acesso na hora.\n\nLink na bio. Ou comente MÉTODO que eu te mando.\n\n${HASHTAGS}`,
+      `Tempo de treino, descanso, divisão da semana e as quatro fases. Tudo organizado num ebook só.\n\nPreço de lançamento: ${p.preco} (de ${p.precoDe}). Pix ou cartão, acesso na hora.\n\nLink na bio.\n\n${HASHTAGS}`,
   },
 ];
 
@@ -326,7 +326,7 @@ export const semana03 = [
     objetivo: "Oferta direta (conversão)",
     slides: [{ tipo: "cta", titulo: "Método AFEE", oferta: true }],
     legenda: (p) =>
-      `Motivação, disciplina e rotina têm capítulo próprio no ebook. Junto com a divisão da semana e as quatro fases do treino.\n\nPreço de lançamento: ${p.preco} (de ${p.precoDe}). Pix ou cartão, acesso na hora.\n\nLink na bio. Ou comente MÉTODO que eu te mando.\n\n${HASHTAGS}`,
+      `Motivação, disciplina e rotina têm capítulo próprio no ebook. Junto com a divisão da semana e as quatro fases do treino.\n\nPreço de lançamento: ${p.preco} (de ${p.precoDe}). Pix ou cartão, acesso na hora.\n\nLink na bio.\n\n${HASHTAGS}`,
   },
 ];
 
@@ -417,7 +417,7 @@ export const semana04 = [
     objetivo: "Oferta direta (conversão)",
     slides: [{ tipo: "cta", titulo: "Método AFEE", oferta: true }],
     legenda: (p) =>
-      `Quatro semanas de conteúdo aqui no perfil. No ebook está tudo junto, em ordem, em 12 capítulos.\n\nPreço de lançamento: ${p.preco} (de ${p.precoDe}). Pix ou cartão, acesso na hora.\n\nLink na bio. Ou comente MÉTODO que eu te mando.\n\n${HASHTAGS}`,
+      `Quatro semanas de conteúdo aqui no perfil. No ebook está tudo junto, em ordem, em 12 capítulos.\n\nPreço de lançamento: ${p.preco} (de ${p.precoDe}). Pix ou cartão, acesso na hora.\n\nLink na bio.\n\n${HASHTAGS}`,
   },
 ];
 
@@ -468,7 +468,7 @@ export const semana05 = [
       { tipo: "cta", titulo: "Método AFEE", oferta: true },
     ],
     legenda: (p) =>
-      `Academia e app cobram todo mês. O Método AFEE você paga uma vez: ${p.preco} (de ${p.precoDe}).\n\nTreino na praça, no parque ou em casa.\n\nLink na bio. Ou comente MÉTODO que eu te mando.\n\n${HASHTAGS}`,
+      `Academia e app cobram todo mês. O Método AFEE você paga uma vez: ${p.preco} (de ${p.precoDe}).\n\nTreino na praça, no parque ou em casa.\n\nLink na bio.\n\n${HASHTAGS}`,
   },
   {
     id: "04-relato-lucas",
@@ -522,7 +522,7 @@ export const semana05 = [
       { tipo: "cta", titulo: "Método AFEE", oferta: true },
     ],
     legenda: (p) =>
-      `“É barato, deve ser raso.” Olha o que vem dentro e decide.\n\nPreço de lançamento: ${p.preco} (de ${p.precoDe}). Pix ou cartão, acesso na hora.\n\nLink na bio. Ou comente MÉTODO que eu te mando.\n\n${HASHTAGS}`,
+      `“É barato, deve ser raso.” Olha o que vem dentro e decide.\n\nPreço de lançamento: ${p.preco} (de ${p.precoDe}). Pix ou cartão, acesso na hora.\n\nLink na bio.\n\n${HASHTAGS}`,
   },
 ];
 

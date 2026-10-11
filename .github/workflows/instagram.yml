@@ -28,7 +28,7 @@ jobs:
   instagram:
     if: github.event_name == 'workflow_dispatch' || vars.ROBO_INSTAGRAM == 'ligado'
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
