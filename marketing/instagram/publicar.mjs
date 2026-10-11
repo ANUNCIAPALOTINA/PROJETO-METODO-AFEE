@@ -127,10 +127,24 @@ async function esperarPronto(id, tentativas = 30) {
 }
 
 async function publicar() {
-  for (const item of itensDeHoje()) await publicarItem(item);
+  // Dois itens no mesmo dia (post + Reel) saem com 20 minutos de intervalo,
+  // para não parecer disparo em massa.
+  const itens = itensDeHoje();
+  for (const [i, item] of itens.entries()) {
+    if (i > 0) await new Promise((r) => setTimeout(r, 20 * 60 * 1000));
+    await publicarItem(item);
+  }
+}
+
+// A conta está proibida de compartilhar links até 09/11/2026 (restrição do Instagram
+// de 10/10/2026). Nenhuma legenda automática pode ter link ou pedir para mandar link.
+const PROIBIDO = /https?:\/\/|www\.|\b[\w-]+\.(app|com|net|br|link|ly)\b|te mando o link|comente MÉTODO/i;
+function checarLegenda(legenda) {
+  if (PROIBIDO.test(legenda)) throw new Error(`Legenda com link ou pedido de link, bloqueada: "${legenda.match(PROIBIDO)[0]}"`);
 }
 
 async function jaPublicado(legenda) {
+  checarLegenda(legenda);
   const { data: recentes = [] } = await graph(`${CONTA}/media`, { campos: { fields: "caption", limit: "25" } });
   return recentes.some((m) => m.caption?.slice(0, 80) === legenda.slice(0, 80));
 }
