@@ -75,13 +75,25 @@ async function chatgpt(texto) {
 if (GEMINI && !GEMINI_MODELO) GEMINI_MODELO = await escolherModeloGemini();
 if (GEMINI) console.log(`Modelo Gemini: ${GEMINI_MODELO}`);
 
+// Repete quando o serviço está sobrecarregado (503) ou limitando (429).
+async function tentar(fn, vezes = 4) {
+  for (let i = 1; ; i++) {
+    try {
+      return await fn();
+    } catch (e) {
+      if (i >= vezes || !/ (429|500|503):/.test(e.message)) throw e;
+      await new Promise((r) => setTimeout(r, 5000 * i));
+    }
+  }
+}
+
 const saida = [`# Sugestões de IA · semana ${semana}\n\nGerado por ${[GEMINI && `Gemini (${GEMINI_MODELO})`, OPENAI && "ChatGPT"].filter(Boolean).join(" e ")}. Material para revisão: nada aqui é publicado sozinho.\n`];
 for (const post of posts) {
   saida.push(`\n## ${post.id}\n`);
   for (const [nome, fn, ok] of [["Gemini", gemini, GEMINI], ["ChatGPT", chatgpt, OPENAI]]) {
     if (!ok) continue;
     try {
-      saida.push(`\n### ${nome}\n\n${(await fn(pedido(post))).trim()}\n`);
+      saida.push(`\n### ${nome}\n\n${(await tentar(() => fn(pedido(post)))).trim()}\n`);
     } catch (e) {
       saida.push(`\n### ${nome}\n\nFalhou: ${e.message}\n`);
       console.error(`${post.id} ${nome}: ${e.message}`);
