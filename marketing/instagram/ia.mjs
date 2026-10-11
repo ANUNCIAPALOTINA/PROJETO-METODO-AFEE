@@ -14,11 +14,14 @@ const semana = process.argv[2] ? process.argv[2].padStart(2, "0") : Object.keys(
 const posts = semanas[semana];
 if (!posts) throw new Error(`Semana ${semana} não existe em conteudo.mjs`);
 
-const GEMINI = process.env.GEMINI_API_KEY;
-const OPENAI = process.env.OPENAI_API_KEY;
-const GEMINI_MODELO = process.env.GEMINI_MODELO || "gemini-2.5-flash";
+// Limpa a chave colada com espaço, aspas ou "GEMINI_API_KEY=" na frente.
+const limpar = (v) => (v || "").trim().replace(/^[A-Z_]+\s*=\s*/, "").replace(/^["']|["']$/g, "").trim();
+const GEMINI = limpar(process.env.GEMINI_API_KEY);
+const OPENAI = limpar(process.env.OPENAI_API_KEY);
+let GEMINI_MODELO = process.env.GEMINI_MODELO || "";
 const OPENAI_MODELO = process.env.OPENAI_MODELO || "gpt-4.1-mini";
 
+if (GEMINI) console.log(`Chave Gemini: ${GEMINI.length} caracteres, começa com "${GEMINI.slice(0, 3)}"${/\s/.test(GEMINI) ? ", TEM ESPAÇO NO MEIO" : ""}`);
 if (!GEMINI && !OPENAI) {
   console.log("Sem GEMINI_API_KEY e sem OPENAI_API_KEY: Gemini e ChatGPT não estão em uso.");
   process.exit(0);
@@ -29,6 +32,22 @@ const REGRAS = `Você ajuda a divulgar o Método AFEE, ebook de calistenia em po
 function pedido(post) {
   const slides = post.slides.map((s, i) => `${i + 1}. ${[s.etiqueta, s.titulo, s.corpo, s.texto, s.nome].filter(Boolean).join(" | ")}`).join("\n");
   return `${REGRAS}\n\nPost "${post.id}" (${post.formato}, objetivo: ${post.objetivo}).\nSlides:\n${slides}\n\nLegenda atual:\n${post.legenda(precos)}\n\nResponda em markdown curto:\n- 5 ganchos alternativos para a capa (até 12 palavras cada)\n- 1 legenda alternativa (até 80 palavras, mesmas regras)\n- 1 roteiro de Reel de até 25 s, cena por cena`;
+}
+
+// Sem GEMINI_MODELO, escolhe sozinho o Flash mais novo disponível para a chave
+// (o Google aposenta modelos antigos para contas novas).
+async function escolherModeloGemini() {
+  const r = await fetch("https://generativelanguage.googleapis.com/v1beta/models?pageSize=200", { headers: { "x-goog-api-key": GEMINI } });
+  const j = await r.json();
+  if (!r.ok) throw new Error(`Gemini ${r.status}: ${j.error?.message}`);
+  const versao = (n) => Number(n.match(/gemini-(\d+(?:\.\d+)?)/)?.[1] ?? 0);
+  const flash = (j.models ?? [])
+    .filter((m) => m.supportedGenerationMethods?.includes("generateContent"))
+    .map((m) => m.name.replace(/^models\//, ""))
+    .filter((n) => /^gemini-\d+(\.\d+)?-flash$/.test(n))
+    .sort((a, b) => versao(b) - versao(a));
+  if (!flash.length) throw new Error("Nenhum modelo Gemini Flash disponível para esta chave");
+  return flash[0];
 }
 
 async function gemini(texto) {
@@ -53,13 +72,28 @@ async function chatgpt(texto) {
   return j.choices?.[0]?.message?.content ?? "";
 }
 
-const saida = [`# Sugestões de IA · semana ${semana}\n\nGerado por ${[GEMINI && "Gemini", OPENAI && "ChatGPT"].filter(Boolean).join(" e ")}. Material para revisão: nada aqui é publicado sozinho.\n`];
+if (GEMINI && !GEMINI_MODELO) GEMINI_MODELO = await escolherModeloGemini();
+if (GEMINI) console.log(`Modelo Gemini: ${GEMINI_MODELO}`);
+
+// Repete quando o serviço está sobrecarregado (503) ou limitando (429).
+async function tentar(fn, vezes = 4) {
+  for (let i = 1; ; i++) {
+    try {
+      return await fn();
+    } catch (e) {
+      if (i >= vezes || !/ (429|500|503):/.test(e.message)) throw e;
+      await new Promise((r) => setTimeout(r, 5000 * i));
+    }
+  }
+}
+
+const saida = [`# Sugestões de IA · semana ${semana}\n\nGerado por ${[GEMINI && `Gemini (${GEMINI_MODELO})`, OPENAI && "ChatGPT"].filter(Boolean).join(" e ")}. Material para revisão: nada aqui é publicado sozinho.\n`];
 for (const post of posts) {
   saida.push(`\n## ${post.id}\n`);
   for (const [nome, fn, ok] of [["Gemini", gemini, GEMINI], ["ChatGPT", chatgpt, OPENAI]]) {
     if (!ok) continue;
     try {
-      saida.push(`\n### ${nome}\n\n${(await fn(pedido(post))).trim()}\n`);
+      saida.push(`\n### ${nome}\n\n${(await tentar(() => fn(pedido(post)))).trim()}\n`);
     } catch (e) {
       saida.push(`\n### ${nome}\n\nFalhou: ${e.message}\n`);
       console.error(`${post.id} ${nome}: ${e.message}`);

@@ -20,8 +20,8 @@ Com voz e música: `gerar.mjs 01 --reel` e depois `reel.mjs 01/02-quatro-fases -
 
 ## Gemini e ChatGPT (regra do João)
 
-`ia.mjs` pede ao Gemini e ao ChatGPT 5 ganchos, 1 legenda e 1 roteiro de Reel alternativos para cada post da semana e salva em `ia/sugestoes-semana-XX.md`. O workflow `ia.yml` roda toda segunda. Precisa dos secrets `GEMINI_API_KEY` e/ou `OPENAI_API_KEY`; sem eles, não faz nada. Modelos trocáveis pelas variáveis `GEMINI_MODELO` e `OPENAI_MODELO`.
+`ia.mjs` pede ao Gemini e ao ChatGPT 5 ganchos, 1 legenda e 1 roteiro de Reel alternativos para cada post da semana e salva em `ia/sugestoes-semana-XX.md`. O workflow `ia.yml` roda toda segunda. Precisa dos secrets `GEMINI_API_KEY` e/ou `OPENAI_API_KEY`; sem eles, não faz nada. O Gemini é a IA principal e escolhe sozinho o modelo Flash mais novo; dá pra fixar um com a variável `GEMINI_MODELO`.
 
 ## Gemini e ChatGPT (regra do João)
 
-`ia.mjs` pede ao Gemini e ao ChatGPT 5 ganchos, 1 legenda e 1 roteiro de Reel alternativos para cada post da semana e salva em `ia/sugestoes-semana-XX.md`. O workflow `ia.yml` roda toda segunda. Precisa dos secrets `GEMINI_API_KEY` e/ou `OPENAI_API_KEY`; sem eles, não faz nada. Modelos trocáveis pelas variáveis `GEMINI_MODELO` e `OPENAI_MODELO`.
+`ia.mjs` pede ao Gemini e ao ChatGPT 5 ganchos, 1 legenda e 1 roteiro de Reel alternativos para cada post da semana e salva em `ia/sugestoes-semana-XX.md`. O workflow `ia.yml` roda toda segunda. Precisa dos secrets `GEMINI_API_KEY` e/ou `OPENAI_API_KEY`; sem eles, não faz nada. O Gemini é a IA principal e escolhe sozinho o modelo Flash mais novo; dá pra fixar um com a variável `GEMINI_MODELO`.
