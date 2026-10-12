@@ -6,166 +6,69 @@ Gerado por Gemini (gemini-3.8-flash). Material para revisão: nada aqui é publi
 
 ### Gemini
 
-### Ganchos alternativos para a capa (até 12 palavras)
-1. 5 mitos sobre treinar sem academia que estão atrasando sua evolução.
-2. Te falaram que calistenia não dá força? Contaram 5 mentiras.
-3. Pare de errar no treino em casa: 5 mitos desmascarados.
-4. Você ainda acredita nisso? 5 mentiras sobre treinar com o corpo.
-5. 5 regras erradas de treino que você segue sem perceber.
+### 5 ganchos alternativos para a capa
+
+1. 5 mitos sobre treinar sem academia que estão travando sua evolução. (11 palavras)
+2. Pare de acreditar nestas 5 mentiras sobre treinar com o corpo. (11 palavras)
+3. Treinar sem academia não funciona? 5 mentiras que te contaram. (10 palavras)
+4. 5 coisas que falaram sobre calistenia e você deve esquecer hoje. (11 palavras)
+5. Achar que calistenia não dá força é só o primeiro erro. (11 palavras)
 
 ---
 
-### Legenda alternativa (até 80 palavras)
-Acreditar nesses mitos só atrapalha o seu progresso e sobrecarrega o corpo sem necessidade.
+### Legenda alternativa
 
-No Método AFEE, você entende a ordem certa de cada etapa — Aquecer, Forçar, Estimular e Exaustar — para treinar com segurança usando apenas o peso do corpo.
+> Acreditar no mito errado faz você perder tempo ou até se machucar. 
+>
+> No Método AFEE, você aprende a estrutura certa para treinar com o peso do corpo: Aquecer, Forçar, Estimular e Exaustar, respeitando o descanso ideal.
+>
+> O ebook completo está por R$ 16,18 (de R$ 161,80). 
+>
+> Qual mito você seguia? Comente MÉTODO para receber o acesso ou toque no link da bio.
 
-O ebook completo está em valor promocional: de R$ 161,80 por apenas R$ 16,18.
-
-Para garantir o seu, comente MÉTODO ou acesse o link na bio.
+*(66 palavras)*
 
 ---
 
 ### Roteiro de Reel (25 segundos)
 
-* **00s–04s | Cena 1 (Gancho)**  
-  *Visual:* Você de frente para a câmera, segurando uma barra de praça ou no chão pronto para flexão.  
-  *Texto na tela:* 3 mentiras sobre treinar sem academia  
-  *Voz:* "Três mentiras que te contaram sobre treinar só com o peso do corpo."
+* **00s–05s | Cena 1 (Gancho):**  
+  *Visual:* Você em frente à câmera, apontando para o texto na tela: *"Ainda acredita nisso?"*  
+  *Áudio:* "Se você acha que calistenia não dá força ou que precisa ir até a falha sempre, você tá errando feio."
 
-* **04s–10s | Cena 2 (Mito da Força)**  
-  *Visual:* Execução de uma flexão mais difícil (ex: com pés elevados ou diamante).  
-  *Texto na tela:* 1. Não dá força?  
-  *Voz:* "Primeira: que não dá força. Dá sim, você só precisa deixar o movimento mais difícil."
+* **05s–13s | Cena 2 (Os mitos):**  
+  *Visual:* Cortes rápidos fazendo flexão, barra e descansando.  
+  *Áudio:* "Não precisa de equipamento caro. Não precisa alongar com músculo frio. E você não deve falhar em toda série."
 
-* **10s–16s | Cena 3 (Mito da Falha)**  
-  *Visual:* Fazendo repetições controladas e parando com sobra, sem desabar no chão.  
-  *Texto na tela:* 2. Falhar em toda série?  
-  *Voz:* "Segunda: ir até a falha sempre. No meio do treino, pare uma ou duas repetições antes."
+* **13s–19s | Cena 3 (A solução):**  
+  *Visual:* Mostra a capa do ebook no celular ou faz um movimento controlado.  
+  *Áudio:* "Treino com o peso do corpo exige ordem: Aquecer, Forçar, Estimular e Exaustar. Esse é o Método AFEE."
 
-* **16s–21s | Cena 4 (Mito do Equipamento)**  
-  *Visual:* Mostrando um banco de praça, chão ou murinho.  
-  *Texto na tela:* 3. Precisa de academia?  
-  *Voz:* "Terceira: precisar de aparelho caro. Um chão reto e um apoio já resolvem."
-
-* **21s–25s | Cena 5 (Chamada)**  
-  *Visual:* Olhando para a câmera, apontando para baixo.  
-  *Texto na tela:* Método AFEE: R$ 16,18 | Comente MÉTODO  
-  *Voz:* "Quer a estrutura completa? O Método AFEE tá por R$ 16,18. Comente MÉTODO."
+* **19s–25s | Cena 4 (CTA):**  
+  *Visual:* Você aponta para baixo / texto com o preço: R$ 16,18.  
+  *Áudio:* "O guia completo tá de R$ 161,80 por apenas R$ 16,18. Comente MÉTODO ou clica no link da bio."
 
 ## 02-forcar-primeiro
 
 ### Gemini
 
 ### 5 ganchos alternativos para a capa
-1. Fazer barra no final do treino é o seu maior erro.
-2. O exercício mais difícil nunca deve ficar por último.
-3. Cansado antes da barra? Você errou a ordem do treino.
-4. Por que o movimento mais pesado precisa vir logo no início?
-5. Deixar o mais difícil pro final trava a sua evolução.
+
+1. Por que você nunca deve deixar a barra fixa pro final
+2. O maior erro de ordem no seu treino de calistenia
+3. Sem força no fim do treino? Você errou a sequência
+4. Faça o exercício mais pesado logo depois de aquecer
+5. A regra simples de calistenia: o mais difícil vem primeiro
 
 ---
 
-### Legenda alternativa
-Se você deixa a barra pro final, seu corpo já chega esgotado. 
+### Legenda alternativa (65 palavras)
 
-No Método AFEE, a lógica é outra: logo após o aquecimento, você vai direto para o movimento mais pesado. Esse é o "F" de Forçar. 
+Cansou antes de chegar na barra fixa? O erro está na ordem do treino.
 
-Organize seus treinos com método simples e direto. 
+No Método AFEE, o movimento mais pesado vem logo após o aquecimento. É o "F" de Forçar, quando seu corpo ainda tem energia máxima. O resto vem depois.
 
-O ebook Método AFEE está por R$ 16,18 (de R$ 161,80). 
-
-Comente MÉTODO ou clique no link da bio.
-
----
-
-### Roteiro de Reel (25s)
-
-* **00-04s | Gancho**
-  * *Visual:* Você tentando fazer barra no final do treino, visivelmente fadigado.
-  * *Texto na tela:* Deixar o mais difícil pro final estraga seu treino.
-  * *Áudio:* "Você deixa a barra fixa pro final do seu treino?"
-
-* **05-11s | O problema**
-  * *Visual:* Olhando para a barra cansado, descansando as mãos na cintura.
-  * *Texto na tela:* Sem energia = sem progresso.
-  * *Áudio:* "Depois de 40 minutos fazendo outros exercícios, não sobra força pra você mandar bem nela."
-
-* **12-18s | A solução (AFEE)**
-  * *Visual:* Você aquecendo rápido e indo direto para a barra com energia.
-  * *Texto na tela:* Aqueceu? Hora de FORÇAR.
-  * *Áudio:* "No Método AFEE, aqueceu? Vai direto pro mais difícil. Isso é o F de Forçar."
-
-* **19-25s | CTA**
-  * *Visual:* Mostrando a capa do ebook no celular.
-  * *Texto na tela:* Método AFEE | R$ 16,18. Comente MÉTODO.
-  * *Áudio:* "Aprenda a ordem certa. Método AFEE por R$ 16,18. Comente MÉTODO ou acesse o link na bio."
-
-## 03-quanto-custa
-
-### Gemini
-
-### 5 ganchos alternativos para a capa
-
-1. Quanto você gasta por ano só para tentar começar a treinar? (11 palavras)
-2. Mensalidade de academia ou pagar uma vez só? Fiz a conta. (10 palavras)
-3. Treinar não precisa virar mais um boleto todo mês na conta. (10 palavras)
-4. O comparativo real: academia, aplicativo ou treino com peso do corpo? (10 palavras)
-5. Pare de acumular assinaturas de treino que você nem usa direito. (10 palavras)
-
----
-
-### Legenda alternativa (73 palavras)
-
-Você não precisa de outro boleto recorrente para se movimentar com método. 
-
-Academia e aplicativos cobram mensalidade todo mês, vá você ou não. Com o Método AFEE, você aprende a estruturar seus treinos com o peso do corpo e paga uma única vez: R$ 16,18 (de R$ 161,80). 
-
-Treine no seu ritmo, em casa ou na praça, sem aparelhos. 
-
-Toque no link na bio ou comente MÉTODO para receber o acesso.
-
----
-
-### Roteiro de Reel (25 segundos)
-
-* **00s–05s | Cena 1**  
-  *Visual:* Criador olhando a tela do celular com cara de dúvida, com a calculadora aberta. Texto na tela: *"Quanto custa começar a treinar?"*  
-  *Áudio:* "Já colocou no papel quanto você gasta todo mês com academia ou aplicativo?"
-
-* **05s–11s | Cena 2**  
-  *Visual:* Corte rápido para um parque, praça ou chão da sala limpo para treino.  
-  *Áudio:* "Mensalidade, deslocamento, assinaturas... Treinar com o peso do próprio corpo não precisa de nada disso."
-
-* **11s–18s | Cena 3**  
-  *Visual:* Criador fazendo uma flexão controlada ou mostrando a capa do ebook no celular.  
-  *Áudio:* "O Método AFEE organiza suas etapas de treino do início ao fim. E você paga uma vez só: dezesseis e dezoito."
-
-* **18s–25s | Cena 4**  
-  *Visual:* Criador olhando para a câmera. Texto na tela: *"Link na bio | Comente MÉTODO"*.  
-  *Áudio:* "Sem mensalidade e sem aparelho. Comente MÉTODO ou toque no link da bio."
-
-## 04-relato-lucas
-
-### Gemini
-
-### 5 Ganchos alternativos para a capa
-1. "Shape mudando e movimentos novos destravados: o relato do Lucas."
-2. "O que acontece quando seu treino de calistenia tem direção."
-3. "Menos tentativa e erro, mais evolução na barra e no chão."
-4. "Movimento novo saindo e corpo respondendo: veja o caso do Lucas."
-5. "Quando a estrutura certa faz você evoluir na calistenia."
-
----
-
-### Legenda alternativa
-Quando o treino tem lógica, a evolução aparece no espelho e nos movimentos destravados. Obrigado pelo relato, Lucas!
-
-Resultado individual, varia de pessoa para pessoa.
-
-O Método AFEE organiza sua rotina em 4 etapas (Aquecer, Forçar, Estimular e Exaustar) para você treinar com foco.
-
-De R$ 161,80 por R$ 16,18.
+Estruture seu treino do jeito certo com o Método AFEE. Preço promocional: R$ 16,18 (de R$ 161,80). 
 
 Comente MÉTODO ou acesse o link na bio.
 
@@ -173,77 +76,199 @@ Comente MÉTODO ou acesse o link na bio.
 
 ### Roteiro de Reel (25 segundos)
 
-* **[00s–06s] Cena 1**  
-  *Visual:* Criador olhando para a câmera com o print do relato do Lucas na tela.  
-  *Áudio:* "O Lucas mandou isso aqui: shape melhorando e movimentos novos saindo."  
-  *Texto na tela:* *Print do Lucas* + "Resultado individual."
+* **Cena 1 (0 a 5s)**  
+  *Visual:* Criador pendurado na barra, cansado, tentando subir sem sucesso. Texto na tela: *"Deixou a barra pro final do treino?"*  
+  *Áudio:* "Se você deixa o exercício mais difícil pro final, você nunca vai evoluir nele."
 
-* **[06s–14s] Cena 2**  
-  *Visual:* Cortes rápidos de exercícios básicos bem executados (barra, flexão, paralelas).  
-  *Áudio:* "Não é segredo, é método: saber a hora de aquecer, forçar força pura, estimular volume e exaustar sem se quebrar."  
-  *Texto na tela:* "Método AFEE: A · F · E · E"
+* **Cena 2 (5 a 11s)**  
+  *Visual:* Criador solta a barra, respira fundo e olha para a câmera.  
+  *Áudio:* "Depois de 40 minutos gastando energia com flexão e abdominal, simplesmente não sobra força pro movimento pesado."
 
-* **[14s–20s] Cena 3**  
-  *Visual:* Criador segura o celular mostrando a capa do ebook.  
-  *Áudio:* "O Método AFEE tá de 161,80 por 16,18 no preço de lançamento."  
-  *Texto na tela:* "De R$ 161,80 por R$ 16,18"
+* **Cena 3 (11 a 19s)**  
+  *Visual:* Criador faz um aquecimento rápido de ombros e logo em seguida faz repetições limpas na barra.  
+  *Áudio:* "No Método AFEE, a regra é simples: terminou o aquecimento? Vai direto pro movimento mais pesado. Isso é o F de Forçar."
 
-* **[20s–25s] Cena 4**  
-  *Visual:* Aponta para baixo / bio.  
-  *Áudio:* "Quer organizar seu treino? Comente MÉTODO ou clica no link da bio."  
-  *Texto na tela:* "Comente MÉTODO ou Link na bio"
+* **Cena 4 (19 a 25s)**  
+  *Visual:* Criador aponta para baixo / imagem do ebook na tela com o preço R$ 16,18.  
+  *Áudio:* "Aprenda a ordem exata do treino. Link na bio ou comente MÉTODO."
+
+## 03-quanto-custa
+
+### Gemini
+
+### 5 ganchos alternativos para a capa
+
+1. Quanto custa treinar o ano todo? Fiz a conta na ponta do lápis.
+2. Treinar não precisa custar uma mensalidade todo santo mês.
+3. Academia versus Calistenia: comparei os custos para começar hoje.
+4. Você não precisa pagar mensalidade para ter um treino estruturado.
+5. Fiz a conta de quanto você gasta só para começar a treinar.
+
+---
+
+### Legenda alternativa
+
+Mensalidade de academia pesa. Assinatura de aplicativo acumula todo mês. 
+
+Com o Método AFEE, você aprende a estrutura de calistenia para treinar em casa ou na praça pagando uma única vez: R$ 16,18 (de R$ 161,80). 
+
+Sem aparelhos, sem mensalidade e com organização do início ao fim (Aquecer, Forçar, Estimular, Exaustar).
+
+Comente MÉTODO para receber o link.
+
+---
+
+### Roteiro de Reel (24 segundos)
+
+* **00–05s | Gancho**
+  * **Visual:** Criador escrevendo em um papel ou digitando na calculadora do celular.
+  * **Áudio:** "Você já calculou quanto gasta por ano só com mensalidade de treino?"
+
+* **05–11s | O problema**
+  * **Visual:** Cortes rápidos: catraca de academia / tela de cobrança de app de treino.
+  * **Áudio:** "Academia cobra todo mês. App de treino cobra assinatura todo mês. E você ainda depende de aparelho."
+
+* **11–18s | A alternativa**
+  * **Visual:** Criador fazendo barra ou flexão ao ar livre / mostrando o ebook AFEE no celular.
+  * **Áudio:** "O Método AFEE custa R$ 16,18, pagamento único. É o passo a passo com o peso do corpo para fazer na praça ou em casa."
+
+* **18–24s | CTA**
+  * **Visual:** Aponta para a tela com o texto: "R$ 16,18 (de R$ 161,80) | Sem mensalidade".
+  * **Áudio:** "Treino estruturado sem mensalidade. Comente MÉTODO ou toque no link da bio."
+
+## 04-relato-lucas
+
+### Gemini
+
+### 5 ganchos alternativos para a capa
+1. "Meu shape começou a mudar e saíram movimentos novos." (9 palavras)
+2. O que acontece quando seu treino de calistenia tem direção certa. (11 palavras)
+3. Shape mudando e movimentos novos na barra: o relato do Lucas. (11 palavras)
+4. Sem academia: quando a estrutura certa destrava a sua evolução. (10 palavras)
+5. Treinar com método traz consistência e novos movimentos no corpo. (10 palavras)
+
+---
+
+### Legenda alternativa (65 palavras)
+Evoluir na calistenia fica mais simples quando cada fase do treino tem uma função: Aquecer, Forçar, Estimular e Exaustar. O Lucas seguiu a estrutura e sentiu a evolução nos treinos.
+
+Resultado individual, varia de pessoa para pessoa.
+
+O Método AFEE ensina essa divisão com o Termômetro do descanso. De R$ 161,80 por apenas R$ 16,18 no lançamento. 
+
+Comente **MÉTODO** ou acesse o link na bio.
+
+---
+
+### Roteiro de Reel (até 25 s)
+
+* **Cena 1 [0–4s]**  
+  *Visual:* Você na barra ou no chão, iniciando uma flexão limpa. Texto na tela: *Treinando calistenia sem ver evolução?*  
+  *Áudio:* "Se você treina aleatoriamente, fica difícil destravar movimentos e mudar o shape."
+
+* **Cena 2 [4–11s]**  
+  *Visual:* Corta para você explicando para a câmera. Texto na tela: *A·F·E·E + Descanso correto*.  
+  *Áudio:* "O Método AFEE organiza sua rotina em 4 etapas: Aquecer, Forçar, Estimular e Exaustar."
+
+* **Cena 3 [11–18s]**  
+  *Visual:* Print do relato do Lucas na tela com aviso: *[Resultado individual]*.  
+  *Áudio:* "Foi essa base que ajudou o Lucas a destravar movimentos novos e evoluir o físico."
+
+* **Cena 4 [18–25s]**  
+  *Visual:* Mostra o ebook na tela do celular e o valor: *R$ 16,18*.  
+  *Áudio:* "O ebook completo está por R$ 16,18. Comente MÉTODO que eu te envio o link."
 
 ## 05-um-treino-quatro-fases
 
 ### Gemini
 
 ### 5 Ganchos alternativos para a capa
-1. Como montar um treino completo de calistenia em 4 fases.
-2. Pare de treinar no improviso: a estrutura exata do Método AFEE.
-3. Sem academia: a ordem certa dos exercícios para treinar melhor.
-4. Salva para amanhã: treino com começo, meio e fim.
-5. As 4 etapas que todo treino com o peso do corpo precisa ter.
+
+1. Como estruturar seu treino de calistenia em 4 fases simples.
+2. Salve para amanhã: a estrutura completa de treino sem academia.
+3. Chega de treinar perdido: use estas 4 etapas no seu treino.
+4. Um treino completo com peso do corpo dividido em 4 fases.
+5. A ordem certa dos exercícios para treinar calistenia sem aparelhos.
 
 ---
 
 ### Legenda alternativa
-Treinar em casa não precisa ser bagunçado. Quando você segue uma ordem lógica — Aquecer, Forçar, Estimular e Exaustar —, o treino fica direto e rende muito mais.
 
-No ebook Método AFEE, você descobre a lista de exercícios para cada etapa e como ajustar os descansos.
+Treinar com o peso do corpo fica mais simples quando você segue uma ordem lógica: Aquecer, Forçar, Estimular e Exaustar.
+
+No ebook Método AFEE, você descobre quais movimentos usar em cada etapa e como dosar as pausas com o Termômetro do descanso. Estrutura clara, do início ao fim.
 
 Preço de lançamento: R$ 16,18 (de R$ 161,80).
 
-Comente **MÉTODO** para receber o link ou acesse direto pelo link da bio.
+Comente MÉTODO ou acesse o link na bio.
 
 ---
 
 ### Roteiro de Reel (25 segundos)
 
-* **00s–04s | Gancho**  
-  *Visual:* Pessoa olhando para a barra ou chão, pensativa, com texto na tela: *"Como estruturar seu treino de calistenia?"*  
-  *Áudio (voz):* "Você treina sem academia, mas não sabe a ordem certa dos exercícios?"
+* **00–04s | Gancho:**  
+  *Visual:* Você em posição de flexão, olhando para a câmera. Texto na tela: *"Como montar um treino de calistenia em 4 fases"*.  
+  *Áudio:* "Você não precisa de academia, só da ordem certa."
 
-* **04s–09s | Fase 1 e 2**  
-  *Visual:* Corte rápido fazendo polichinelo ou rotação articular, depois corte para uma flexão pesada ou tentativa de barra. Texto: *1. Aquecer / 2. Forçar (o mais pesado primeiro)*.  
-  *Áudio (voz):* "Primeiro você aquece até suar leve. Depois, faz o movimento mais pesado logo no início."
+* **05–09s | Fases 1 e 2:**  
+  *Visual:* Corte rápido fazendo polichinelo ou rotação articular, depois corte para uma barra fixa ou flexão pesada.  
+  *Áudio:* "Primeiro: aquece até suar leve. Segundo: faça o exercício mais pesado logo de cara."
 
-* **09s–15s | Fase 3 e 4**  
-  *Visual:* Séries controladas de flexão normal e, por fim, sustentação estática (prancha ou isometria) cansando. Texto: *3. Estimular (perto da falha) / 4. Exaustar (até a falha)*.  
-  *Áudio (voz):* "Em seguida, acumula volume quase até a falha. E fecha com um exercício mais leve até esgotar."
+* **10–16s | Fases 3 e 4:**  
+  *Visual:* Corte fazendo flexões comuns com controle, depois corte para um movimento mais leve até cansar.  
+  *Áudio:* "Terceiro: estimule com séries perto da falha. Quarto: finalize com um exercício leve até a falha."
 
-* **15s–20s | Método AFEE**  
-  *Visual:* Mockup do ebook no celular. Texto: *Método AFEE: R$ 16,18*.  
-  *Áudio (voz):* "Essa é a estrutura A-F-E-E explicada passo a passo no nosso ebook."
+* **17–21s | Método AFEE:**  
+  *Visual:* Segurando o celular mostrando a capa do ebook Método AFEE.  
+  *Áudio:* "Isso é o Método AFEE: treino com começo, meio e fim."
 
-* **20s–25s | Chamada final**  
-  *Visual:* Apontando para baixo com texto grande: *Comente MÉTODO ou Link na bio*.  
-  *Áudio (voz):* "Garanta o seu por R$ 16,18. Comente MÉTODO ou toque no link da bio."
+* **22–25s | CTA:**  
+  *Visual:* Texto na tela: *R$ 16,18 (de R$ 161,80) | Link na bio*.  
+  *Áudio:* "O guia completo custa R$ 16,18. Comente MÉTODO ou toque no link da bio."
 
 ## 06-termometro
 
 ### Gemini
 
-Falhou: Gemini 503: This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.
+### 5 Ganchos para a capa (Slide 1)
+
+1. Como saber o momento exato de começar a próxima série?
+2. Descansar pouco ou muito? O termômetro do treino resolve isso.
+3. O erro no tempo de descanso que estraga seu treino.
+4. Nem frio demais, nem fadigado: a regra do descanso na calistenia.
+5. Você cronometra o descanso ou escuta os sinais do corpo?
+
+---
+
+### Legenda alternativa (58 palavras)
+
+Descansar demais esfria o corpo. Descansar de menos causa fadiga antes da hora.
+
+No Método AFEE, você usa o "termômetro do descanso" para identificar o momento certo da próxima série, mantendo o estímulo ideal do começo ao fim do treino.
+
+O ebook Método AFEE está por R$ 16,18 (de R$ 161,80). 
+
+Comente **MÉTODO** ou toque no link da bio.
+
+---
+
+### Roteiro de Reel (25 segundos)
+
+* **00s – 05s | Cena 1**  
+  *Visual:* Pessoa sentada no chão olhando as redes no celular entre uma série e outra.  
+  *Locução:* "Você descansa olhando no relógio ou até a preguiça bater?"
+
+* **05s – 11s | Cena 2**  
+  *Visual:* Corta para a pessoa tentando fazer flexões com postura ruim e cansada. Texto na tela: *Frio demais vs. Quente demais*.  
+  *Locução:* "Descansar demais esfria o corpo. Sem descanso, o músculo falha antes da hora."
+
+* **11s – 18s | Cena 3**  
+  *Visual:* Pessoa respirando fundo, levantando confiante e executando o movimento no ritmo certo.  
+  *Locução:* "No Método AFEE, quem manda é o termômetro do descanso: nem frio, nem fadigado."
+
+* **18s – 25s | Cena 4**  
+  *Visual:* Mostra o ebook na tela do celular com o valor destacado: R$ 16,18.  
+  *Locução:* "Aprenda a treinar no ponto certo. Ebook por apenas R$ 16,18. Comente MÉTODO ou acesse o link na bio."
 
 ## 07-dentro-do-ebook
 
@@ -251,44 +276,33 @@ Falhou: Gemini 503: This model is currently experiencing high demand. Spikes in 
 
 ### 5 ganchos alternativos para a capa
 
-1. Acha que R$ 16,18 é raso? Veja o que tem dentro.
-2. Preço baixo não significa conteúdo fraco. Dá uma olhada por dentro.
-3. Custa R$ 16,18, mas entrega isso tudo aqui por dentro.
-4. O que realmente vem dentro de um ebook de R$ 16,18?
-5. Por dentro do Método AFEE: conteúdo completo por R$ 16,18.
+1. “Custa R$ 16, então deve ser raso.” Veja o que vem dentro.
+2. O que tem em um ebook de R$ 16,18? Veja o índice completo.
+3. Barato demais para ser bom? Abra o Método AFEE por dentro.
+4. Por dentro do Método AFEE: 12 capítulos sem enrolação.
+5. Direto ao ponto: tudo o que você recebe por R$ 16,18.
 
 ---
 
-### Legenda alternativa (68 palavras)
+### Legenda alternativa
 
-Preço acessível não significa conteúdo incompleto. O Método AFEE reúne 12 capítulos práticos cobrindo todo o treino: Aquecer, Forçar, Estimular, Exaustar e o Termômetro do descanso. Direto ao ponto, sem enrolação.
+Preço baixo não significa conteúdo raso. O Método AFEE entrega o passo a passo completo da calistenia em 12 capítulos práticos: da base ao descanso correto.
 
-“O conteúdo é bom, foi direto ao ponto. Não tem milagre, mas é o melhor método que já vi até hoje.” — Luis Hoffman (Resultado individual).
+Como disse o Luis Hoffman: *“O conteúdo é bom, foi direto ao ponto. Não tem milagre, mas é o melhor método que já vi até hoje.”* (Resultado individual).
 
-Acesso imediato por R$ 16,18 (de R$ 161,80).
+De R$ 161,80 por R$ 16,18 no Pix ou cartão. Acesso imediato.
 
-Link na bio ou comente MÉTODO.
+Comente **MÉTODO** ou acesse o link na bio.
 
 ---
 
-### Roteiro de Reel (25 s)
+### Roteiro de Reel (25 segundos)
 
-* **Cena 1 (0 a 5 s)**  
-  *Visual:* Gravação de tela passando rapidamente pelas páginas do ebook no tablet ou celular.  
-  *Texto na tela:* “Barato demais pra ser bom?”  
-  *Áudio:* “Muita gente acha que pagar R$ 16,18 significa receber um material raso.”
-
-* **Cena 2 (5 a 14 s)**  
-  *Visual:* Zoom no sumário destacando os 12 capítulos e os tópicos (A·F·E·E e Termômetro do descanso).  
-  *Texto na tela:* 12 capítulos | Aquecer, Forçar, Estimular, Exaustar  
-  *Áudio:* “Mas o Método AFEE entrega 12 capítulos completos: do aquecimento à exaustão, mais o termômetro do descanso.”
-
-* **Cena 3 (14 a 19 s)**  
-  *Visual:* Print do relato na tela com o aviso: *(Resultado individual)*.  
-  *Texto na tela:* “Direto ao ponto, sem milagre.” — Luis Hoffman *(Resultado individual)*  
-  *Áudio:* “Sem enrolação e sem fórmulas mágicas. Apenas a estrutura certa de treino.”
-
-* **Cena 4 (19 a 25 s)**  
-  *Visual:* Capa do ebook com o preço em destaque (R$ 16,18).  
-  *Texto na tela:* De R$ 161,80 por R$ 16,18 | Comente MÉTODO  
-  *Áudio:* “De R$ 161,80 por R$ 16,18. Toque no link da bio ou comente MÉTODO.”
+* **[00-05s] Visual:** Criador olhando para a câmera, segurando o celular ou tablet com a capa do ebook aberta.  
+  **Áudio:** “Muita gente vê o Método AFEE por R$ 16,18 e pensa: ‘deve ser raso’.”
+* **[05-12s] Visual:** Gravação de tela rápida rolando o sumário e as páginas com os 12 capítulos e a estrutura A-F-E-E.  
+  **Áudio:** “São 12 capítulos diretos ao ponto: aquecimento, força, estímulo, exaustão e o termômetro do descanso.”
+* **[12-18s] Visual:** Print na tela com o relato: *“O conteúdo é bom, foi direto ao ponto. Não tem milagre...”* — Luis Hoffman (com texto pequeno: *Resultado individual*).  
+  **Áudio:** “Sem enrolação e sem promessa milagrosa. Só a estrutura que você precisa para treinar com o peso do corpo.”
+* **[18-25s] Visual:** Criador volta para a câmera, apontando para baixo. Texto na tela: De R$ 161,80 por R$ 16,18.  
+  **Áudio:** “De R$ 161,80 por R$ 16,18. Comente **MÉTODO** ou toque no link da bio.”
