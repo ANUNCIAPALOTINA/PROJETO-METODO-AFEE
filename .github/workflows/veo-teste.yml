@@ -1,0 +1,18 @@
+# Teste manual: a chave do Gemini libera modelos de vídeo (Veo)? Só lista, não gera nada nem gasta.
+name: Veo teste
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  veo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Listar modelos de vídeo
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          KEY=$(echo "$GEMINI_API_KEY" | sed -E 's/^[A-Z_]+ *= *//; s/^["'"'"']|["'"'"']$//g' | tr -d '[:space:]')
+          curl -s -H "x-goog-api-key: $KEY" "https://generativelanguage.googleapis.com/v1beta/models?pageSize=200" \
+            | jq -r '.models[]? | select(.name|test("veo|video|imagen";"i")) | "\(.name)  \(.supportedGenerationMethods|join(","))"'
+          echo "fim"
