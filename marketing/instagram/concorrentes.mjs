@@ -1,4 +1,4 @@
-// Leitor de concorrentes do Instagram (só API oficial, sem scraping: zero risco para a conta).
+// Leitor de concorrentes do Instagram. Usa a API oficial quando o token é EAA; senão, Playwright sem login (a conta da AFEE nunca é usada).
 // Uso: node marketing/instagram/concorrentes.mjs
 // Lê as contas de concorrentes.json pela Business Discovery da Graph API, ranqueia os posts
 // por engajamento relativo ao tamanho da conta e grava concorrentes/relatorio-AAAA-MM-DD.md.
@@ -16,12 +16,9 @@ const API = "https://graph.facebook.com/v21.0";
 const { contas } = JSON.parse(readFileSync(join(AQUI, "concorrentes.json"), "utf8"));
 const hoje = new Date().toISOString().slice(0, 10);
 
-if (!TOKEN) throw new Error("Falta o segredo INSTAGRAM_ACCESS_TOKEN.");
-if (TOKEN.startsWith("IG")) {
-  // A Business Discovery só existe na API do Facebook (token EAA...); o token do "Login do Instagram" não enxerga outras contas.
-  console.log("Token do tipo IG...: a Business Discovery não funciona com ele. Gere um token EAA (Facebook) para ler concorrentes.");
-  process.exit(1);
-}
+// A Business Discovery só existe na API do Facebook (token EAA...). Sem ele, coleta pública com Playwright, sem login.
+const OFICIAL = TOKEN && !TOKEN.startsWith("IG");
+console.log(OFICIAL ? "Fonte: API oficial (Business Discovery)." : "Fonte: página pública do Instagram via Playwright, sem login.");
 
 async function graph(caminho, campos) {
   const url = new URL(`${API}/${caminho}`);
@@ -38,12 +35,13 @@ async function minhaConta() {
   return (c.find((x) => /afee/i.test(x.username)) ?? c[0])?.id ?? (() => { throw new Error("Nenhuma conta do Instagram no token."); })();
 }
 
-const EU = await minhaConta();
+const EU = OFICIAL ? await minhaConta() : null;
+const web = OFICIAL ? null : await (await import("./coletar-web.mjs")).abrirColetor();
 const perfis = [];
 for (const u of contas) {
   try {
     const campos = `business_discovery.username(${u}){username,followers_count,media_count,media.limit(25){caption,like_count,comments_count,media_type,media_product_type,timestamp,permalink}}`;
-    const { business_discovery: b } = await graph(EU, { fields: campos });
+    const b = OFICIAL ? (await graph(EU, { fields: campos })).business_discovery : await web.ler(u);
     const posts = (b.media?.data ?? []).map((m) => ({
       ...m,
       conta: b.username,
@@ -55,8 +53,9 @@ for (const u of contas) {
   } catch (e) {
     console.log(`@${u}: não lido (${e.message})`);
   }
-  await new Promise((r) => setTimeout(r, 1500)); // educado com o limite de chamadas
+  await new Promise((r) => setTimeout(r, OFICIAL ? 1500 : 8000 + Math.random() * 7000)); // educado com o limite de chamadas
 }
+await web?.fechar();
 
 const formato = (m) => (m.media_product_type === "REELS" ? "Reel" : m.media_type === "CAROUSEL_ALBUM" ? "Carrossel" : m.media_type === "VIDEO" ? "Vídeo" : "Foto");
 const todos = perfis.flatMap((p) => p.posts).sort((a, b) => b.taxa - a.taxa);
@@ -67,7 +66,7 @@ const media = (a) => a.reduce((s, x) => s + x, 0) / a.length;
 
 const linhas = [
   `# Concorrentes · ${hoje}\n`,
-  `Fonte: API oficial do Instagram (Business Discovery). Engajamento = (curtidas + 3×comentários) ÷ seguidores.\n`,
+  `Fonte: ${OFICIAL ? "API oficial (Business Discovery)" : "página pública via Playwright, sem login"}. Engajamento = (curtidas + 3×comentários) ÷ seguidores.\n`,
   `## Contas\n`,
   `| Conta | Seguidores | Posts | Engajamento médio |`,
   `|---|---|---|---|`,
@@ -75,7 +74,7 @@ const linhas = [
   `\n## Formato que mais engaja\n`,
   ...Object.entries(porFormato).sort((a, b) => media(b[1]) - media(a[1])).map(([f, t]) => `- ${f}: ${(media(t) * 100).toFixed(2)}% (${t.length} posts)`),
   `\n## Top 15 posts\n`,
-  ...top.map((m, i) => `${i + 1}. **@${m.conta}** · ${formato(m)} · ${(m.taxa * 100).toFixed(2)}% · ${m.like_count ?? "?"} curtidas, ${m.comments_count} coment. · ${m.timestamp.slice(0, 10)} · ${m.permalink}\n   > ${(m.caption ?? "").replace(/\s+/g, " ").slice(0, 220)}`),
+  ...top.map((m, i) => `${i + 1}. **@${m.conta}** · ${formato(m)} · ${(m.taxa * 100).toFixed(2)}% · ${m.like_count ?? "?"} curtidas, ${m.comments_count} coment.${m.views ? ` · ${m.views} views` : ""} · ${m.timestamp.slice(0, 10)} · ${m.permalink}\n   > ${(m.caption ?? "").replace(/\s+/g, " ").slice(0, 220)}`),
 ];
 
 if (GEMINI && top.length) {
