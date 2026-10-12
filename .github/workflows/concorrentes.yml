@@ -25,12 +25,12 @@ jobs:
           INSTAGRAM_ACCESS_TOKEN: ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
           INSTAGRAM_BUSINESS_ACCOUNT_ID: ${{ secrets.INSTAGRAM_BUSINESS_ACCOUNT_ID }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: node marketing/instagram/concorrentes.mjs
+        run: node marketing/instagram/raspar-concorrentes.mjs && node marketing/instagram/relatorio-concorrentes.mjs
       - name: Salvar no repositório
         run: |
           git config user.name "robo-afee"
           git config user.email "robo-afee@users.noreply.github.com"
-          git add marketing/instagram/concorrentes
+          git add data RELATORIO-CONCORRENTES.md
           git diff --cached --quiet && exit 0
           git commit -m "chore(marketing): relatório de concorrentes [skip ci]"
           git pull --rebase && git push
