@@ -1,0 +1,49 @@
+# Gera uma cena de vídeo com o Veo (Gemini). Manual: Actions → "Veo" → Run workflow.
+# O vídeo vai para public/instagram/veo/ e fica em Artifacts.
+name: Veo
+on:
+  workflow_dispatch:
+    inputs:
+      nome:
+        description: "Nome do arquivo, ex. 01-pegada"
+        required: true
+      prompt:
+        description: "Descrição da cena (inglês rende melhor)"
+        required: true
+      segundos:
+        description: "Duração (4, 6 ou 8)"
+        default: "6"
+      modelo:
+        description: "Modelo Veo"
+        default: "veo-3.1-lite-generate-preview"
+permissions:
+  contents: write
+jobs:
+  veo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Gerar cena
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          NOME: ${{ inputs.nome }}
+          PROMPT: ${{ inputs.prompt }}
+          SEG: ${{ inputs.segundos }}
+          MODELO: ${{ inputs.modelo }}
+        run: node marketing/instagram/veo.mjs "$PROMPT" "public/instagram/veo/$NOME.mp4" "$MODELO" "$SEG"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: veo-${{ inputs.nome }}
+          path: public/instagram/veo/*.mp4
+      - name: Guardar no repositório
+        run: |
+          git config user.name "robo-afee"
+          git config user.email "robo-afee@users.noreply.github.com"
+          git add public/instagram/veo
+          git commit -m "chore(marketing): cena Veo ${{ inputs.nome }} [skip ci]" || exit 0
+          git pull --rebase -q origin main
+          git push -q origin HEAD:main
