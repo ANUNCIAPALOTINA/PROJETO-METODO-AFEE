@@ -6,7 +6,7 @@ Site, checkout, webhook, login, ebook (`src/`, `supabase/`), `docs/01-06`, robô
 ## Pode sair (nada depende disso hoje)
 | Item | Motivo | Risco |
 |---|---|---|
-| `marketing/instagram/veo.mjs`, `.github/workflows/veo.yml`, `veo-teste.yml` | Veo pago; João cancelou o faturamento | Baixo (volta pelo git) |
+| (apagados em 12/10) Veo e sugestão antiga | feito | - |
 | `marketing/instagram/ia/sugestoes-semana-05.md` | Sugestão antiga, o `ia.yml` gera de novo toda segunda | Baixo |
 | Pasta compartilhada: `instagram/semana-01/SEMANA-01-IMAGENS.zip` (16,7 MB) | Duplica os PNGs da semana-01 | Baixo |
 | Pasta compartilhada: `uploads/hearth/` (15 MB, arquivos sem nome) | Anexos antigos; conferir antes de apagar | Médio |
