@@ -17,6 +17,13 @@ const ctx = await navegador.newContext({
   viewport: { width: 1280, height: 900 },
   userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36",
 });
+// Conta reserva (nunca a @afee_calistenia): cookie "sessionid" no segredo IG_RESERVA_SESSIONID.
+// Logado, o Instagram não responde 429 como faz com visitante. Se a conta reserva for bloqueada, a AFEE não é afetada.
+const SESSAO = (process.env.IG_RESERVA_SESSIONID || "").trim().replace(/^sessionid=/, "").replace(/;$/, "");
+if (SESSAO) {
+  await ctx.addCookies([{ name: "sessionid", value: decodeURIComponent(SESSAO), domain: ".instagram.com", path: "/", httpOnly: true, secure: true }]);
+  console.log("Coleta logada com a conta reserva.");
+} else console.log("Sem IG_RESERVA_SESSIONID: coleta sem login (o Instagram costuma responder 429).");
 const pagina = await ctx.newPage();
 
 async function perfil(u) {
