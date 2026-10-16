@@ -40,6 +40,8 @@ const MENSAGENS_RECUSA: Record<string, string> = {
   cc_rejected_bad_filled_date: "Confira a validade do cartão.",
   cc_rejected_bad_filled_security_code: "Confira o código de segurança.",
   cc_rejected_bad_filled_other: "Confira os dados do cartão.",
+  cc_rejected_invalid_installments:
+    "Este cartão não aceita o número de parcelas escolhido. Pague em 1 parcela ou use outro cartão.",
   cc_rejected_call_for_authorize:
     "O banco pediu autorização. Fale com ele ou use outro cartão.",
   cc_rejected_card_disabled: "Cartão desabilitado. Ligue para o banco ou use outro.",

@@ -26,6 +26,7 @@ describe("mensagemDeRecusa", () => {
       ["cc_rejected_bad_filled_card_number", /número do cartão/],
       ["cc_rejected_bad_filled_date", /validade/],
       ["cc_rejected_bad_filled_security_code", /código de segurança/],
+      ["cc_rejected_invalid_installments", /parcelas/],
       ["cc_rejected_call_for_authorize", /autorização/],
       ["cc_rejected_card_disabled", /desabilitado/],
       ["cc_rejected_high_risk", /segurança/],
