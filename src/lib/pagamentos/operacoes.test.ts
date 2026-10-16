@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import type { ClienteMp, PagamentoMp } from "./cliente-mp";
 import { consultarStatus, criarPagamento } from "./operacoes";
+import { MENSAGEM_ENCERRADO } from "./status";
 
 function pg(extra: Partial<PagamentoMp> = {}): PagamentoMp {
   return {
@@ -46,18 +47,88 @@ describe("criarPagamento", () => {
     expect(JSON.stringify(c.criarPagamentoPix.mock.calls)).not.toContain("0.01");
   });
 
-  it("cartão recusado: devolve situação e mensagem simples", async () => {
+  it("cartão recusado: responde 402 com situação e mensagem específica", async () => {
     const c = clienteFalso(pg({ status: "rejected", statusDetail: "cc_rejected_insufficient_amount", pix: null }));
     const r = await criarPagamento(
       post({ ...comprador, metodo: "cartao", token: "abcdef1234567890", metodoPagamentoId: "visa" }),
       c,
     );
+    expect(r.status).toBe(402);
     expect(await r.json()).toEqual({
       metodo: "cartao",
       id: "777",
       situacao: "recusado",
       mensagem: "Saldo insuficiente no cartão.",
     });
+  });
+
+  it("detalhe de recusa não mapeado ainda responde 402, com a frase genérica", async () => {
+    const c = clienteFalso(
+      pg({ status: "rejected", statusDetail: "cc_rejected_motivo_novo", pix: null }),
+    );
+    const r = await criarPagamento(
+      post({ ...comprador, metodo: "cartao", token: "abcdef1234567890", metodoPagamentoId: "visa" }),
+      c,
+    );
+    expect(r.status).toBe(402);
+    expect((await r.json()).mensagem).toMatch(/não foi aprovado/);
+  });
+
+  it("cartão aprovado responde 201 sem campo de mensagem", async () => {
+    const c = clienteFalso(pg({ status: "approved", pix: null }));
+    const r = await criarPagamento(
+      post({ ...comprador, metodo: "cartao", token: "abcdef1234567890", metodoPagamentoId: "visa" }),
+      c,
+    );
+    expect(r.status).toBe(201);
+    expect(await r.json()).toEqual({ metodo: "cartao", id: "777", situacao: "aprovado" });
+  });
+
+  it("pagamento estornado/encerrado responde 402 com mensagem própria", async () => {
+    const c = clienteFalso(pg({ status: "refunded", pix: null }));
+    const r = await criarPagamento(
+      post({ ...comprador, metodo: "cartao", token: "abcdef1234567890", metodoPagamentoId: "visa" }),
+      c,
+    );
+    expect(r.status).toBe(402);
+    expect((await r.json()).mensagem).toBe(MENSAGEM_ENCERRADO);
+  });
+
+  it("recusa financeira é distinguível de falha técnica (402 x 502)", async () => {
+    const recusado = clienteFalso(pg({ status: "rejected", statusDetail: null, pix: null }));
+    const tecnico = clienteFalso();
+    tecnico.criarPagamentoCartao.mockRejectedValueOnce(new Error("timeout"));
+    const erro = vi.spyOn(console, "error").mockImplementation(() => {});
+    const rRecusa = await criarPagamento(
+      post({ ...comprador, metodo: "cartao", token: "abcdef1234567890", metodoPagamentoId: "visa" }),
+      recusado,
+    );
+    const rTecnico = await criarPagamento(
+      post({ ...comprador, metodo: "cartao", token: "abcdef1234567890", metodoPagamentoId: "visa" }),
+      tecnico,
+    );
+    erro.mockRestore();
+    expect(rRecusa.status).toBe(402);
+    expect(rTecnico.status).toBe(502);
+  });
+
+  it("encaminha o Device ID do navegador ao Mercado Pago", async () => {
+    const c = clienteFalso(pg({ status: "approved", pix: null }));
+    await criarPagamento(
+      post({
+        ...comprador,
+        metodo: "cartao",
+        token: "abcdef1234567890",
+        metodoPagamentoId: "visa",
+        deviceId: "device-id-123",
+      }),
+      c,
+    );
+    expect(c.criarPagamentoCartao.mock.calls[0]?.[3]).toBe("device-id-123");
+
+    const cPix = clienteFalso();
+    await criarPagamento(post({ ...comprador, metodo: "pix", deviceId: "device-id-456" }), cPix);
+    expect(cPix.criarPagamentoPix.mock.calls[0]?.[2]).toBe("device-id-456");
   });
 
   it("dados inválidos: 400 sem chamar o MP", async () => {

@@ -81,6 +81,29 @@ describe("criarPagamentoCartao", () => {
     });
     expect(corpo.card_number).toBeUndefined();
   });
+
+  it("encaminha o Device ID em X-meli-session-id quando existe", async () => {
+    const f = fetchFalso(201, { ...respostaPix, status: "approved" });
+    await cliente(f as unknown as typeof fetch).criarPagamentoCartao(
+      pagador,
+      { token: "tok_123", metodoPagamentoId: "visa", parcelas: 1 },
+      "chave-3",
+      "device-id-do-navegador",
+    );
+    const headers = (f.mock.calls[0] as unknown as [string, RequestInit])[1].headers as Record<string, string>;
+    expect(headers["X-meli-session-id"]).toBe("device-id-do-navegador");
+    // Toda criação leva a chave de idempotência: repetir não cobra duas vezes.
+    expect(headers["X-Idempotency-Key"]).toBe("chave-3");
+  });
+
+  it("não manda o cabeçalho sem Device ID nem com valor suspeito", async () => {
+    for (const deviceId of [undefined, "curto", "quebra\nde-linha"]) {
+      const f = fetchFalso(201, respostaPix);
+      await cliente(f as unknown as typeof fetch).criarPagamentoPix(pagador, "k", deviceId);
+      const headers = (f.mock.calls[0] as unknown as [string, RequestInit])[1].headers as Record<string, string>;
+      expect(headers["X-meli-session-id"]).toBeUndefined();
+    }
+  });
 });
 
 describe("buscarPagamento", () => {

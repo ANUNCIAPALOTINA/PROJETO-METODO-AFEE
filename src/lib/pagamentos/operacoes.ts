@@ -4,6 +4,7 @@ import { decidirPagamento } from "./decisao";
 import { validarPedido } from "./entrada";
 import { mascararEmail } from "./mascarar";
 import {
+  MENSAGEM_ENCERRADO,
   mensagemDeRecusa,
   situacaoDoPagamento,
   type SituacaoPagamento,
@@ -58,7 +59,7 @@ export async function criarPagamento(
   try {
     pagamento =
       pedido.metodo === "pix"
-        ? await cliente.criarPagamentoPix(pagador, pedido.chave)
+        ? await cliente.criarPagamentoPix(pagador, pedido.chave, pedido.deviceId)
         : await cliente.criarPagamentoCartao(
             pagador,
             {
@@ -68,6 +69,7 @@ export async function criarPagamento(
               parcelas: pedido.parcelas,
             },
             pedido.chave,
+            pedido.deviceId,
           );
   } catch (erro) {
     console.error("[pagamentos] falha ao criar pagamento", {
@@ -104,15 +106,27 @@ export async function criarPagamento(
     });
   }
 
+  // Recusa financeira NÃO é sucesso nem falha técnica: 402 diz ao navegador
+  // "o banco não autorizou" (mensagem específica), distinto do 502
+  // "não conseguimos falar com o MP" e do 400 "dados inválidos".
   const situacao = situacaoDoPagamento(pagamento);
-  return json(201, {
-    metodo: "cartao",
-    id: pagamento.id,
-    situacao,
-    ...(situacao === "recusado"
-      ? { mensagem: mensagemDeRecusa(pagamento.statusDetail) }
-      : {}),
-  });
+  if (situacao === "recusado") {
+    return json(402, {
+      metodo: "cartao",
+      id: pagamento.id,
+      situacao,
+      mensagem: mensagemDeRecusa(pagamento.statusDetail),
+    });
+  }
+  if (situacao === "encerrado") {
+    return json(402, {
+      metodo: "cartao",
+      id: pagamento.id,
+      situacao,
+      mensagem: MENSAGEM_ENCERRADO,
+    });
+  }
+  return json(201, { metodo: "cartao", id: pagamento.id, situacao });
 }
 
 /**

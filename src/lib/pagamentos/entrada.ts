@@ -15,6 +15,23 @@ export type DadosComprador = {
 
 const REGEX_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
+/** Mensagem única do CPF, usada pelo navegador e pelo servidor. */
+export const MSG_CPF_INVALIDO = "CPF inválido. Confira os 11 números.";
+
+/**
+ * Device ID do Mercado Pago (`MP_DEVICE_SESSION_ID`). Formato livre, mas com
+ * tamanho e alfabeto limitados: o valor vai virar cabeçalho HTTP
+ * (`X-meli-session-id`) e não pode carregar quebra de linha nem lixo.
+ */
+const REGEX_DEVICE_ID = /^[A-Za-z0-9._:-]{8,512}$/;
+
+/** Aceita o Device ID ou devolve undefined. Valor estranho é ignorado, não é erro. */
+export function normalizarDeviceId(valor: unknown): string | undefined {
+  return typeof valor === "string" && REGEX_DEVICE_ID.test(valor.trim())
+    ? valor.trim()
+    : undefined;
+}
+
 /** Valida o comprador. Usada no navegador (mensagens) e no servidor (verdade). */
 export function validarComprador(entrada: {
   nome?: unknown;
@@ -40,7 +57,7 @@ export function validarComprador(entrada: {
 
   const cpfTexto = typeof entrada.cpf === "string" ? entrada.cpf : "";
   if (!validarCpf(cpfTexto)) {
-    erros.cpf = "CPF inválido. Confira os 11 números.";
+    erros.cpf = MSG_CPF_INVALIDO;
   }
 
   if (Object.keys(erros).length > 0) return { ok: false, erros };
@@ -57,7 +74,13 @@ export function validarComprador(entrada: {
 }
 
 export type PedidoPagamento =
-  | { metodo: "pix"; comprador: DadosComprador; chave: string }
+  | {
+      metodo: "pix";
+      comprador: DadosComprador;
+      chave: string;
+      /** Device ID do navegador, quando o SDK do MP conseguiu coletar. */
+      deviceId?: string;
+    }
   | {
       metodo: "cartao";
       comprador: DadosComprador;
@@ -66,6 +89,8 @@ export type PedidoPagamento =
       metodoPagamentoId: string;
       emissorId?: string;
       parcelas: number;
+      /** Device ID do navegador, quando o SDK do MP conseguiu coletar. */
+      deviceId?: string;
     };
 
 const REGEX_UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -97,6 +122,10 @@ export function validarPedido(
       ? c.chave.toLowerCase()
       : gerarChave();
 
+  // Recomendação do MP (antifraude). Não é obrigatório: valor ausente ou
+  // estranho apenas não é repassado, nunca impede a compra.
+  const deviceId = normalizarDeviceId(c.deviceId);
+
   if (c.metodo === "cartao") {
     if (typeof c.token !== "string" || !REGEX_TOKEN.test(c.token)) {
       erros.token = "Não foi possível ler os dados do cartão. Tente de novo.";
@@ -116,7 +145,7 @@ export function validarPedido(
   if (c.metodo === "pix") {
     return {
       ok: true,
-      pedido: { metodo: "pix", comprador: comprador.dados, chave },
+      pedido: { metodo: "pix", comprador: comprador.dados, chave, deviceId },
     };
   }
 
@@ -140,6 +169,7 @@ export function validarPedido(
       metodoPagamentoId: c.metodoPagamentoId as string,
       emissorId: emissor && /^\d{1,10}$/.test(emissor) ? emissor : undefined,
       parcelas,
+      deviceId,
     },
   };
 }

@@ -3,6 +3,13 @@
 import Script from "next/script";
 import { useEffect, useRef, useState } from "react";
 import { precoParaGateway, produto } from "@/config/produto";
+import {
+  ID_DOCUMENTO_CARDFORM,
+  TIPO_DOCUMENTO_CARDFORM,
+  mensagemFalhaTokenizacao,
+  numeroDocumentoCardform,
+  type DadosBrutosCartao,
+} from "@/lib/pagamentos/cardform";
 import { classeCampo } from "./campo";
 
 /** Dados que o SDK devolve depois de tokenizar o cartão (sem número nem CVV). */
@@ -15,7 +22,7 @@ export type DadosCartaoTokenizado = {
 
 type CardFormMp = {
   unmount(): void;
-  getCardFormData(): DadosCartaoTokenizado;
+  getCardFormData(): DadosCartaoTokenizado & DadosBrutosCartao;
 };
 
 type MercadoPagoMp = {
@@ -47,6 +54,13 @@ const CHAVE_PUBLICA = process.env.NEXT_PUBLIC_MERCADOPAGO_PUBLIC_KEY;
 const classeIframe =
   "h-12 w-full rounded-[2px] border border-input bg-card px-3 [&>iframe]:h-full";
 
+const estiloCampoSeguro = {
+  color: "#f5f3ef",
+  fontFamily: "Inter, sans-serif",
+  fontSize: "17px",
+  placeholderColor: "#a7a39b",
+};
+
 /**
  * Campos do cartão. Número, validade e CVV ficam em iframes do Mercado Pago
  * ("secure fields"): o nosso código e o nosso servidor nunca os veem.
@@ -58,14 +72,19 @@ const classeIframe =
  */
 export function CamposCartao({
   formId,
-  idCpf,
+  cpf,
+  cpfValido,
   aoTokenizar,
   aoFalhar,
+  aoFalharCpf,
 }: {
   formId: string;
-  idCpf: string;
+  cpf: string;
+  /** CPF válido hoje? Decide se a falha de tokenização vira erro de CPF ou de cartão. */
+  cpfValido: boolean;
   aoTokenizar: (dados: DadosCartaoTokenizado) => void;
   aoFalhar: (mensagem: string) => void;
+  aoFalharCpf: () => void;
 }) {
   const [sdkPronto, setSdkPronto] = useState(
     () => typeof window !== "undefined" && !!window.MercadoPago,
@@ -73,10 +92,22 @@ export function CamposCartao({
   const [carregando, setCarregando] = useState(true);
   const [indisponivel, setIndisponivel] = useState(!CHAVE_PUBLICA);
 
-  const callbacks = useRef({ aoTokenizar, aoFalhar });
+  const callbacks = useRef({ aoTokenizar, aoFalhar, aoFalharCpf, cpfValido });
   useEffect(() => {
-    callbacks.current = { aoTokenizar, aoFalhar };
+    callbacks.current = { aoTokenizar, aoFalhar, aoFalharCpf, cpfValido };
   });
+
+  /**
+   * Falha de tokenização. Sem CPF válido, o SDK não tokeniza por causa do
+   * documento: o erro é do CPF, não do cartão (era o defeito do campo errado).
+   */
+  function falhaNaTokenizacao(dados: DadosBrutosCartao | null | undefined) {
+    if (!callbacks.current.cpfValido) {
+      callbacks.current.aoFalharCpf();
+      return;
+    }
+    callbacks.current.aoFalhar(mensagemFalhaTokenizacao(dados));
+  }
 
   useEffect(() => {
     if (!sdkPronto || !CHAVE_PUBLICA || !window.MercadoPago) return;
@@ -88,14 +119,22 @@ export function CamposCartao({
         iframe: true,
         form: {
           id: formId,
-          cardNumber: { id: ID.numero, placeholder: "Número do cartão" },
-          expirationDate: { id: ID.validade, placeholder: "MM/AA" },
-          securityCode: { id: ID.cvv, placeholder: "CVV" },
+          cardNumber: {
+            id: ID.numero,
+            placeholder: "Número do cartão",
+            style: estiloCampoSeguro,
+          },
+          expirationDate: {
+            id: ID.validade,
+            placeholder: "MM/AA",
+            style: estiloCampoSeguro,
+          },
+          securityCode: { id: ID.cvv, placeholder: "CVV", style: estiloCampoSeguro },
           cardholderName: { id: ID.titular, placeholder: "Nome como no cartão" },
           issuer: { id: ID.emissor, placeholder: "Banco emissor" },
           installments: { id: ID.parcelas, placeholder: "Parcelas" },
           identificationType: { id: ID.tipoDoc },
-          identificationNumber: { id: idCpf },
+          identificationNumber: { id: ID_DOCUMENTO_CARDFORM },
         },
         callbacks: {
           onFormMounted: (erro: unknown) => {
@@ -106,17 +145,13 @@ export function CamposCartao({
             evento.preventDefault();
             const dados = cardForm?.getCardFormData();
             if (!dados?.token) {
-              callbacks.current.aoFalhar(
-                "Confira os dados do cartão e tente de novo.",
-              );
+              falhaNaTokenizacao(dados);
               return;
             }
             callbacks.current.aoTokenizar(dados);
           },
           onError: () => {
-            callbacks.current.aoFalhar(
-              "Confira os dados do cartão e tente de novo.",
-            );
+            falhaNaTokenizacao(cardForm?.getCardFormData());
           },
         },
       });
@@ -134,7 +169,7 @@ export function CamposCartao({
         // já desmontado
       }
     };
-  }, [sdkPronto, formId, idCpf]);
+  }, [sdkPronto, formId]);
 
   if (indisponivel) {
     return (
@@ -204,7 +239,24 @@ export function CamposCartao({
       </div>
 
       {/* O SDK exige o tipo de documento; o número é o campo CPF acima. */}
-      <select id={ID.tipoDoc} name="tipoDoc" hidden defaultValue="CPF" />
+      <select
+        id={ID.tipoDoc}
+        name="tipoDoc"
+        className="sr-only"
+        aria-hidden="true"
+        defaultValue={TIPO_DOCUMENTO_CARDFORM}
+      >
+        <option value={TIPO_DOCUMENTO_CARDFORM}>CPF</option>
+      </select>
+      {/* O SDK recebe apenas dígitos; o campo visível mantém a máscara brasileira. */}
+      <input
+        id={ID_DOCUMENTO_CARDFORM}
+        name={ID_DOCUMENTO_CARDFORM}
+        value={numeroDocumentoCardform(cpf)}
+        readOnly
+        tabIndex={-1}
+        className="sr-only"
+      />
 
       <p className="text-sm text-muted-foreground">
         Os dados do cartão vão direto para o Mercado Pago. Nós não guardamos

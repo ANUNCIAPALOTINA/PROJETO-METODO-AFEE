@@ -131,6 +131,24 @@
     outline: 2px solid var(--ring);
     outline-offset: 2px;
   }
+
+  /* Mantém o tema escuro quando o navegador preenche dados automaticamente. */
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  textarea:-webkit-autofill,
+  select:-webkit-autofill {
+    -webkit-text-fill-color: var(--foreground);
+    -webkit-box-shadow: 0 0 0 1000px var(--card) inset;
+    caret-color: var(--foreground);
+    transition: background-color 9999s ease-in-out 0s;
+  }
+
+  input,
+  textarea,
+  select {
+    color-scheme: dark;
+  }
 }
 
 /* Respeita a preferência "reduzir movimento" do aparelho */

@@ -2,20 +2,43 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useRef, useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent, type MouseEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { precoFormatado } from "@/config/produto";
 import { site } from "@/config/site";
-import { formatarCpf } from "@/lib/pagamentos/cpf";
-import { validarComprador, type ErrosEntrada } from "@/lib/pagamentos/entrada";
+import { formatarCpf, validarCpf } from "@/lib/pagamentos/cpf";
+import {
+  MSG_CPF_INVALIDO,
+  validarComprador,
+  type ErrosEntrada,
+} from "@/lib/pagamentos/entrada";
 import { Campo } from "./campo";
 import { CamposCartao, type DadosCartaoTokenizado } from "./cartao-mp";
+import { lerDeviceId } from "./device-id";
 import { guardarEmailPedido } from "./email-pedido";
 import { TelaPix, type PixGerado } from "./tela-pix";
 import { useStatusPagamento, type SituacaoNavegador } from "./use-status-pagamento";
 
 const ID_FORM = "form-checkout";
 const ID_CPF = "cpf";
+const ID_SCRIPT_SEGURANCA = "mp-security-js";
+
+/**
+ * Script de segurança do Mercado Pago: cria a variável global
+ * `MP_DEVICE_SESSION_ID` e preenche o campo oculto `#deviceId`.
+ * Injetado à mão (e não por `next/script`) porque o atributo `view` não existe
+ * na tipagem do Next; sem ele o MP não sabe de qual seção veio o Device ID.
+ * Carrega uma vez por página.
+ */
+function injetarScriptSeguranca() {
+  if (document.getElementById(ID_SCRIPT_SEGURANCA)) return;
+  const script = document.createElement("script");
+  script.id = ID_SCRIPT_SEGURANCA;
+  script.src = "https://www.mercadopago.com/v2/security.js";
+  script.setAttribute("view", "checkout");
+  script.async = true;
+  document.head.appendChild(script);
+}
 
 type Metodo = "pix" | "cartao";
 
@@ -32,6 +55,9 @@ type RespostaApi = {
 
 const MSG_FALHA =
   "Não conseguimos processar agora. Tente de novo em alguns minutos. Nada foi cobrado.";
+
+const MSG_RECUSA =
+  "O cartão não foi aprovado. Tente outro cartão ou pague com Pix.";
 
 /** Espera da confirmação de um cartão que ficou "em análise". */
 function EsperaCartao({ id, aoAprovar }: { id: string; aoAprovar: () => void }) {
@@ -67,13 +93,25 @@ export function FormularioCheckout() {
   const [enviando, setEnviando] = useState(false);
   const [pix, setPix] = useState<PixGerado | null>(null);
   const [analise, setAnalise] = useState<string | null>(null);
+  const [processandoCartao, setProcessandoCartao] = useState(false);
 
   // Chave de idempotência: igual enquanto a tentativa pode ser repetida
   // (ex.: queda de rede), nova depois de uma resposta definitiva.
   const chave = useRef<string | null>(null);
-  const novaChave = () => {
+  // Trava de reentrada do cartão: dois cliques muito rápidos acontecem antes
+  // de o React atualizar `processandoCartao`, então a trava é um ref.
+  const emAndamento = useRef(false);
+
+  useEffect(injetarScriptSeguranca, []);
+
+  function novaChave() {
     chave.current = crypto.randomUUID();
-  };
+  }
+
+  function liberarCartao() {
+    emAndamento.current = false;
+    setProcessandoCartao(false);
+  }
 
   function concluir() {
     guardarEmailPedido(email.trim().toLowerCase());
@@ -101,7 +139,17 @@ export function FormularioCheckout() {
       const resposta = await fetch("/api/pagamentos", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ nome, email, cpf, chave: chave.current, metodo, ...extra }),
+        body: JSON.stringify({
+          nome,
+          email,
+          cpf,
+          chave: chave.current,
+          metodo,
+          // Recomendação antifraude do MP. Fica de fora se o script de
+          // segurança ainda não tiver gerado o valor.
+          deviceId: lerDeviceId(),
+          ...extra,
+        }),
       });
       const dados = (await resposta.json().catch(() => ({}))) as RespostaApi;
       novaChave();
@@ -110,6 +158,12 @@ export function FormularioCheckout() {
         const { token, metodo: erroMetodo, ...camposDoForm } = dados.erros;
         setErros(camposDoForm);
         if (token || erroMetodo) setErroGeral(token ?? erroMetodo ?? MSG_FALHA);
+        return;
+      }
+      // 402 = o banco não autorizou (ou o pagamento foi encerrado). Diferente
+      // do 502 (falha técnica) e do 400 (dados inválidos).
+      if (resposta.status === 402) {
+        setErroGeral(dados.mensagem ?? MSG_RECUSA);
         return;
       }
       if (!resposta.ok || !dados.id) {
@@ -123,7 +177,7 @@ export function FormularioCheckout() {
       if (dados.situacao === "aprovado") {
         concluir();
       } else if (dados.situacao === "recusado" || dados.situacao === "encerrado") {
-        setErroGeral(dados.mensagem ?? "O cartão não foi aprovado. Tente outro cartão ou pague com Pix.");
+        setErroGeral(dados.mensagem ?? MSG_RECUSA);
       } else {
         setAnalise(dados.id);
       }
@@ -143,14 +197,33 @@ export function FormularioCheckout() {
     void criarPagamento({});
   }
 
+  /**
+   * Cartão: barra o envio ANTES de o SDK tentar tokenizar quando o comprador
+   * (nome, e-mail ou CPF) está inválido, para o erro aparecer no campo certo em
+   * vez de virar "confira os dados do cartão". Também segura clique duplo.
+   */
+  function aoClicarEnviar(e: MouseEvent<HTMLButtonElement>) {
+    if (metodo === "pix") return;
+    if (emAndamento.current || !validarLocal()) {
+      e.preventDefault();
+      return;
+    }
+    emAndamento.current = true;
+    setProcessandoCartao(true);
+    setErroGeral(null);
+  }
+
   function aoTokenizar(dados: DadosCartaoTokenizado) {
-    if (!validarLocal()) return;
+    if (!validarLocal()) {
+      liberarCartao();
+      return;
+    }
     void criarPagamento({
       token: dados.token,
       metodoPagamentoId: dados.paymentMethodId,
       emissorId: dados.issuerId,
       parcelas: Number(dados.installments) || 1,
-    });
+    }).finally(liberarCartao);
   }
 
   if (pix) {
@@ -173,6 +246,8 @@ export function FormularioCheckout() {
       aria-busy={enviando}
       className="flex flex-col gap-6"
     >
+      {/* O script de segurança (usarScriptSeguranca) escreve o Device ID aqui. */}
+      <input type="hidden" id="deviceId" name="deviceId" />
       {erroGeral ? (
         <p role="alert" className="rounded-[2px] border border-destructive p-4 text-destructive">
           {erroGeral}
@@ -240,6 +315,7 @@ export function FormularioCheckout() {
                 onChange={() => {
                   setMetodo(valor);
                   setErroGeral(null);
+                  liberarCartao();
                 }}
                 className="sr-only"
               />
@@ -252,18 +328,28 @@ export function FormularioCheckout() {
       {metodo === "cartao" ? (
         <CamposCartao
           formId={ID_FORM}
-          idCpf={ID_CPF}
+          cpf={cpf}
+          cpfValido={validarCpf(cpf)}
           aoTokenizar={aoTokenizar}
-          aoFalhar={setErroGeral}
+          aoFalhar={(mensagem) => {
+            liberarCartao();
+            setErroGeral(mensagem);
+          }}
+          aoFalharCpf={() => {
+            liberarCartao();
+            setErros((anteriores) => ({ ...anteriores, cpf: MSG_CPF_INVALIDO }));
+            document.getElementById(ID_CPF)?.focus();
+          }}
         />
       ) : null}
 
       <Button
         type="submit"
-        disabled={enviando}
+        onClick={aoClicarEnviar}
+        disabled={enviando || processandoCartao}
         className="h-14 w-full text-[17px] font-semibold"
       >
-        {enviando
+        {enviando || processandoCartao
           ? "Processando…"
           : metodo === "pix"
             ? `Gerar Pix · ${precoFormatado}`

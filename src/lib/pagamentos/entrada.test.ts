@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { validarComprador, validarPedido } from "./entrada";
+import { normalizarDeviceId, validarComprador, validarPedido } from "./entrada";
 
 const comprador = { nome: "  Maria  da Silva ", email: " Maria@Exemplo.COM ", cpf: "529.982.247-25" };
 const UUID = "3f2b8c1e-9a4d-4b7e-8c21-5d6e7f8a9b0c";
@@ -76,5 +76,37 @@ describe("validarPedido", () => {
     expect(validarPedido({ ...comprador, metodo: "boleto" }, gerar).ok).toBe(false);
     expect(validarPedido(null, gerar).ok).toBe(false);
     expect(validarPedido("texto", gerar).ok).toBe(false);
+  });
+
+  it("aceita o Device ID do navegador e o repassa ao cliente do MP", () => {
+    const r = validarPedido(
+      { ...comprador, metodo: "pix", deviceId: "abc123.def-456_ghi:jkl" },
+      gerar,
+    );
+    expect(r.ok && r.pedido.deviceId).toBe("abc123.def-456_ghi:jkl");
+  });
+
+  it("ignora Device ID ausente ou com formato estranho, sem barrar a compra", () => {
+    for (const deviceId of [undefined, "", "curto", "com espaço", "a".repeat(600), { x: 1 }, "linha\nquebrada"]) {
+      const r = validarPedido({ ...comprador, metodo: "pix", deviceId }, gerar);
+      expect(r.ok).toBe(true);
+      expect(r.ok && r.pedido.deviceId).toBeUndefined();
+    }
+  });
+
+  it("aceita o Device ID real do MP (longo, com pontos e hífens)", () => {
+    // Formato observado no checkout: "armor.<192 hex>.<32 hex>" (231 caracteres).
+    const real = `armor.${"a1b2c3d4".repeat(24)}.${"e5f6a7b8".repeat(4)}`;
+    expect(real).toHaveLength(231);
+    const r = validarPedido({ ...comprador, metodo: "cartao", token: "abcdef1234567890", metodoPagamentoId: "visa", deviceId: real }, gerar);
+    expect(r.ok && r.pedido.deviceId).toBe(real);
+  });
+});
+
+describe("normalizarDeviceId", () => {
+  it("devolve o valor limpo ou undefined", () => {
+    expect(normalizarDeviceId("  abc12345  ")).toBe("abc12345");
+    expect(normalizarDeviceId(12345678)).toBeUndefined();
+    expect(normalizarDeviceId(null)).toBeUndefined();
   });
 });

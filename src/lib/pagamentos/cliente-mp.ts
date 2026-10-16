@@ -27,6 +27,7 @@ export type ClienteMp = {
   criarPagamentoPix(
     pagador: Pagador,
     chaveIdempotencia: string,
+    deviceId?: string,
   ): Promise<PagamentoMp>;
   criarPagamentoCartao(
     pagador: Pagador,
@@ -37,6 +38,7 @@ export type ClienteMp = {
       parcelas: number;
     },
     chaveIdempotencia: string,
+    deviceId?: string,
   ): Promise<PagamentoMp>;
   /** null quando o pagamento não existe (404). Qualquer outra falha lança. */
   buscarPagamento(id: string): Promise<PagamentoMp | null>;
@@ -70,6 +72,16 @@ function emailValido(valor: unknown): string | null {
 
 function numero(valor: unknown): number | null {
   return typeof valor === "number" && Number.isFinite(valor) ? valor : null;
+}
+
+/**
+ * O Device ID vira cabeçalho HTTP. Só passa valor com formato previsível,
+ * uma segunda barreira além da validação de entrada.
+ */
+function deviceIdSeguro(valor: unknown): string | null {
+  return typeof valor === "string" && /^[A-Za-z0-9._:-]{8,512}$/.test(valor)
+    ? valor
+    : null;
 }
 
 /** Converte a resposta crua da API. Lança se faltar o essencial (id e status). */
@@ -131,6 +143,7 @@ export function criarClienteMp(opcoes: OpcoesClienteMp): ClienteMp {
     caminho: string,
     corpo?: Json,
     chaveIdempotencia?: string,
+    deviceId?: string,
   ): Promise<{ status: number; json: unknown }> {
     const headers: Record<string, string> = {
       Authorization: `Bearer ${opcoes.accessToken}`,
@@ -138,6 +151,9 @@ export function criarClienteMp(opcoes: OpcoesClienteMp): ClienteMp {
     };
     if (corpo) headers["Content-Type"] = "application/json";
     if (chaveIdempotencia) headers["X-Idempotency-Key"] = chaveIdempotencia;
+    // Recomendação do MP para aprovação: identifica o dispositivo do comprador.
+    const sessao = deviceIdSeguro(deviceId);
+    if (sessao) headers["X-meli-session-id"] = sessao;
 
     let resposta: Response;
     try {
@@ -188,12 +204,14 @@ export function criarClienteMp(opcoes: OpcoesClienteMp): ClienteMp {
   async function criar(
     corpo: Json,
     chaveIdempotencia: string,
+    deviceId?: string,
   ): Promise<PagamentoMp> {
     const { status, json } = await chamar(
       "POST",
       "/v1/payments",
       corpo,
       chaveIdempotencia,
+      deviceId,
     );
     if (status < 200 || status >= 300) {
       const causa =
@@ -204,7 +222,7 @@ export function criarClienteMp(opcoes: OpcoesClienteMp): ClienteMp {
   }
 
   return {
-    criarPagamentoPix(pagador, chaveIdempotencia) {
+    criarPagamentoPix(pagador, chaveIdempotencia, deviceId) {
       return criar(
         {
           ...corpoBase(pagador),
@@ -212,10 +230,11 @@ export function criarClienteMp(opcoes: OpcoesClienteMp): ClienteMp {
           date_of_expiration: dataExpiracaoPix(),
         },
         chaveIdempotencia,
+        deviceId,
       );
     },
 
-    criarPagamentoCartao(pagador, cartao, chaveIdempotencia) {
+    criarPagamentoCartao(pagador, cartao, chaveIdempotencia, deviceId) {
       const corpo: Json = {
         ...corpoBase(pagador),
         token: cartao.token,
@@ -223,7 +242,7 @@ export function criarClienteMp(opcoes: OpcoesClienteMp): ClienteMp {
         payment_method_id: cartao.metodoPagamentoId,
       };
       if (cartao.emissorId) corpo.issuer_id = Number(cartao.emissorId);
-      return criar(corpo, chaveIdempotencia);
+      return criar(corpo, chaveIdempotencia, deviceId);
     },
 
     async buscarPagamento(id) {

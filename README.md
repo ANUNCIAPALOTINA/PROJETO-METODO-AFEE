@@ -19,6 +19,10 @@ Dono: João Garlet (não é programador, escreve em PT-BR). Leia também `AGENTE
 | Concorrentes | `concorrentes.mjs`, `raspar-concorrentes.mjs`, workflow `concorrentes.yml` | coleta só funciona no PC do João |
 | Veo (vídeo pago) | `veo.mjs`, `veo.yml`, `veo-teste.yml` | **parado** (faturamento cancelado) |
 | Documentos do produto | `docs/01..06` | oferta, mapa do site, identidade, fotos, Figma |
+| Estrutura da agência | `docs/07-agencia-marketing.md` | posicionamento, serviços, operação, papéis e próximos ciclos |
+| Projeto de solução de pagamentos | `docs/08-projeto-solucao-pagamentos-cartao.md` | diagnóstico, fases, testes e critérios para cartão |
+| Reprodução e causa raiz do cartão | `docs/09-reproducao-pagamento-cartao-teste.md` | evidencias, teste diferencial e resultados |
+| Tutorial das credenciais de teste (MP) | `docs/10-tutorial-credenciais-teste-mercadopago.md` | passo a passo manual para o Garlet |
 
 Fora do repo, na pasta compartilhada do projeto (`/mnt/project-files`): `instagram/semana-XX/` (posts prontos), `instagram/editor-video/`, `marca/` (guia e logos), `ebook-app/`, `layout/`, `DESAFIOS.md` (versão longa).
 
