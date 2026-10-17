@@ -135,6 +135,12 @@ export function FormularioCheckout() {
     setEnviando(true);
     setErroGeral(null);
     chave.current ??= crypto.randomUUID();
+    // Sem AbortController o fetch espera para sempre se a resposta não chegar
+    // (função morta pelo tempo na Netlify, conexão pendurada): o botão fica
+    // travado em "Processando…" sem nenhuma mensagem. 30s é abaixo do teto de
+    // 60s da função, o que dá margem para o erro chegar ao usuário.
+    const controlador = new AbortController();
+    const temporizador = setTimeout(() => controlador.abort(), 30_000);
     try {
       const resposta = await fetch("/api/pagamentos", {
         method: "POST",
@@ -150,6 +156,7 @@ export function FormularioCheckout() {
           deviceId: lerDeviceId(),
           ...extra,
         }),
+        signal: controlador.signal,
       });
       const dados = (await resposta.json().catch(() => ({}))) as RespostaApi;
       novaChave();
@@ -181,10 +188,17 @@ export function FormularioCheckout() {
       } else {
         setAnalise(dados.id);
       }
-    } catch {
+    } catch (erro) {
       // Falha de rede: mantém a mesma chave de idempotência para repetir sem cobrar duas vezes.
+      if (erro instanceof DOMException && erro.name === "AbortError") {
+        setErroGeral(
+          "Estamos com dificuldades para processar agora. Tente de novo em alguns minutos. Nada foi cobrado.",
+        );
+        return;
+      }
       setErroGeral(MSG_FALHA);
     } finally {
+      clearTimeout(temporizador);
       setEnviando(false);
     }
   }
