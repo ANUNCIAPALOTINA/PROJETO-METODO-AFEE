@@ -169,8 +169,19 @@ export function CamposCartao({
             }
             callbacks.current.aoTokenizar(dados);
           },
-          onError: () => {
-            falhaNaTokenizacao(cardForm?.getCardFormData());
+          /**
+           * O SDK avisa aqui o resultado de CADA tokenização (portado do Bela
+           * Gestão, `pagamento.js:630-635`). Sem este callback, o erro da
+           * tokenização morre no console e a pessoa fica sem resposta: era
+           * exatamente o travamento em "Processando…". O `onError` geral não
+           * substitui este — ele não é chamado quando só a tokenização falha.
+           */
+          onCardTokenReceived: (erro: unknown) => {
+            if (!erro) return; // sem erro: o token chegou; quem trata é o onSubmit
+            falhaNaTokenizacao(cardForm?.getCardFormData(), erro);
+          },
+          onError: (erro: unknown) => {
+            falhaNaTokenizacao(cardForm?.getCardFormData(), erro);
           },
         },
       });
