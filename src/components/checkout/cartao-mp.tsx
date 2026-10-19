@@ -135,6 +135,11 @@ export function CamposCartao({
 
   useEffect(() => {
     if (!sdkPronto || !CHAVE_PUBLICA || !window.MercadoPago) return;
+    const campoCpf = document.getElementById("cpf");
+    const sincronizar = () => sincronizarCpfCardform(document);
+    campoCpf?.addEventListener("input", sincronizar);
+    campoCpf?.addEventListener("change", sincronizar);
+    sincronizar();
     let cardForm: CardFormMp | null = null;
     try {
       const mp = new window.MercadoPago(CHAVE_PUBLICA, { locale: "pt-BR" });
@@ -206,6 +211,8 @@ export function CamposCartao({
       });
     }
     return () => {
+      campoCpf?.removeEventListener("input", sincronizar);
+      campoCpf?.removeEventListener("change", sincronizar);
       try {
         cardForm?.unmount();
       } catch {

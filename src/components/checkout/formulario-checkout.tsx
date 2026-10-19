@@ -14,6 +14,7 @@ import {
 } from "@/lib/pagamentos/entrada";
 import { Campo } from "./campo";
 import { CamposCartao, type DadosCartaoTokenizado } from "./cartao-mp";
+import { sincronizarCpfCardform } from "@/lib/pagamentos/cardform";
 import { lerDeviceId } from "./device-id";
 import { guardarEmailPedido } from "./email-pedido";
 import { TelaPix, type PixGerado } from "./tela-pix";
@@ -150,7 +151,9 @@ export function FormularioCheckout() {
   }
 
   function validarLocal(): boolean {
-    const r = validarComprador({ nome, email, cpf });
+    const cpfDoDom = document.getElementById(ID_CPF);
+    const cpfAtual = cpfDoDom instanceof HTMLInputElement ? cpfDoDom.value : cpf;
+    const r = validarComprador({ nome, email, cpf: cpfAtual });
     if (r.ok) {
       setErros({});
       return true;
@@ -249,6 +252,9 @@ export function FormularioCheckout() {
    */
   function aoClicarEnviar(e: MouseEvent<HTMLButtonElement>) {
     if (metodo === "pix") return;
+    // O clique acontece antes de o CardForm tokenizar. Reforça o espelho
+    // técnico com o valor real do campo, inclusive após autofill.
+    sincronizarCpfCardform(document);
     if (emAndamento.current || !validarLocal()) {
       e.preventDefault();
       return;

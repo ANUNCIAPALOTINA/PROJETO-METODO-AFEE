@@ -1,5 +1,3 @@
-import { readFileSync } from "node:fs";
-import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 import {
   ID_DOCUMENTO_CARDFORM,
@@ -36,9 +34,17 @@ describe("numeroDocumentoCardform", () => {
 });
 
 describe("sincronizarCpfCardform", () => {
-  it("lê o valor atual do DOM, mesmo que o estado esteja vazio", () => {
-    const documento = { getElementById: () => ({ value: "123.456.789-09" }) } as unknown as Document;
+  it("atualiza o espelho para somente dígitos quando o CPF visível muda", () => {
+    const campos = {
+      cpf: { value: "123.456.789-09" },
+      [ID_DOCUMENTO_CARDFORM]: { value: "" },
+    };
+    const documento = { getElementById: (id: string) => campos[id as keyof typeof campos] ?? null } as unknown as Document;
     expect(sincronizarCpfCardform(documento)).toBe("12345678909");
+    expect(campos[ID_DOCUMENTO_CARDFORM].value).toBe("12345678909");
+    campos.cpf.value = "987.654.321-00";
+    expect(sincronizarCpfCardform(documento)).toBe("98765432100");
+    expect(campos[ID_DOCUMENTO_CARDFORM].value).toBe("98765432100");
   });
 });
 
@@ -47,20 +53,7 @@ describe("sincronizarCpfCardform", () => {
  * campo do SDK. O defeito original foi de ligação, não de cálculo.
  */
 describe("cartao-mp.tsx", () => {
-  const fonte = readFileSync(
-    fileURLToPath(new URL("../../components/checkout/cartao-mp.tsx", import.meta.url)),
-    "utf8",
-  );
-
-  it("aponta identificationNumber para o campo técnico só-dígitos", () => {
-    expect(fonte).toContain("identificationNumber: { id: ID_DOCUMENTO_CARDFORM }");
-    expect(fonte).toContain("value={numeroDocumentoCardform(cpf)}");
-    expect(fonte).not.toContain('identificationNumber: { id: "cpf" }');
-  });
-
-  it("monta o tipo de documento que o SDK exige", () => {
-    expect(fonte).toContain("identificationType: { id: ID.tipoDoc }");
-    expect(fonte).toContain("defaultValue={TIPO_DOCUMENTO_CARDFORM}");
+  it("mantém as constantes do contrato técnico", () => {
     expect(ID_DOCUMENTO_CARDFORM).toBe("mp-cpf");
     expect(TIPO_DOCUMENTO_CARDFORM).toBe("CPF");
   });

@@ -23,10 +23,15 @@ export function numeroDocumentoCardform(cpf: string): string {
   return somenteDigitos(cpf);
 }
 
-/** Lê o CPF visível no DOM, inclusive quando o autofill não atualizou o React. */
+/** Lê o CPF visível e atualiza o espelho técnico do CardForm. */
 export function sincronizarCpfCardform(documento: Pick<Document, "getElementById">): string {
   const campo = documento.getElementById("cpf");
-  return numeroDocumentoCardform(campo && "value" in campo ? String(campo.value) : "");
+  const digitos = numeroDocumentoCardform(campo && "value" in campo ? String(campo.value) : "");
+  const espelho = documento.getElementById(ID_DOCUMENTO_CARDFORM);
+  if (espelho && "value" in espelho) {
+    (espelho as HTMLInputElement).value = digitos;
+  }
+  return digitos;
 }
 
 /** Trecho do retorno de `getCardFormData()` que interessa quando não há token. */
