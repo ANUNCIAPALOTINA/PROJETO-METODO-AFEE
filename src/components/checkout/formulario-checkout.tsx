@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState, type FormEvent, type MouseEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { precoFormatado } from "@/config/produto";
 import { site } from "@/config/site";
@@ -66,7 +66,7 @@ const MSG_TIMEOUT =
   "Estamos com dificuldades para processar agora. Tente de novo em alguns minutos. Nada foi cobrado.";
 
 /** Tempo que o SDK do MP tem para chamar `onSubmit`/`onError` depois de o
- * botão ter marcado `processandoCartao`. Acima disso o botão é liberado.
+ * formulário ter iniciado a tokenização. Acima disso o botão é liberado.
  * 30s: mesmo valor do timeout do fetch em `criarPagamento`. */
 const PRAZO_TOKENIZACAO_MS = 30_000;
 
@@ -238,39 +238,28 @@ export function FormularioCheckout() {
   }
 
   function aoEnviar(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
     // No cartão, quem trata o envio é o SDK (tokeniza e chama aoTokenizar).
-    if (metodo !== "pix") return;
-    if (!validarLocal()) return;
-    void criarPagamento({});
-  }
-
-  /**
-   * Cartão: barra o envio ANTES de o SDK tentar tokenizar quando o comprador
-   * (nome, e-mail ou CPF) está inválido, para o erro aparecer no campo certo em
-   * vez de virar "confira os dados do cartão". Também segura clique duplo.
-   */
-  function aoClicarEnviar(e: MouseEvent<HTMLButtonElement>) {
-    if (metodo === "pix") return;
-    // O clique acontece antes de o CardForm tokenizar. Reforça o espelho
-    // técnico com o valor real do campo, inclusive após autofill.
-    sincronizarCpfCardform(document);
-    if (emAndamento.current || !validarLocal()) {
-      e.preventDefault();
+    // Não cancelar este evento: o CardForm precisa do submit nativo para
+    // iniciar a tokenização.
+    if (metodo !== "pix") {
+      sincronizarCpfCardform(document);
+      if (emAndamento.current || !validarLocal()) {
+        e.preventDefault();
+        return;
+      }
+      emAndamento.current = true;
+      setProcessandoCartao(true);
+      setErroGeral(null);
+      temporizadorTokenizacao.current = setTimeout(() => {
+        temporizadorTokenizacao.current = null;
+        liberarCartao();
+        setErroGeral(MSG_TIMEOUT);
+      }, PRAZO_TOKENIZACAO_MS);
       return;
     }
-    emAndamento.current = true;
-    setProcessandoCartao(true);
-    setErroGeral(null);
-    // Prazo para o SDK do MP chamar `onSubmit`/`onError`. Se não chamar
-    // dentro de `PRAZO_TOKENIZACAO_MS` (iframe pendurado, SDK sem resposta),
-    // liberamos o botão com a mensagem de timeout — sem isso o botão fica
-    // preso para sempre, porque o `fetch` em `criarPagamento` nunca é acionado.
-    temporizadorTokenizacao.current = setTimeout(() => {
-      temporizadorTokenizacao.current = null;
-      liberarCartao();
-      setErroGeral(MSG_TIMEOUT);
-    }, PRAZO_TOKENIZACAO_MS);
+    e.preventDefault();
+    if (!validarLocal()) return;
+    void criarPagamento({});
   }
 
   function aoTokenizar(dados: DadosCartaoTokenizado) {
@@ -405,9 +394,9 @@ export function FormularioCheckout() {
 
       <Button
         type="submit"
-        onClick={aoClicarEnviar}
-        disabled={enviando || processandoCartao}
-        className="h-14 w-full text-[17px] font-semibold"
+        disabled={enviando && metodo === "pix"}
+        aria-disabled={processandoCartao || (enviando && metodo === "pix")}
+        className={`h-14 w-full text-[17px] font-semibold ${processandoCartao ? "pointer-events-none" : ""}`}
       >
         {enviando || processandoCartao
           ? "Processando…"
