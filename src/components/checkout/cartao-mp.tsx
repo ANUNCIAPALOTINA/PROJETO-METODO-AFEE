@@ -6,6 +6,7 @@ import { precoParaGateway, produto } from "@/config/produto";
 import {
   ID_DOCUMENTO_CARDFORM,
   TIPO_DOCUMENTO_CARDFORM,
+  causaDoErro,
   mensagemFalhaTokenizacao,
   numeroDocumentoCardform,
   type DadosBrutosCartao,
@@ -100,11 +101,29 @@ export function CamposCartao({
   /**
    * Falha de tokenização. Sem CPF válido, o SDK não tokeniza por causa do
    * documento: o erro é do CPF, não do cartão (era o defeito do campo errado).
+   * Quando houver erro, extrai a causa real que o SDK entregou (message/cause/
+   * error/status, inclusive array) em vez de achar só o que o SDK reconheceu
+   * nos campos — portado do Bela Gestão (pagamento.js:940-960).
    */
-  function falhaNaTokenizacao(dados: DadosBrutosCartao | null | undefined) {
+  function falhaNaTokenizacao(dados: DadosBrutosCartao | null | undefined, erroDoSdk?: unknown) {
     if (!callbacks.current.cpfValido) {
       callbacks.current.aoFalharCpf();
       return;
+    }
+    const causa = causaDoErro(erroDoSdk);
+    if (causa) {
+      try {
+        console.warn("[afee][cartao] tokenização recusada: " + causa);
+      } catch {
+        /* console indisponível */
+      }
+      callbacks.current.aoFalhar("Motivo do Mercado Pago: " + causa);
+      return;
+    }
+    try {
+      console.warn("[afee][cartao] tokenização recusada sem causa textual (erro do SDK sem descrição reconhecida).");
+    } catch {
+      /* console indisponível */
     }
     callbacks.current.aoFalhar(mensagemFalhaTokenizacao(dados));
   }

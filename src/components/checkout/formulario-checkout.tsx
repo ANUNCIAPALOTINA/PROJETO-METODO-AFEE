@@ -59,6 +59,16 @@ const MSG_FALHA =
 const MSG_RECUSA =
   "O cartão não foi aprovado. Tente outro cartão ou pague com Pix.";
 
+/** Mesagem do timeout do fetch (ver `criarPagamento`). Usada também quando o
+ * SDK do Mercado Pago não responde à tokenização dentro do prazo. */
+const MSG_TIMEOUT =
+  "Estamos com dificuldades para processar agora. Tente de novo em alguns minutos. Nada foi cobrado.";
+
+/** Tempo que o SDK do MP tem para chamar `onSubmit`/`onError` depois de o
+ * botão ter marcado `processandoCartao`. Acima disso o botão é liberado.
+ * 30s: mesmo valor do timeout do fetch em `criarPagamento`. */
+const PRAZO_TOKENIZACAO_MS = 30_000;
+
 /** Espera da confirmação de um cartão que ficou "em análise". */
 function EsperaCartao({ id, aoAprovar }: { id: string; aoAprovar: () => void }) {
   useStatusPagamento(id, (situacao) => {
@@ -101,8 +111,25 @@ export function FormularioCheckout() {
   // Trava de reentrada do cartão: dois cliques muito rápidos acontecem antes
   // de o React atualizar `processandoCartao`, então a trava é um ref.
   const emAndamento = useRef(false);
+  // Prazo do SDK do MP: se `onSubmit`/`onError` não chamarem dentro de
+  // `PRAZO_TOKENIZACAO_MS`, o botão é liberado (ver `aoClicarEnviar`).
+  const temporizadorTokenizacao = useRef<ReturnType<typeof setTimeout> | null>(
+    null,
+  );
 
   useEffect(injetarScriptSeguranca, []);
+
+  // Limpa o temporizador de tokenização em todos os caminhos de saída:
+  // sucesso, erro, timeout, desmontagem. Sem isso o timer dispara depois do
+  // componente ir embora e tenta atualizar estado morto.
+  useEffect(() => {
+    return () => {
+      if (temporizadorTokenizacao.current) {
+        clearTimeout(temporizadorTokenizacao.current);
+        temporizadorTokenizacao.current = null;
+      }
+    };
+  }, []);
 
   function novaChave() {
     chave.current = crypto.randomUUID();
@@ -111,6 +138,10 @@ export function FormularioCheckout() {
   function liberarCartao() {
     emAndamento.current = false;
     setProcessandoCartao(false);
+    if (temporizadorTokenizacao.current) {
+      clearTimeout(temporizadorTokenizacao.current);
+      temporizadorTokenizacao.current = null;
+    }
   }
 
   function concluir() {
@@ -225,6 +256,15 @@ export function FormularioCheckout() {
     emAndamento.current = true;
     setProcessandoCartao(true);
     setErroGeral(null);
+    // Prazo para o SDK do MP chamar `onSubmit`/`onError`. Se não chamar
+    // dentro de `PRAZO_TOKENIZACAO_MS` (iframe pendurado, SDK sem resposta),
+    // liberamos o botão com a mensagem de timeout — sem isso o botão fica
+    // preso para sempre, porque o `fetch` em `criarPagamento` nunca é acionado.
+    temporizadorTokenizacao.current = setTimeout(() => {
+      temporizadorTokenizacao.current = null;
+      liberarCartao();
+      setErroGeral(MSG_TIMEOUT);
+    }, PRAZO_TOKENIZACAO_MS);
   }
 
   function aoTokenizar(dados: DadosCartaoTokenizado) {

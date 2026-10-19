@@ -29,6 +29,131 @@ export type DadosBrutosCartao = {
   paymentMethodId?: string | null;
 };
 
+// ── Causa real do erro do SDK (portado do Bela Gestão, pagamento.js:840-960) ──
+
+/** Limite de caracteres da causa exibida na tela. */
+const CAUSA_MAX = 140;
+
+/**
+ * Coleta recursivamente as causas textuais que o SDK costuma entregar,
+ * separando códigos/status (que não são CVV e não devem ser mascarados)
+ * do texto descritivo.
+ */
+function coletarCausa(
+  erro: unknown,
+  nivel: number,
+): { textos: string[]; codigos: string[] } {
+  const out = { textos: [] as string[], codigos: [] as string[] };
+  if (erro == null || nivel > 4) return out;
+  const texto = (v: unknown) => {
+    if (v == null) return;
+    const t = String(v).replace(/\s+/g, " ").trim();
+    if (t) out.textos.push(t);
+  };
+  const codigo = (v: unknown) => {
+    if (v == null) return;
+    const t = String(v).trim();
+    if (t) out.codigos.push(t);
+  };
+  if (typeof erro === "string") {
+    texto(erro);
+    return out;
+  }
+  if (typeof erro === "number" || typeof erro === "boolean") {
+    texto(String(erro));
+    return out;
+  }
+  if (Array.isArray(erro)) {
+    erro.forEach((item) => {
+      const f = coletarCausa(item, nivel + 1);
+      out.textos.push(...f.textos);
+      out.codigos.push(...f.codigos);
+    });
+    return out;
+  }
+  if (typeof erro !== "object") return out;
+
+  const obj = erro as Record<string, unknown>;
+  texto(obj.message);
+  if (typeof obj.error === "string") {
+    texto(obj.error);
+  } else if (obj.error && typeof obj.error === "object") {
+    const f = coletarCausa(obj.error, nivel + 1);
+    out.textos.push(...f.textos);
+    out.codigos.push(...f.codigos);
+  }
+  texto(obj.detail);
+  texto(obj.description);
+
+  const cause = obj.cause;
+  if (typeof cause === "string") {
+    texto(cause);
+  } else if (Array.isArray(cause)) {
+    cause.forEach((c) => {
+      if (c && typeof c === "object") {
+        const co = c as Record<string, unknown>;
+        texto(
+          co.description ??
+            co.message ??
+            co.detail ??
+            (typeof co.error === "string" ? co.error : ""),
+        );
+        codigo(co.code);
+      } else {
+        const f = coletarCausa(c, nivel + 1);
+        out.textos.push(...f.textos);
+        out.codigos.push(...f.codigos);
+      }
+    });
+  } else if (cause && typeof cause === "object") {
+    const co = cause as Record<string, unknown>;
+    texto(co.description ?? co.message ?? co.detail);
+    codigo(co.code);
+  }
+
+  if (obj.status != null) codigo("HTTP " + String(obj.status).trim());
+  return out;
+}
+
+function juntarCausas(partes: string[]): string {
+  const vistos: string[] = [];
+  partes.forEach((p) => {
+    const t = String(p == null ? "" : p).replace(/\s+/g, " ").trim();
+    if (t && vistos.indexOf(t) === -1) vistos.push(t);
+  });
+  return vistos.join(" · ");
+}
+
+/**
+ * A tela nunca mostra valor de campo do cartão. Mesmo assim, antes de exibir
+ * o texto do provedor, varremos dois padrões sensíveis: número de cartão
+ * (12+ dígitos seguidos) e o que pareça CVV (3–4 dígitos isolados).
+ */
+function sanitizarCausa(texto: string): string {
+  let s = String(texto == null ? "" : texto).replace(/\s+/g, " ").trim();
+  if (!s) return "";
+  s = s.replace(/\d{12,}/g, "[numero omitido]");
+  s = s.replace(/(^|[^\w])(\d{3,4})(?![\w])/g, (_m, pre: string) => pre + "[cvv omitido]");
+  return s;
+}
+
+/**
+ * Monta a causa final: descrição sanitizada + códigos/status, truncada em
+ * ~140 caracteres. Portado do Bela Gestão (pagamento.js:922-934).
+ */
+export function causaDoErro(erro: unknown): string {
+  if (erro == null) return "";
+  const { textos, codigos } = coletarCausa(erro, 0);
+  const partes: string[] = [];
+  const descricao = sanitizarCausa(juntarCausas(textos));
+  if (descricao) partes.push(descricao);
+  const cod = juntarCausas(codigos);
+  if (cod) partes.push("código " + cod);
+  let s = partes.join(" · ");
+  if (s.length > CAUSA_MAX) s = s.slice(0, CAUSA_MAX - 1).trimEnd() + "…";
+  return s;
+}
+
 /**
  * Mensagem para quando o SDK não devolveu token. O SDK não diz qual campo
  * falhou, então usamos o que ele conseguiu reconhecer: sem bandeira, o
