@@ -46,3 +46,6 @@ next-env.d.ts
 # variáveis de ambiente: nunca commitar segredos; só o modelo
 !.env.example
 marketing/instagram/saida/
+
+# Log do servidor de desenvolvimento (nao versionar)
+next.log
