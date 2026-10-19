@@ -100,6 +100,61 @@ vê tela de confirmação — ele só espera.
 
 ---
 
+## D. Provar o cartão com um cartão real (só depois do próximo deploy)
+
+O defeito que fazia o cartão falhar **sem chegar ao servidor** foi encontrado em 19/10: o CPF que o
+Mercado Pago lê estava sendo alimentado pelo estado da tela, e não pelo que estava no campo — se o
+navegador preenchesse o CPF sozinho, o campo ia **vazio** para o Mercado Pago e a cobrança nem era
+criada. A correção está em execução com a engenharia e **ainda não foi publicada**.
+
+Cartão de teste **não serve** aqui: o Mercado Pago responde `bin_not_found` porque cartão de teste
+não existe em modo de produção. A prova final é com um cartão de verdade.
+
+1. Espere o aviso de que a correção foi **publicada** (não teste antes — o site ainda está com a
+   versão antiga).
+2. No **computador**, abra o **Chrome**, vá em `metodo-afee.netlify.app/checkout` e abra o
+   **console** do navegador (tecla **F12** → aba **Console**; ou botão direito → **Inspecionar** →
+   **Console**).
+3. Preencha nome, e-mail e CPF — **digite o CPF à mão, não deixe o navegador preencher sozinho** —
+   escolha **Cartão**, preencha os dados e clique em pagar.
+4. Anote o que aconteceu:
+
+| O que você vê | O que significa | O que fazer |
+|---|---|---|
+| Chegou em **/obrigado** | O cartão funciona ponta a ponta. | Me avise — fecho o cartão. |
+| **Recusa** ("O cartão não foi aprovado…") | O caminho funciona; o banco recusou aquele cartão. | Tente outro cartão e me diga a mensagem. |
+| **Mensagem de erro** na tela | A falha agora aparece com motivo (era isso que faltava). | Tire um print da tela **e** do console. |
+| Botão **preso em "Processando…"** por mais de 30 s | Ainda há um caminho mudo. | Tire print do console — é lá que o Mercado Pago escreve o motivo. |
+
+**Sinal de que deu certo:** você consegue dizer em qual das quatro linhas você caiu — e, se falhou,
+o console tem uma linha vermelha que começa com `[afee]` ou `mercadopago`.
+
+---
+
+## E. Webhook do Mercado Pago — trocar o segredo (destrava a entrega do ebook)
+
+Hoje **toda** notificação do Mercado Pago chega ao site e é recusada com `401`. Consequência: quem
+paga **não recebe o acesso automaticamente**.
+
+A causa foi encontrada em 19/10: o site cria os pagamentos com as credenciais da aplicação
+**ANUNCIA PALOTINA** (é ela que assina as notificações), mas o segredo guardado na Netlify é o de
+**outra** aplicação. Segredo de aplicação diferente ⇒ recusa em 100%.
+
+1. Entre em **mercadopago.com.br/developers/panel**.
+2. Abra o card da aplicação **ANUNCIA PALOTINA** (não a do Método AFEE).
+3. No menu lateral, abra **Webhooks** (ou **Notificações**).
+4. Copie o **segredo da assinatura** (*clave secreta* / *signature secret*).
+5. Em **app.netlify.com** → site do **Método AFEE** → **Site configuration → Environment variables**,
+   abra a variável `MERCADOPAGO_WEBHOOK_SECRET` e **substitua** o valor pelo copiado. Salve.
+6. **Não precisa publicar** — a variável vale no próximo processamento. Mas só passa a valer depois
+   de um novo deploy/execução; me avise quando salvar que eu confiro pelo log do Netlify.
+
+**Sinal de que deu certo:** a próxima notificação no log do Netlify deixa de mostrar
+`[webhook-mp] assinatura inválida` e passa a liberar o acesso. Se continuar `401`, o segredo copiado
+não é o da aplicação certa.
+
+---
+
 ## Pendências deste tutorial
 
 - [ ] **A1** — conferir no app do Mercado Pago se a cobrança de R$ 16,18 apareceu (e anotar o ID)
@@ -107,3 +162,5 @@ vê tela de confirmação — ele só espera.
 - [ ] **A3** — rodar o relatório de qualidade da integração (precisa do ID do A1)
 - [ ] **B** — testar autofill no Chrome (computador) e no Safari (iPhone)
 - [ ] **C** — decidir sobre o 3DS 2.0
+- [ ] **D** — provar o cartão com cartão real, **depois** do aviso de publicação (console aberto)
+- [ ] **E** — colar em `MERCADOPAGO_WEBHOOK_SECRET` o segredo da aplicação **ANUNCIA PALOTINA** (destrava a entrega do ebook)

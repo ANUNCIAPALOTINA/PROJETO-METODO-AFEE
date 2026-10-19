@@ -9,6 +9,7 @@ import {
   causaDoErro,
   mensagemFalhaTokenizacao,
   numeroDocumentoCardform,
+  sincronizarCpfCardform,
   type DadosBrutosCartao,
 } from "@/lib/pagamentos/cardform";
 import { classeCampo } from "./campo";
@@ -128,6 +129,10 @@ export function CamposCartao({
     callbacks.current.aoFalhar(mensagemFalhaTokenizacao(dados));
   }
 
+  function registrarDiagnostico(etapa: string, erro?: unknown) {
+    void fetch("/api/diagnostico-cartao", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ etapa, erro: erro ? causaDoErro(erro) : undefined }), keepalive: true }).catch(() => undefined);
+  }
+
   useEffect(() => {
     if (!sdkPronto || !CHAVE_PUBLICA || !window.MercadoPago) return;
     let cardForm: CardFormMp | null = null;
@@ -157,11 +162,15 @@ export function CamposCartao({
         },
         callbacks: {
           onFormMounted: (erro: unknown) => {
+            registrarDiagnostico("formulario_montado", erro);
             if (erro) setIndisponivel(true);
             setCarregando(false);
           },
           onSubmit: (evento: Event) => {
             evento.preventDefault();
+            const espelho = document.getElementById(ID_DOCUMENTO_CARDFORM);
+            if (espelho instanceof HTMLInputElement) espelho.value = sincronizarCpfCardform(document);
+            registrarDiagnostico("clique_tokenizacao");
             const dados = cardForm?.getCardFormData();
             if (!dados?.token) {
               falhaNaTokenizacao(dados);
@@ -178,9 +187,13 @@ export function CamposCartao({
            */
           onCardTokenReceived: (erro: unknown) => {
             if (!erro) return; // sem erro: o token chegou; quem trata é o onSubmit
+            registrarDiagnostico("erro_sdk", erro);
             falhaNaTokenizacao(cardForm?.getCardFormData(), erro);
           },
           onError: (erro: unknown) => {
+            const campo = erro && typeof erro === "object" && "field" in erro ? String((erro as { field?: unknown }).field) : "";
+            if (campo === "onFormMounted" || campo === "onFormUnmounted") return;
+            registrarDiagnostico("erro_sdk", erro);
             falhaNaTokenizacao(cardForm?.getCardFormData(), erro);
           },
         },

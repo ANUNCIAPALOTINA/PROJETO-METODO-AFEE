@@ -6,6 +6,7 @@ import {
   TIPO_DOCUMENTO_CARDFORM,
   mensagemFalhaTokenizacao,
   numeroDocumentoCardform,
+  sincronizarCpfCardform,
 } from "./cardform";
 
 /**
@@ -31,6 +32,13 @@ describe("numeroDocumentoCardform", () => {
 
   it("nunca devolve ponto nem traço (o que quebrava a tokenização)", () => {
     expect(numeroDocumentoCardform("529.982.247-25")).not.toMatch(/[.\-]/);
+  });
+});
+
+describe("sincronizarCpfCardform", () => {
+  it("lê o valor atual do DOM, mesmo que o estado esteja vazio", () => {
+    const documento = { getElementById: () => ({ value: "123.456.789-09" }) } as unknown as Document;
+    expect(sincronizarCpfCardform(documento)).toBe("12345678909");
   });
 });
 
