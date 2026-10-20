@@ -49,3 +49,7 @@ marketing/instagram/saida/
 
 # Log do servidor de desenvolvimento (nao versionar)
 next.log
+
+# documento interno do dono - nao publicar
+TUTORIAL-MANUAL-*.md
+docs/TUTORIAL-MANUAL-*.md
