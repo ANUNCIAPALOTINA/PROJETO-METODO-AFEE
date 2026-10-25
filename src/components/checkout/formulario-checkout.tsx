@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { precoFormatado } from "@/config/produto";
 import { site } from "@/config/site";
 import { formatarCpf, validarCpf } from "@/lib/pagamentos/cpf";
+import { mensagemFinalCartao } from "@/lib/pagamentos/status";
 import {
   MSG_CPF_INVALIDO,
   validarComprador,
@@ -71,9 +72,19 @@ const MSG_TIMEOUT =
 const PRAZO_TOKENIZACAO_MS = 30_000;
 
 /** Espera da confirmação de um cartão que ficou "em análise". */
-function EsperaCartao({ id, aoAprovar }: { id: string; aoAprovar: () => void }) {
+function EsperaCartao({
+  id,
+  aoAprovar,
+  aoEncerrar,
+}: {
+  id: string;
+  aoAprovar: () => void;
+  aoEncerrar: (mensagem: string) => void;
+}) {
   useStatusPagamento(id, (situacao) => {
     if (situacao === "aprovado") aoAprovar();
+    const mensagem = mensagemFinalCartao(situacao);
+    if (mensagem) aoEncerrar(mensagem);
   });
   return (
     <section
@@ -285,7 +296,18 @@ export function FormularioCheckout() {
       </div>
     );
   }
-  if (analise) return <EsperaCartao id={analise} aoAprovar={concluir} />;
+  if (analise) {
+    return (
+      <EsperaCartao
+        id={analise}
+        aoAprovar={concluir}
+        aoEncerrar={(mensagem) => {
+          setAnalise(null);
+          setErroGeral(mensagem);
+        }}
+      />
+    );
+  }
 
   return (
     <form

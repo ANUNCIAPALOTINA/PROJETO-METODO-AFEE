@@ -49,6 +49,8 @@
 - A chave pública ativa é de produção; nenhum cartão de teste foi enviado e nenhuma cobrança foi criada.
 - Corrigida a lacuna do diagnóstico: quando o SDK devolve o token, o frontend agora registra `token_recebido` antes de chamar a API de pagamentos. O registro não contém token nem dados do cartão.
 - Para fechar um defeito ainda reproduzível, falta correlacionar o sintoma e horário exatos da tentativa do comprador; a retenção disponível não mostrou tentativa real recente.
+- Tentativa real às 01:57 BRT: a criação respondeu `201` em análise e a consulta posterior devolveu `recusado`. A tela ficava parada porque só reagia a `aprovado`; agora recusa/encerramento desmontam a espera e devolvem o checkout com uma mensagem segura.
+- Dois webhooks reais receberam `401`. O manifesto HMAC implementado coincide com a documentação oficial (`data.id`, `x-request-id`, `ts`), mas havia uma normalização indevida de IDs alfanuméricos para minúsculas; ela foi removida conforme o SDK oficial atual. Como IDs de pagamento são numéricos, essa correção não explica os `401` observados: revisar no painel se `MERCADOPAGO_WEBHOOK_SECRET` corresponde à assinatura secreta da URL de produção. Nenhuma assinatura ou segredo foi registrado.
 
 ## Imagens integradas localmente
 
@@ -56,9 +58,14 @@
 - História: novo movimento na barra, com versões de 480 e 812 px; o quadro passou a ser quadrado para não cortar a foto.
 - Evolução: nova montagem de três fases, com versões de 540 e 1080 px.
 - Sem academia: nova foto de L-sit na mureta, com versões de 540, 800 e 1080 px.
-- Chamada final: nova foto noturna com espaço negativo, com versões de 540, 800 e 900 px e enquadramento ajustado no componente. O arquivo principal usa o nome `final-cta-900.webp` para não sugerir uma resolução maior que a original.
+- Chamada final: foto horizontal da corrida, com versões de 540, 800 e 1080 px. No desktop, a seção ganhou mais altura e o conteúdo fica à direita sobre um degradê, preservando o contexto da foto.
 - Os caminhos públicos existentes foram reaproveitados; o fundo decorativo recebe as mesmas fotos sem novo código.
 - As três fotos restantes foram preservadas em Downloads e não foram adicionadas porque repetem o mesmo momento ou não têm encaixe melhor nas seções atuais.
+
+## Ajustes após revisão visual
+
+- A faixa clara e borrada entre “Para quem é” e “7 dias” foi removida; era decorativa, parecia solta e interrompia o fluxo de leitura.
+- A chamada final deixou de usar a foto vertical, que exigia um recorte excessivo no desktop, e passou a usar a foto horizontal da corrida.
 
 ## Ebook entregue atualizado localmente
 
@@ -76,4 +83,7 @@
 - `npm run lint`: aprovado.
 - `npm run build`: aprovado com Next.js 16.3.8; a rota protegida `/ebook` permaneceu dinâmica.
 - `scripts/atualizar-fotos-ebook.ps1`: aprovado no PowerShell 7, com as seis posições verificadas por SHA-256.
-- Testes automatizados não foram executados e nenhuma cobrança real foi criada.
+- Testes focados do pagamento: `status`, `assinatura` e `webhook`, 35 testes aprovados.
+- Typecheck e lint dos arquivos tocados no pagamento: aprovados.
+- Prévia local revisada visualmente em desktop e em viewport móvel de 390 px: a faixa borrada não existe mais e a corrida preserva contexto na chamada final.
+- Nenhuma nova cobrança real foi criada pelo patch.

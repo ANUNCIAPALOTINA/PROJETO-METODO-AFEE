@@ -2,7 +2,6 @@ import { BarraTopo } from "@/components/vendas/barra-topo";
 import { BotaoFixo } from "@/components/vendas/botao-fixo";
 import { ChamadaFinal } from "@/components/vendas/chamada-final";
 import { ConteudoPreco } from "@/components/vendas/conteudo-preco";
-import { FaixaImagem } from "@/components/vendas/faixa-imagem";
 import { Faq } from "@/components/vendas/faq";
 import { FundoAnimado } from "@/components/vendas/fundo-animado";
 import { Garantia } from "@/components/vendas/garantia";
@@ -29,7 +28,6 @@ export default function Home() {
         <SemAcademia />
         <ConteudoPreco />
         <ParaQuem />
-        <FaixaImagem />
         <Garantia />
         <Faq />
         <ChamadaFinal />

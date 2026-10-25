@@ -13,3 +13,4 @@ Versão completa na pasta compartilhada do projeto (`DESAFIOS.md`).
 - Prévia do Netlify não abre da nuvem; teste logado só com o João.
 - O gerador original do ebook-app (`_fonte/build.py`) não está versionado neste repositório. Para fotos, use `scripts/atualizar-fotos-ebook.ps1`; alterações estruturais exigem recuperar e versionar a fonte antes de regenerar o HTML entregue.
 - Não executar `npm ci`, instalação ou validações simultâneas entre agentes no mesmo checkout: o `node_modules` fica inconsistente (`ENOTEMPTY`, `EPERM` ou `ENOTDIR`). Serializar essas etapas.
+- Mercado Pago: se Webhook e Feed/IPN chegarem juntos e retornarem `401`, conferir se o segredo de produção corresponde à URL cadastrada e remover a entrega legada duplicada; nunca aceitar Feed/IPN sem assinatura válida para contornar o erro.

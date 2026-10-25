@@ -72,3 +72,10 @@ export function mensagemDeRecusa(statusDetail: string | null): string {
 /** Pagamento que não foi recusado pelo banco, mas não vale mais (cancelado, estornado). */
 export const MENSAGEM_ENCERRADO =
   "Este pagamento não está mais ativo (cancelado ou estornado). Tente de novo ou pague com Pix.";
+
+/** Mensagem que encerra a espera de um cartão após nova consulta ao MP. */
+export function mensagemFinalCartao(situacao: SituacaoPagamento): string | null {
+  if (situacao === "recusado") return mensagemDeRecusa(null);
+  if (situacao === "encerrado") return MENSAGEM_ENCERRADO;
+  return null;
+}

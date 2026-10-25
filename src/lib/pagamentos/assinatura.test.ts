@@ -32,9 +32,9 @@ describe("montarManifesto", () => {
     );
   });
 
-  it("põe o id alfanumérico em minúsculas", () => {
+  it("preserva a caixa do id alfanumérico", () => {
     expect(montarManifesto({ dataId: "ABC123", requestId: null, ts: TS })).toBe(
-      `id:abc123;ts:${TS};`,
+      `id:ABC123;ts:${TS};`,
     );
   });
 
@@ -64,7 +64,7 @@ describe("verificarAssinatura (vetores calculados fora do código, com Python hm
   const V1_ID_NUMERICO =
     "5023cbe9cab59a771f066474fc4889f3def17cc04e05e8c531946c6b4d61cbe2";
   const V1_ID_ALFA =
-    "ce4d0f191b7394e061f80f980f05e77b79c9e4268aa22e67567d2f8952ede128";
+    "874b427cf811119d39fa62d1ffc9f4dab42d9d3163e41fb15b6d61be77fbf54f";
   const V1_SEM_REQUEST_ID =
     "fa6f9e8b33f0345014a85b706cdacf4bd3ce200bc0f5d5ac5a43022251154440";
 
@@ -79,7 +79,7 @@ describe("verificarAssinatura (vetores calculados fora do código, com Python hm
     expect(verificarAssinatura(base)).toBe(true);
   });
 
-  it("aceita id alfanumérico em maiúsculas (vira minúsculas no manifesto)", () => {
+  it("aceita id alfanumérico preservando maiúsculas no manifesto", () => {
     expect(
       verificarAssinatura({
         ...base,

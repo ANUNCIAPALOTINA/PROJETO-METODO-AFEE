@@ -27,7 +27,7 @@ export function lerAssinatura(
  * Manifesto assinado pelo Mercado Pago:
  * `id:<data.id>;request-id:<x-request-id>;ts:<ts>;`
  * Se o MP não enviou algum valor, a parte correspondente sai do manifesto.
- * Se o data.id for alfanumérico, entra em minúsculas.
+ * Os valores entram exatamente como chegaram nos headers/query params.
  */
 export function montarManifesto(dados: {
   dataId?: string | null;
@@ -35,12 +35,7 @@ export function montarManifesto(dados: {
   ts: string;
 }): string {
   let manifesto = "";
-  if (dados.dataId) {
-    const id = /^[a-z0-9]+$/i.test(dados.dataId)
-      ? dados.dataId.toLowerCase()
-      : dados.dataId;
-    manifesto += `id:${id};`;
-  }
+  if (dados.dataId) manifesto += `id:${dados.dataId};`;
   if (dados.requestId) manifesto += `request-id:${dados.requestId};`;
   manifesto += `ts:${dados.ts};`;
   return manifesto;

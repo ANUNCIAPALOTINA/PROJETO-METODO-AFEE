@@ -10,20 +10,24 @@ export function ChamadaFinal() {
   return (
     <section
       aria-labelledby="titulo-final"
-      className="relative flex min-h-[480px] items-end overflow-hidden"
+      className="relative flex min-h-[480px] items-end overflow-hidden md:min-h-[620px]"
     >
       <Image
-        src="/fotos/final-cta-900.webp"
-        alt="Garlet em pé no parque à noite, sob o céu iluminado pela lua"
+        src="/fotos/final-cta-1080.webp"
+        alt="Garlet correndo no parque ao pôr do sol"
         fill
         sizes="100vw"
-        className="zoom-lento object-cover object-[70%_28%]"
+        className="zoom-lento object-cover object-center"
       />
       <div
         aria-hidden
         className="absolute inset-0 bg-linear-to-b from-background/15 via-background/55 via-30% to-background"
       />
-      <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col gap-4 px-6 py-10 md:py-16">
+      <div
+        aria-hidden
+        className="absolute inset-0 hidden bg-linear-to-l from-background/95 via-background/60 to-transparent md:block"
+      />
+      <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col gap-4 px-6 py-10 md:items-end md:py-16">
         <Revelar className="flex max-w-xl flex-col gap-3">
           <h2
             id="titulo-final"

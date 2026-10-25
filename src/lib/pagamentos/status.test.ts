@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   MENSAGEM_ENCERRADO,
   mensagemDeRecusa,
+  mensagemFinalCartao,
   situacaoDoPagamento,
 } from "./status";
 
@@ -55,5 +56,13 @@ describe("mensagemDeRecusa", () => {
 
   it("tem mensagem própria para pagamento encerrado", () => {
     expect(MENSAGEM_ENCERRADO).toMatch(/cancelado ou estornado/);
+  });
+});
+
+describe("mensagemFinalCartao", () => {
+  it("encerra a espera em recusa ou encerramento", () => {
+    expect(mensagemFinalCartao("recusado")).toMatch(/não foi aprovado/);
+    expect(mensagemFinalCartao("encerrado")).toBe(MENSAGEM_ENCERRADO);
+    expect(mensagemFinalCartao("analise")).toBeNull();
   });
 });
