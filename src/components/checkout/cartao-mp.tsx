@@ -181,6 +181,7 @@ export function CamposCartao({
               falhaNaTokenizacao(dados);
               return;
             }
+            registrarDiagnostico("token_recebido");
             callbacks.current.aoTokenizar(dados);
           },
           /**

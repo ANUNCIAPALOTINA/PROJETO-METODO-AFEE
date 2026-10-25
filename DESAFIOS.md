@@ -11,3 +11,5 @@ Versão completa na pasta compartilhada do projeto (`DESAFIOS.md`).
 - Vídeo grátis: ffmpeg zoompan com uma frame por imagem (senão arquivos gigantes). Veo parado.
 - Playwright: imagens via data URI (file:// não carrega); rodar com `NODE_PATH=$(npm root -g)`.
 - Prévia do Netlify não abre da nuvem; teste logado só com o João.
+- O gerador original do ebook-app (`_fonte/build.py`) não está versionado neste repositório. Para fotos, use `scripts/atualizar-fotos-ebook.ps1`; alterações estruturais exigem recuperar e versionar a fonte antes de regenerar o HTML entregue.
+- Não executar `npm ci`, instalação ou validações simultâneas entre agentes no mesmo checkout: o `node_modules` fica inconsistente (`ENOTEMPTY`, `EPERM` ou `ENOTDIR`). Serializar essas etapas.

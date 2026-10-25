@@ -1,10 +1,10 @@
-# Ebook-app Método AFEE: estado (2026-10-07)
+# Ebook-app Método AFEE: estado (2026-10-25)
 
 ## O que é
-Ebook interativo instalável (PWA): `index.html` autocontido (fotos embutidas, ~780 KB) + `manifest.webmanifest`, `sw.js`, ícones.
-- Hospedado em HTTPS (site, Netlify, Vercel…), vira app: "Adicionar à tela inicial" e funciona offline depois da 1ª abertura.
-- Aberto direto do computador (duplo clique), funciona como página, sem modo app.
-- Prévia privada no claude.ai: artifact "Método AFEE" (https://claude.ai/artifact/MhZioYQWPKjibFSBvc4jmv).
+Ebook interativo autocontido em `index.html`, com as fotos embutidas.
+- A rota protegida `/ebook` lê esse arquivo, confirma o acesso pago e injeta a marca d'água com o e-mail do aluno.
+- O modo instalável/offline é removido na entrega para não deixar uma cópia acessível depois do logout.
+- O arquivo não fica em `public/`: só a rota autenticada o entrega.
 
 ## Conteúdo e recursos
 - 12 capítulos com texto integral do `Metodo-AFEE-previa.pdf` (sem edição), aviso legal da seção 8 do guia.
@@ -15,8 +15,9 @@ Ebook interativo instalável (PWA): `index.html` autocontido (fotos embutidas, ~
 - Progresso salvo no aparelho: capítulos lidos, "continuar de onde parou".
 
 ## Como editar
-Fontes em `_fonte/`. Pipeline: `parse.py <pdf> chapters.json` → `build.py` (lê template.html, widgets.html, panel.html, app.js, chapters.json e as fotos de `src/fotos/` do kit) → `out/metodo-afee.html` (artifact) + `dist/` (app).
-Configurações por capítulo (foto, citação de impacto, destaque, posição dos widgets) ficam no topo do `build.py`.
+O conteúdo entregue está em `src/content/ebook-app/index.html`. O gerador original não está versionado neste repositório.
+
+Para sincronizar as fotos já tratadas da página de vendas dentro do ebook, execute `scripts/atualizar-fotos-ebook.ps1` no PowerShell 7. O script substitui somente as seis imagens conhecidas e compara o SHA-256 de cada imagem embutida com o WebP de `public/fotos/`.
 
 ## Pendências
-- Proteção de acesso pós-pagamento ainda não existe (link aberto = qualquer um com o link lê).
+- Versionar o gerador original antes da próxima alteração estrutural do ebook. O script atual resolve apenas a troca segura das fotos.

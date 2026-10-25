@@ -13,10 +13,10 @@ export function Historia() {
   return (
     <Secao fundo="card" labelledBy="titulo-historia">
       <div className="grid items-center gap-6 md:grid-cols-2 md:gap-12">
-        <div className="relative aspect-[812/866] w-full overflow-hidden">
+        <div className="relative aspect-square w-full overflow-hidden">
           <Image
             src="/fotos/historia-barra-812.webp"
-            alt="Garlet pendurado numa barra com o corpo na horizontal e as pernas levantadas, contra o céu azul"
+            alt="Garlet executando um movimento de força na barra contra o céu azul"
             fill
             sizes="(min-width: 768px) 50vw, 100vw"
             className="object-cover transition-transform duration-700 hover:scale-105"

@@ -13,11 +13,11 @@ export function ChamadaFinal() {
       className="relative flex min-h-[480px] items-end overflow-hidden"
     >
       <Image
-        src="/fotos/final-cta-1080.webp"
-        alt="Garlet de cabeça baixa, com as mãos juntas, no gramado ao pôr do sol"
+        src="/fotos/final-cta-900.webp"
+        alt="Garlet em pé no parque à noite, sob o céu iluminado pela lua"
         fill
         sizes="100vw"
-        className="zoom-lento object-cover object-top"
+        className="zoom-lento object-cover object-[70%_28%]"
       />
       <div
         aria-hidden

@@ -17,7 +17,7 @@ export function Hero() {
         <div className="absolute inset-0 md:relative md:order-2 md:min-h-[min(92svh,820px)] md:self-stretch md:overflow-hidden mascara-hero">
           <Image
             src="/fotos/hero-noite-900.webp"
-            alt="Garlet, em pé à noite, de baixo para cima, com faixas nos pulsos, em pose de braço dobrado"
+            alt="Garlet em pose de força, fotografado de baixo para cima contra o céu noturno"
             fill
             priority
             sizes="(min-width: 768px) 50vw, 100vw"
