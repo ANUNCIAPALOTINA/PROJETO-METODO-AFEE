@@ -51,6 +51,7 @@
 - Para fechar um defeito ainda reproduzível, falta correlacionar o sintoma e horário exatos da tentativa do comprador; a retenção disponível não mostrou tentativa real recente.
 - Tentativa real às 01:57 BRT: a criação respondeu `201` em análise e a consulta posterior devolveu `recusado`. A tela ficava parada porque só reagia a `aprovado`; agora recusa/encerramento desmontam a espera e devolvem o checkout com uma mensagem segura.
 - Dois webhooks reais receberam `401`. O manifesto HMAC implementado coincide com a documentação oficial (`data.id`, `x-request-id`, `ts`), mas havia uma normalização indevida de IDs alfanuméricos para minúsculas; ela foi removida conforme o SDK oficial atual. Como IDs de pagamento são numéricos, essa correção não explica os `401` observados: revisar no painel se `MERCADOPAGO_WEBHOOK_SECRET` corresponde à assinatura secreta da URL de produção. Nenhuma assinatura ou segredo foi registrado.
+- A configuração IPN da aplicação está vazia. A entrega legada `Feed v2.0` com `id/topic` era gerada pelo `notification_url` incluído em cada pagamento, em paralelo ao Webhook moderno do painel com `data.id/type`. O payload de criação não envia mais `notification_url`; Pix e cartão passam a depender somente do Webhook moderno já configurado no painel, eliminando a duplicidade.
 
 ## Imagens integradas localmente
 
@@ -83,7 +84,7 @@
 - `npm run lint`: aprovado.
 - `npm run build`: aprovado com Next.js 16.3.8; a rota protegida `/ebook` permaneceu dinâmica.
 - `scripts/atualizar-fotos-ebook.ps1`: aprovado no PowerShell 7, com as seis posições verificadas por SHA-256.
-- Testes focados do pagamento: `status`, `assinatura` e `webhook`, 35 testes aprovados.
+- Testes focados do pagamento: `status`, `assinatura`, `webhook` e cliente Mercado Pago, 48 testes aprovados.
 - Typecheck e lint dos arquivos tocados no pagamento: aprovados.
 - Prévia local revisada visualmente em desktop e em viewport móvel de 390 px: a faixa borrada não existe mais e a corrida preserva contexto na chamada final.
 - Nenhuma nova cobrança real foi criada pelo patch.

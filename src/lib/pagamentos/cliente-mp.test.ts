@@ -41,6 +41,7 @@ describe("criarPagamentoPix", () => {
     expect(corpo.payment_method_id).toBe("pix");
     expect(corpo.external_reference).toMatch(/^afee-/);
     expect(corpo.payer.identification).toEqual({ type: "CPF", number: "52998224725" });
+    expect(corpo.notification_url).toBeUndefined();
 
     expect(p.id).toBe("987654321");
     expect(p.pix).toEqual({ qrCode: "000201...", qrCodeBase64: "iVBOR..." });
@@ -80,6 +81,7 @@ describe("criarPagamentoCartao", () => {
       transaction_amount: precoParaGateway(produto.precoCentavos),
     });
     expect(corpo.card_number).toBeUndefined();
+    expect(corpo.notification_url).toBeUndefined();
   });
 
   it("encaminha o Device ID em X-meli-session-id quando existe", async () => {
